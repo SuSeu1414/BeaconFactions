@@ -18,6 +18,13 @@
             <id>spigotmc-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -26,6 +33,12 @@
             <artifactId>spigot-api</artifactId>
             <version>1.15.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.VeryLongNicknameSuchWow</groupId>
+            <artifactId>LangAPI</artifactId>
+            <version>5795d444b022ab7759651392ccb7392d3fef5840</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 
