@@ -2,6 +2,7 @@ package pl.suseu.bfactions.base.user;
 
 import pl.suseu.bfactions.BFactions;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
@@ -34,5 +35,11 @@ public class UserRepository {
         return user;
     }
 
+    public void addModifiedUser(UUID uuid) {
+        modifiedUsers.add(uuid);
+    }
 
+    public Set<UUID> getModifiedUsers() {
+        return modifiedUsers;
+    }
 }
