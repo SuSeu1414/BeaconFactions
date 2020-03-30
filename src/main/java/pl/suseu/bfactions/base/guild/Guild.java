@@ -10,7 +10,7 @@ public class Guild {
 
     private String name;
     private User owner;
-    private Set<User> members;
+    private Set<User> members = ConcurrentHashMap.newKeySet();
     private Map<User, GuildPermissionSet> permissions = new ConcurrentHashMap<>();
 
 }
