@@ -160,8 +160,8 @@ public class Settings {
                     Material material = Material.getMaterial(materialName);
 
                     if (material == null || (!conversionsSection.isDouble(materialName)
-                            && !section.isInt(materialName)
-                            && !section.isLong(materialName))) {
+                            && !conversionsSection.isInt(materialName)
+                            && !conversionsSection.isLong(materialName))) {
                         log.warning("Configuration (field.energy-fuel): Invalid '" + materialName + "'");
                         success = false;
                         continue;
