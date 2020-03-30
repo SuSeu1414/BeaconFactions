@@ -37,13 +37,19 @@
         <dependency>
             <groupId>com.github.VeryLongNicknameSuchWow</groupId>
             <artifactId>LangAPI</artifactId>
-            <version>5795d444b022ab7759651392ccb7392d3fef5840</version>
+            <version>a973c8047f9e62b67866191dcd02c6c51d137163</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
             <version>3.4.2</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.SuSeu1414</groupId>
+            <artifactId>SpigotEventWaiter</artifactId>
+            <version>5ec457ac7fa10409d58e89620407459466352f96</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
