@@ -2,10 +2,7 @@ package pl.suseu.bfactions.base.user;
 
 import pl.suseu.bfactions.BFactions;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class UserRepository {
@@ -41,5 +38,12 @@ public class UserRepository {
 
     public Set<UUID> getModifiedUsers() {
         return modifiedUsers;
+    }
+
+    /**
+     * @return a copy of users set
+     */
+    public Set<User> getUsers() {
+        return new HashSet<>(this.users.values());
     }
 }
