@@ -1,0 +1,35 @@
+guild:
+  #maximum length of a full name
+  name-max-length: 22
+  #minimal length of a full name
+  name-min-length: 4
+  #maximum length of a tag
+  tag-max-length: 4
+  #minimal length of a tag
+  tag-min-length: 2
+  #maximal number of members
+  max-members: 15
+
+cuboid:
+  #initial size the cuboids are created with
+  initial-size: 50
+  #minimum distance between cuboids in X/Y axis
+  minimum-distance: 200
+
+field:
+  #initial HP of the field
+  initial-energy: 10000000
+  #amount of energy to be subtracted
+  passive-drain-amount: 20
+  #how often passive drain should trigger in ticks
+  passive-drain-delay: 20
+  #how much damage should be inflicted on the field by an arrow
+  arrow-damage: 1200
+  #how much damage should be inflicted on the field by tnt
+  tnt-damage: 12000
+  #conversion rates between items and energy
+  #check https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html for material names
+  energy-fuel:
+    #MATERIAL_NAME: ENERGY_AMOUNT
+    DIAMOND: 100000
+    EMERALD: 200000
