@@ -58,9 +58,10 @@ public class Settings {
         fieldDamageTNT = cfg.getDouble("field.tnt-damage");
         fieldEnergyConversions.clear();
 
-        for (String s : cfg.getStringList("field.energy-fuel")) {
-            Material material = Material.getMaterial(s);
-            double energy = cfg.getDouble("field.energy-fuel." + s);
+        ConfigurationSection conversionsSection = cfg.getConfigurationSection("field.energy-fuel");
+        for (String materialName : conversionsSection.getKeys(false)) {
+            Material material = Material.getMaterial(materialName);
+            double energy = conversionsSection.getDouble(materialName);
 
             fieldEnergyConversions.put(material, energy);
         }
