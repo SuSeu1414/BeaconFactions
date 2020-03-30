@@ -16,14 +16,17 @@ public class Settings {
     public int guildTagMaxLength;
     public int guildTagMinLength;
     public int guildMembersMax;
+
     public int cuboidSizeInitial;
     public int cuboidDistanceMin;
+
     public double fieldEnergyInitial;
     public double fieldPassiveDrainAmount;
     public int fieldPassiveDrainDelay;
     public double fieldDamageArrow;
     public double fieldDamageTNT;
     public Map<Material, Double> fieldEnergyConversions = new HashMap<>();
+
     private BFactions plugin;
     private FileConfiguration cfg;
     private Logger log;
@@ -37,6 +40,29 @@ public class Settings {
     public boolean loadConfig() {
         if (!checkIntegrity()) {
             return false;
+        }
+
+        guildNameMaxLength = cfg.getInt("guild.name-max-length");
+        guildNameMinLength = cfg.getInt("guild.name-min-length");
+        guildTagMaxLength = cfg.getInt("guild.tag-max-length");
+        guildTagMinLength = cfg.getInt("guild.tag-min-length");
+        guildMembersMax = cfg.getInt("guild.max-members");
+
+        cuboidSizeInitial = cfg.getInt("cuboid.initial-size");
+        cuboidDistanceMin = cfg.getInt("cuboid.minimum-distance");
+
+        fieldEnergyInitial = cfg.getDouble("field.initial-energy");
+        fieldPassiveDrainAmount = cfg.getDouble("field.passive-drain-amount");
+        fieldPassiveDrainDelay = cfg.getInt("field.passive-drain-delay");
+        fieldDamageArrow = cfg.getDouble("field.arrow-damage");
+        fieldDamageTNT = cfg.getDouble("field.tnt-damage");
+        fieldEnergyConversions.clear();
+
+        for (String s : cfg.getStringList("field.energy-fuel")) {
+            Material material = Material.getMaterial(s);
+            double energy = cfg.getDouble("field.energy-fuel." + s);
+
+            fieldEnergyConversions.put(material, energy);
         }
 
         return true;
