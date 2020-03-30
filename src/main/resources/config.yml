@@ -33,3 +33,25 @@ field:
     #MATERIAL_NAME: ENERGY_AMOUNT
     DIAMOND: 100000
     EMERALD: 200000
+
+
+# Information for the MYSQL data storage:
+#  > hostname - host of the database
+#  > port - port of the database
+#  > database - name of the database
+#  > username - username for the database
+#  > password - password for the database
+#  > tableName - prefix of the database tables used by the plugin
+#  > useSSL - whether to use SSL when connecting to the database
+#  > poolSize - number of database connections reserved by the plugin
+#  > connectionTimeout - database connection timeout delay, in milliseconds
+mysql:
+  hostname: "127.0.0.1"
+  port: "3306"
+  database: "minecraft"
+  username: "root"
+  password: ""
+  tableName: "bfactions_"
+  useSSL: true
+  poolSize: 5
+  connectionTimeout: 20000
