@@ -13,6 +13,7 @@ public class BFactions extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        saveDefaultConfig();
         settings = new Settings(this);
         log = getLogger();
 
