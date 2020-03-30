@@ -95,11 +95,15 @@ public class Settings {
         } else {
             ConfigurationSection section = cfg.getConfigurationSection("field");
 
-            if (!section.isDouble("initial-energy")) {
+            if (!section.isDouble("initial-energy")
+                    && !section.isInt("initial-energy")
+                    && !section.isLong("initial-energy")) {
                 log.warning("Configuration (field): Missing/Invalid 'initial-energy' entry!");
                 success = false;
             }
-            if (!section.isDouble("passive-drain-amount")) {
+            if (!section.isDouble("passive-drain-amount")
+                    && !section.isInt("passive-drain-amount")
+                    && !section.isLong("passive-drain-amount")) {
                 log.warning("Configuration (field): Missing/Invalid 'passive-drain-amount' entry!");
                 success = false;
             }
@@ -107,11 +111,15 @@ public class Settings {
                 log.warning("Configuration (field): Missing/Invalid 'passive-drain-delay' entry!");
                 success = false;
             }
-            if (!section.isDouble("arrow-damage")) {
+            if (!section.isDouble("arrow-damage")
+                    && !section.isInt("arrow-damage")
+                    && !section.isLong("arrow-damage")) {
                 log.warning("Configuration (field): Missing/Invalid 'arrow-damage' entry!");
                 success = false;
             }
-            if (!section.isDouble("tnt-damage")) {
+            if (!section.isDouble("tnt-damage")
+                    && !section.isInt("tnt-damage")
+                    && !section.isLong("tnt-damage")) {
                 log.warning("Configuration (field): Missing/Invalid 'tnt-damage' entry!");
                 success = false;
             }
@@ -125,7 +133,9 @@ public class Settings {
                 for (String materialName : conversionsSection.getKeys(false)) {
                     Material material = Material.getMaterial(materialName);
 
-                    if (material == null || !conversionsSection.isDouble(materialName)) {
+                    if (material == null || (!conversionsSection.isDouble(materialName)
+                            && !section.isInt(materialName)
+                            && !section.isLong(materialName))) {
                         log.warning("Configuration (field.energy-fuel): Invalid '" + materialName + "'");
                         success = false;
                         continue;
