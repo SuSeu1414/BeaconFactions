@@ -9,9 +9,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class User {
 
-    private UUID uuid;
+    private final UUID uuid;
 
-    private Set<Guild> guilds = ConcurrentHashMap.newKeySet();
+    private final Set<Guild> guilds = ConcurrentHashMap.newKeySet();
 
     public User(UUID uuid) {
         this.uuid = uuid;
