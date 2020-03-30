@@ -1,3 +1,4 @@
 name: BeaconFactions
 main: pl.suseu.bfactions.BFactions
 version: ${project.version}
+api-version: 1.15
