@@ -14,6 +14,7 @@ public class BFactions extends JavaPlugin {
     @Override
     public void onEnable() {
         settings = new Settings(this);
+        log = getLogger();
 
         if (!settings.loadConfig()) {
             log.severe("Invalid config, check previous warnings!");
