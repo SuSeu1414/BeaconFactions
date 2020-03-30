@@ -11,4 +11,11 @@ public class Guild {
     private final String name;
     private final User owner;
 
+    private final Set<User> members = ConcurrentHashMap.newKeySet();
+    private final Map<User, GuildPermissionSet> permissions = new ConcurrentHashMap<>();
+
+    public Guild(String name, User owner) {
+        this.name = name;
+        this.owner = owner;
+    }
 }
