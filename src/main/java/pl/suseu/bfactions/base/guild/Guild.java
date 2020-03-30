@@ -40,6 +40,10 @@ public class Guild {
         this.owner = owner;
     }
 
+    public boolean isOwner(User user) {
+        return this.owner.equals(user);
+    }
+
     public Region getRegion() {
         return region;
     }
