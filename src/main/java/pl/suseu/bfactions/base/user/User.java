@@ -10,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class User {
 
     private final UUID uuid;
+    private String name;
 
     private final Set<Guild> guilds = ConcurrentHashMap.newKeySet();
 
@@ -32,6 +33,14 @@ public class User {
             }
         }
         return null;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Set<Guild> getGuilds() {

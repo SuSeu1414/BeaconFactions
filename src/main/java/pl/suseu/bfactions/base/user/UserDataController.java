@@ -16,4 +16,12 @@ public class UserDataController {
     public boolean loadUsers() {
         return true;
     }
+
+    public void createTable() {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("create table if not exists ");
+        sb.append("`").append(database.getUsersTableName()).append("`");
+        sb.append("(`uuid` varchar(36) not null,");
+    }
 }
