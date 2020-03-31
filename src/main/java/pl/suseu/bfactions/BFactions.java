@@ -12,6 +12,8 @@ import java.util.logging.Logger;
 
 public class BFactions extends JavaPlugin {
 
+    public static final String PLUGIN_NAME = "BeaconFactions";
+
     private Settings settings;
     private Database database;
     private Logger log;
