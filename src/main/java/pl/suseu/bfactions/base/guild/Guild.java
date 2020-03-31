@@ -1,6 +1,5 @@
 package pl.suseu.bfactions.base.guild;
 
-import org.bukkit.Location;
 import pl.suseu.bfactions.base.region.Region;
 import pl.suseu.bfactions.base.user.User;
 
@@ -18,10 +17,10 @@ public class Guild {
     private final Set<User> members = ConcurrentHashMap.newKeySet();
     private final Map<User, GuildPermissionSet> permissions = new ConcurrentHashMap<>();
 
-    public Guild(String name, User owner, Location center) {
+    public Guild(String name, User owner, Region region) {
         this.name = name;
         this.owner = owner;
-        this.region = new Region(this, center, 50); // todo load size from config
+        this.region = region;
     }
 
     public String getName() {
