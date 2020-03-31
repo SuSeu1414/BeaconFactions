@@ -16,9 +16,11 @@ public class UserRepository {
         this.plugin = plugin;
     }
 
-    public void addUser(User user) {
+    public void addUser(User user, boolean newUser) {
         this.users.put(user.getUuid(), user);
-        this.modifiedUsers.add(user.getUuid());
+        if (newUser) {
+            this.modifiedUsers.add(user.getUuid());
+        }
     }
 
     public User getUser(UUID uuid) {
@@ -28,7 +30,7 @@ public class UserRepository {
         }
 
         user = new User(uuid);
-        addUser(user);
+        addUser(user, true);
         return user;
     }
 

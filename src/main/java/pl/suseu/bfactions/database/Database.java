@@ -72,21 +72,22 @@ public class Database {
         }
     }
 
-    public int executeUpdate(String query) {
+    public boolean executeUpdate(String query) {
         try (Connection connection = this.dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
             if (statement == null) {
-                return 0;
+                return false;
             }
 
-            return statement.executeUpdate();
+            statement.executeUpdate();
+            return true;
         }
         catch (Exception ex) {
             plugin.getLogger().severe("Cannot execute mysql update!");
             ex.printStackTrace();
         }
-        return 0;
+        return false;
     }
 
     public void shutdown() {
