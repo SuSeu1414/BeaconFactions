@@ -3,6 +3,7 @@ package pl.suseu.bfactions.database;
 import com.zaxxer.hikari.HikariDataSource;
 import org.bukkit.configuration.file.FileConfiguration;
 import pl.suseu.bfactions.BFactions;
+import pl.suseu.bfactions.settings.Settings;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -15,6 +16,10 @@ public class Database {
 
     private HikariDataSource dataSource;
     private String tablePrefix;
+
+    private String usersTableName;
+    private String regionsTableName;
+    private String guildTableName;
 
     public Database(BFactions plugin) {
         this.plugin = plugin;
@@ -46,6 +51,9 @@ public class Database {
         this.dataSource.setConnectionTimeout(connectionTimeout);
 
         this.tablePrefix = cfg.getString("mysql.tableName");
+        this.usersTableName = this.tablePrefix + "users";
+        this.regionsTableName = this.tablePrefix + "regions";
+        this.guildTableName = this.tablePrefix + "guilds";
 
         return true;
     }
@@ -87,5 +95,17 @@ public class Database {
 
     public String getTablePrefix() {
         return tablePrefix;
+    }
+
+    public String getGuildTableName() {
+        return guildTableName;
+    }
+
+    public String getRegionsTableName() {
+        return regionsTableName;
+    }
+
+    public String getUsersTableName() {
+        return usersTableName;
     }
 }
