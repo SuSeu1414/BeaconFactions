@@ -1,5 +1,7 @@
 package pl.suseu.bfactions.base.user;
 
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import pl.suseu.bfactions.base.guild.Guild;
 
 import java.util.HashSet;
@@ -10,7 +12,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class User {
 
     private final UUID uuid;
-    private String name;
 
     private final Set<Guild> guilds = ConcurrentHashMap.newKeySet();
 
@@ -36,11 +37,12 @@ public class User {
     }
 
     public String getName() {
+        OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
+        String name = player.getName();
+        if (name == null) {
+            return "null";
+        }
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Set<Guild> getGuilds() {
