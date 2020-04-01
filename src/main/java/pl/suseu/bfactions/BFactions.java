@@ -7,6 +7,7 @@ import pl.suseu.bfactions.base.guild.GuildRepository;
 import pl.suseu.bfactions.base.region.RegionRepository;
 import pl.suseu.bfactions.base.user.UserDataController;
 import pl.suseu.bfactions.base.user.UserRepository;
+import pl.suseu.bfactions.base.user.listener.PlayerJoinListener;
 import pl.suseu.bfactions.command.MainCommand;
 import pl.suseu.bfactions.database.Database;
 import pl.suseu.bfactions.settings.Settings;
@@ -63,6 +64,8 @@ public class BFactions extends JavaPlugin {
         getServer().getScheduler().runTaskTimerAsynchronously(this, this::saveData, autoSave, autoSave);
 
         getCommand("beaconfactions").setExecutor(new MainCommand(this));
+
+        getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
     }
 
     @Override
