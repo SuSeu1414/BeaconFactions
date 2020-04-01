@@ -2,9 +2,9 @@ package pl.suseu.bfactions.util;
 
 import java.util.Set;
 
-public class StringUtil {
+public class StringArrayUtil {
 
-    public static boolean setContainsIgnoreCase(Set<String> l, String s) {
+    public static boolean containsIgnoreCase(Set<String> l, String s) {
         for (String string : l) {
             if (string.equalsIgnoreCase(s)) {
                 return true;
