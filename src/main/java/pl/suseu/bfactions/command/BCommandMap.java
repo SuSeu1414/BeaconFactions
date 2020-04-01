@@ -25,7 +25,6 @@ public class BCommandMap {
 
     public void initCommands() {
         new BCommandBuilder("test")
-                .setNeedsArguments(true)
                 .setPermission("bfactions.false")
                 .setExecutor(this.testCommandExecutor)
                 .addAlias("t")
