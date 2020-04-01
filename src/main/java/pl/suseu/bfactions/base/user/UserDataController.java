@@ -18,6 +18,29 @@ public class UserDataController {
         this.database = plugin.getDatabase();
     }
 
+    public boolean saveUsers() {
+        if (!createTable()) {
+            return false;
+        }
+
+        AtomicInteger success = new AtomicInteger();
+        AtomicInteger failure = new AtomicInteger();
+
+        for (User user : this.plugin.getUserRepository().getUsers()) {
+            if (this.saveUser(user)) {
+                success.getAndIncrement();
+            } else {
+                failure.getAndIncrement();
+            }
+        }
+
+        plugin.getLogger().info("Saved " + success + " users successfully.");
+        if (failure.get() != 0) {
+            plugin.getLogger().warning("Failed to save " + failure + " users!");
+        }
+        return failure.get() == 0;
+    }
+
     public boolean loadUsers() {
         if (!createTable()) {
             return false;
@@ -51,6 +74,21 @@ public class UserDataController {
         return failure.get() == 0;
     }
 
+    private boolean saveUser(User user) {
+        String update = getInsert(user);
+        for (String query : update.split(";")) {
+            try {
+                database.executeUpdate(query);
+            } catch (Exception e) {
+                plugin.getLogger().warning("[MySQL] Update: " + query);
+                plugin.getLogger().warning("Could not save user to database");
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return true;
+    }
+
     private boolean loadUser(ResultSet result) throws SQLException {
         String uuidString = result.getString("uuid");
         if (uuidString == null) {
@@ -62,6 +100,16 @@ public class UserDataController {
 
         this.plugin.getUserRepository().addUser(user, false);
         return true;
+    }
+
+    private String getInsert(User user) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("insert into `" + database.getUsersTableName() + "` ");
+        sb.append("(`uuid`) values ( ");
+        sb.append("`" + user.getUuid() + "`);");
+
+        return sb.toString();
     }
 
     public boolean createTable() {
