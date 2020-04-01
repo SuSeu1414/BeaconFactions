@@ -2,9 +2,11 @@ package pl.suseu.bfactions;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import pl.rynbou.langapi3.LangAPI;
 import pl.suseu.bfactions.base.guild.GuildRepository;
 import pl.suseu.bfactions.base.region.RegionRepository;
 import pl.suseu.bfactions.base.user.UserRepository;
+import pl.suseu.bfactions.command.MainCommand;
 import pl.suseu.bfactions.database.Database;
 import pl.suseu.bfactions.settings.Settings;
 
@@ -17,6 +19,7 @@ public class BFactions extends JavaPlugin {
     private Settings settings;
     private Database database;
     private Logger log;
+    private LangAPI lang;
 
     private UserRepository userRepository;
     private RegionRepository regionRepository;
@@ -34,6 +37,8 @@ public class BFactions extends JavaPlugin {
 
             Bukkit.getPluginManager().disablePlugin(this);
         }
+
+        getCommand("beaconfactions").setExecutor(new MainCommand(this));
     }
 
     public Settings getSettings() {
@@ -54,5 +59,9 @@ public class BFactions extends JavaPlugin {
 
     public UserRepository getUserRepository() {
         return userRepository;
+    }
+
+    public LangAPI getLang() {
+        return this.lang;
     }
 }
