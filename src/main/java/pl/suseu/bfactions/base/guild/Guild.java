@@ -1,5 +1,6 @@
 package pl.suseu.bfactions.base.guild;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.bukkit.Bukkit;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.field.Field;
@@ -8,10 +9,7 @@ import pl.suseu.bfactions.base.guild.permission.GuildPermissionSet;
 import pl.suseu.bfactions.base.region.Region;
 import pl.suseu.bfactions.base.user.User;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Guild {
@@ -30,10 +28,16 @@ public class Guild {
         this.uuid = uuid;
         this.name = name;
         this.owner = owner;
+
         this.region = region;
-        this.region.setGuild(this);
+        if (this.region != null) {
+            this.region.setGuild(this);
+        }
+
         this.field = field;
-        this.field.setGuild(this);
+        if (this.field != null) {
+            this.field.setGuild(this);
+        }
     }
 
     public UUID getUuid() {
@@ -107,5 +111,42 @@ public class Guild {
 
     public Field getField() {
         return field;
+    }
+
+    public String getMembersSerialized() {
+        if (plugin == null) {
+            return "null";
+        }
+
+        List<UUID> uuids = new ArrayList<>();
+        for (User member : this.members) {
+            uuids.add(member.getUuid());
+        }
+
+        try {
+            return plugin.getJsonMapper().writeValueAsString(uuids);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return "null";
+        }
+    }
+
+    public String getPermissionsSerialized() {
+        if (plugin == null) {
+            return "null";
+        }
+
+        Map<String, Integer> permissionMap = new HashMap<>();
+
+        for (Map.Entry<User, GuildPermissionSet> entry : this.permissions.entrySet()) {
+            permissionMap.put(entry.getKey().getUuid().toString(), entry.getValue().serialize());
+        }
+
+        try {
+            return plugin.getJsonMapper().writeValueAsString(permissionMap);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return "null";
+        }
     }
 }

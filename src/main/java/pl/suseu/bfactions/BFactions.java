@@ -30,7 +30,7 @@ public class BFactions extends JavaPlugin {
     private RegionRepository regionRepository;
     private GuildRepository guildRepository;
 
-    private ObjectMapper jsonMapper = new ObjectMapper();
+    private final ObjectMapper jsonMapper = new ObjectMapper();
 
 
     @Override
