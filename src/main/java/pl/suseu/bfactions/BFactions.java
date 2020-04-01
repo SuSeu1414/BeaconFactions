@@ -62,7 +62,8 @@ public class BFactions extends JavaPlugin {
     }
 
     private void saveData() {
-        //todo
+        this.getLogger().info("Saving data...");
+        this.userDataController.saveUsers();
     }
 
     public Settings getSettings() {
