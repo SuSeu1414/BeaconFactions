@@ -1,26 +1,39 @@
 package pl.suseu.bfactions.base.guild;
 
+import pl.suseu.bfactions.base.field.Field;
 import pl.suseu.bfactions.base.region.Region;
 import pl.suseu.bfactions.base.user.User;
 
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Guild {
 
+    private final UUID uuid;
+
     private String name;
     private User owner;
     private final Region region;
+    private final Field field;
 
     private final Set<User> members = ConcurrentHashMap.newKeySet();
     private final Map<User, GuildPermissionSet> permissions = new ConcurrentHashMap<>();
 
-    public Guild(String name, User owner, Region region) {
+    public Guild(UUID uuid, String name, User owner, Region region, Field field) {
+        this.uuid = uuid;
         this.name = name;
         this.owner = owner;
         this.region = region;
+        this.region.setGuild(this);
+        this.field = field;
+        this.field.setGuild(this);
+    }
+
+    public UUID getUuid() {
+        return uuid;
     }
 
     public String getName() {

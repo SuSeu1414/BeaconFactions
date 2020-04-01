@@ -2,12 +2,14 @@ package pl.suseu.bfactions.base.region;
 
 import org.bukkit.Location;
 import org.bukkit.World;
+import pl.suseu.bfactions.base.guild.Guild;
 
 import java.util.UUID;
 
 public class Region {
 
     private final UUID uuid;
+    private Guild guild;
 
     private Location center;
     private int size;
@@ -21,12 +23,16 @@ public class Region {
         this.size = size;
     }
 
-    public Region(Location center, int size) {
-        this(UUID.randomUUID(), center, size);
-    }
-
     public UUID getUuid() {
         return uuid;
+    }
+
+    public Guild getGuild() {
+        return guild;
+    }
+
+    public void setGuild(Guild guild) {
+        this.guild = guild;
     }
 
     public Location getCenter() {
