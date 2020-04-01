@@ -1,5 +1,7 @@
 package pl.suseu.bfactions.command;
 
+import org.bukkit.command.CommandSender;
+
 import java.util.List;
 
 public class BCommand {
@@ -21,6 +23,11 @@ public class BCommand {
         this.usage = usage;
         this.needsArguments = needsArguments;
         this.executor = executor;
+    }
+
+    public void sendUsage(CommandSender sender) {
+        //todo
+        sender.sendMessage("Correct usage: " + this.usage);
     }
 
     public String getName() {

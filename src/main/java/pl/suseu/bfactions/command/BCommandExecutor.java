@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface BCommandExecutor {
 
-    void execute(CommandSender sender, List<String> args);
+    void execute(CommandSender sender, BCommand command, List<String> args);
 
 }
