@@ -2,7 +2,10 @@ package pl.suseu.bfactions.base.user;
 
 import pl.suseu.bfactions.BFactions;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class UserRepository {

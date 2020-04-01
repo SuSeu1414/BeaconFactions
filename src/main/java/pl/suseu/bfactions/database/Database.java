@@ -3,7 +3,6 @@ package pl.suseu.bfactions.database;
 import com.zaxxer.hikari.HikariDataSource;
 import org.bukkit.configuration.file.FileConfiguration;
 import pl.suseu.bfactions.BFactions;
-import pl.suseu.bfactions.settings.Settings;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -65,8 +64,7 @@ public class Database {
              ResultSet result = statement.executeQuery()) {
 
             action.accept(result);
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             plugin.getLogger().severe("Cannot execute mysql query!");
             ex.printStackTrace();
         }
@@ -82,8 +80,7 @@ public class Database {
 
             statement.executeUpdate();
             return true;
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             plugin.getLogger().severe("Cannot execute mysql update!");
             ex.printStackTrace();
         }

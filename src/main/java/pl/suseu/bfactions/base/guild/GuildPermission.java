@@ -14,10 +14,6 @@ public enum GuildPermission {
         this.bit = bit;
     }
 
-    public int getBit() {
-        return bit;
-    }
-
     public static GuildPermission getByBit(int bit) {
         for (GuildPermission permission : GuildPermission.values()) {
             if (permission.getBit() == bit) {
@@ -25,5 +21,9 @@ public enum GuildPermission {
             }
         }
         return null;
+    }
+
+    public int getBit() {
+        return bit;
     }
 }

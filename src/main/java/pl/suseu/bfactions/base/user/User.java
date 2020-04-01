@@ -30,7 +30,7 @@ public class User {
         return uuid;
     }
 
-    public boolean ownsGuild(){
+    public boolean ownsGuild() {
         return this.getOwnedGuild() != null;
     }
 
