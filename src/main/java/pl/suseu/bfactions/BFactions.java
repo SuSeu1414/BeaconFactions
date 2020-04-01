@@ -1,5 +1,6 @@
 package pl.suseu.bfactions;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.rynbou.langapi3.LangAPI;
@@ -28,6 +29,9 @@ public class BFactions extends JavaPlugin {
 
     private RegionRepository regionRepository;
     private GuildRepository guildRepository;
+
+    private ObjectMapper jsonMapper = new ObjectMapper();
+
 
     @Override
     public void onEnable() {
@@ -102,5 +106,9 @@ public class BFactions extends JavaPlugin {
 
     public LangAPI getLang() {
         return this.lang;
+    }
+
+    public ObjectMapper getJsonMapper() {
+        return jsonMapper;
     }
 }
