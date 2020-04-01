@@ -1,8 +1,12 @@
 package pl.suseu.bfactions.base.user;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
+import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.guild.Guild;
+import pl.suseu.bfactions.base.region.Region;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,9 +15,12 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class User {
 
+    private final BFactions plugin = ((BFactions) Bukkit.getPluginManager().getPlugin(BFactions.PLUGIN_NAME));
+
     private final UUID uuid;
 
     private final Set<Guild> guilds = ConcurrentHashMap.newKeySet();
+    private Location lastSafeLocation;
 
     public User(UUID uuid) {
         this.uuid = uuid;
@@ -45,6 +52,33 @@ public class User {
         return name;
     }
 
+    /**
+     * @return -1 if player is offline
+     * 0 if safe
+     * 1 if unsafe
+     */
+    public int isInSafeLocation() {
+        Player player = Bukkit.getPlayer(uuid);
+        if (player == null) {
+            return -1;
+        }
+        Location location = player.getLocation();
+
+        for (Region region : plugin.getRegionRepository().getRegions()) {
+            if (!region.isIn(location)) {
+                continue;
+            }
+
+            if (this.guilds.contains(region.getGuild())) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+
+        return 1;
+    }
+
     public Set<Guild> getGuilds() {
         return new HashSet<>(this.guilds);
     }
@@ -55,5 +89,13 @@ public class User {
 
     public void removeGuild(Guild guild) {
         this.guilds.remove(guild);
+    }
+
+    public Location getLastSafeLocation() {
+        return lastSafeLocation;
+    }
+
+    public void setLastSafeLocation(Location lastSafeLocation) {
+        this.lastSafeLocation = lastSafeLocation;
     }
 }

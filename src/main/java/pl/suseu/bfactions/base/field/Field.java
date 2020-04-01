@@ -1,10 +1,14 @@
 package pl.suseu.bfactions.base.field;
 
+import org.bukkit.Bukkit;
+import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.guild.Guild;
 
 import java.util.UUID;
 
 public class Field {
+
+    private final BFactions plugin = ((BFactions) Bukkit.getPluginManager().getPlugin(BFactions.PLUGIN_NAME));
 
     private final UUID uuid;
     private Guild guild;

@@ -1,5 +1,7 @@
 package pl.suseu.bfactions.base.guild;
 
+import org.bukkit.Bukkit;
+import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.field.Field;
 import pl.suseu.bfactions.base.region.Region;
 import pl.suseu.bfactions.base.user.User;
@@ -11,6 +13,8 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Guild {
+
+    private final BFactions plugin = ((BFactions) Bukkit.getPluginManager().getPlugin(BFactions.PLUGIN_NAME));
 
     private final UUID uuid;
 
@@ -34,34 +38,6 @@ public class Guild {
 
     public UUID getUuid() {
         return uuid;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public User getOwner() {
-        return owner;
-    }
-
-    public void setOwner(User owner) {
-        this.owner = owner;
-    }
-
-    public boolean isOwner(User user) {
-        return this.owner.equals(user);
-    }
-
-    public Region getRegion() {
-        return region;
-    }
-
-    public Set<User> getMembers() {
-        return new HashSet<>(this.members);
     }
 
     public void addMember(User user) {
@@ -99,5 +75,37 @@ public class Guild {
         }
 
         return permissionSet.hasPermission(permission);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
+    public boolean isOwner(User user) {
+        return this.owner.equals(user);
+    }
+
+    public Region getRegion() {
+        return region;
+    }
+
+    public Set<User> getMembers() {
+        return new HashSet<>(this.members);
+    }
+
+    public Field getField() {
+        return field;
     }
 }
