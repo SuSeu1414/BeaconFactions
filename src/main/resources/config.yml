@@ -45,6 +45,7 @@ field:
 #  > useSSL - whether to use SSL when connecting to the database
 #  > poolSize - number of database connections reserved by the plugin
 #  > connectionTimeout - database connection timeout delay, in milliseconds
+#  > autoSave - how often will the data be saved, in seconds
 mysql:
   hostname: "127.0.0.1"
   port: "3306"
@@ -55,3 +56,4 @@ mysql:
   useSSL: true
   poolSize: 5
   connectionTimeout: 20000
+  autoSave: 600
