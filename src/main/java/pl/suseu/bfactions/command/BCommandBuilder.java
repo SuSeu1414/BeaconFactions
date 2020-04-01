@@ -2,6 +2,7 @@ package pl.suseu.bfactions.command;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class BCommandBuilder {
     private final String name;
@@ -40,7 +41,7 @@ public class BCommandBuilder {
         return this;
     }
 
-    public BCommand createBCommand() {
-        return new BCommand(name, aliases, permission, usage, needsArguments, executor);
+    public void build(Set<BCommand> commands) {
+        commands.add(new BCommand(name, aliases, permission, usage, needsArguments, executor));
     }
 }

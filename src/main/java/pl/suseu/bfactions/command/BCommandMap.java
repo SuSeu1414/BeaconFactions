@@ -24,14 +24,13 @@ public class BCommandMap {
     }
 
     public void initCommands() {
-        BCommand testCommand = new BCommandBuilder("test")
+        new BCommandBuilder("test")
                 .setNeedsArguments(true)
                 .setPermission("bfactions.false")
                 .setExecutor(this.testCommandExecutor)
                 .addAlias("t")
                 .addAlias("tst")
                 .setUsage("test <arg>")
-                .createBCommand();
-        addCommand(testCommand);
+                .build(this.commands);
     }
 }
