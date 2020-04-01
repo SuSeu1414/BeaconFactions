@@ -59,7 +59,7 @@ public class BFactions extends JavaPlugin {
         //todo more data controlers
         userDataController.loadUsers();
 
-        int autoSave = getConfig().getInt("mysql.autoSave");
+        int autoSave = getConfig().getInt("mysql.autoSave") * 20;
         getServer().getScheduler().runTaskTimerAsynchronously(this, this::saveData, autoSave, autoSave);
 
         getCommand("beaconfactions").setExecutor(new MainCommand(this));
