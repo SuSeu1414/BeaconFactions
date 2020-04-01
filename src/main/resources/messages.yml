@@ -1,0 +1,17 @@
+messages:
+  example-message:
+    chat-enabled: true
+    title-enabled: true
+    actionbar-enabled: true
+    chat:
+      content:
+        - 'Chat message'
+        - 'Line 2'
+    title:
+      content: 'Title message'
+      sub-content: 'Subtitle message'
+      fade-in: 2
+      stay: 5
+      fade-out: 2
+    actionbar:
+      content: 'Actionbar message'
