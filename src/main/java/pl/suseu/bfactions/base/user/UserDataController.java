@@ -49,7 +49,7 @@ public class UserDataController {
         AtomicInteger success = new AtomicInteger();
         AtomicInteger failure = new AtomicInteger();
 
-        String query = "select * from `" + database.getUsersTableName() + "`";
+        String query = "select * from `" + database.getUsersTableName() + "`;";
 
         database.executeQuery(query, resultSet -> {
             try {
@@ -107,7 +107,7 @@ public class UserDataController {
 
         sb.append("insert into `" + database.getUsersTableName() + "` ");
         sb.append("(`uuid`) values ( ");
-        sb.append("`" + user.getUuid() + "`);");
+        sb.append("'" + user.getUuid() + "');");
 
         return sb.toString();
     }
