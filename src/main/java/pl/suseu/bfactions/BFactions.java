@@ -40,6 +40,15 @@ public class BFactions extends JavaPlugin {
             log.severe("Disabling plugin...");
 
             Bukkit.getPluginManager().disablePlugin(this);
+            return;
+        }
+
+        this.database = new Database(this);
+        if (!this.database.initDatabase()) {
+            this.getLogger().severe("Failed to initialize database!");
+            this.getLogger().severe("Disabling plugin...");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
         }
 
         this.userRepository = new UserRepository(this);

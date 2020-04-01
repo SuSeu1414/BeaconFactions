@@ -7,6 +7,7 @@ import pl.suseu.bfactions.BFactions;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.function.Consumer;
 
 public class Database {
@@ -53,6 +54,14 @@ public class Database {
         this.usersTableName = this.tablePrefix + "users";
         this.regionsTableName = this.tablePrefix + "regions";
         this.guildTableName = this.tablePrefix + "guilds";
+
+        this.plugin.getLogger().info("Testing database connection...");
+        try (final Connection ignored = this.dataSource.getConnection()) {
+            this.plugin.getLogger().info("Test database connection successful!");
+        } catch (final SQLException exception) {
+            this.plugin.getLogger().warning("Test database connection failed!");
+            return false;
+        }
 
         return true;
     }
