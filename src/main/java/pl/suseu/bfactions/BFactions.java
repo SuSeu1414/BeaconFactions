@@ -71,8 +71,10 @@ public class BFactions extends JavaPlugin {
     }
 
     private void saveData() {
-        this.getLogger().info("Saving data...");
-        this.userDataController.saveUsers();
+        if (this.database != null && this.database.isInitialized()) {
+            this.getLogger().info("Saving data...");
+            this.userDataController.saveUsers();
+        }
     }
 
     public Settings getSettings() {

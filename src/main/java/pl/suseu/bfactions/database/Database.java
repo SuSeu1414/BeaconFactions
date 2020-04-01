@@ -21,6 +21,8 @@ public class Database {
     private String regionsTableName;
     private String guildTableName;
 
+    private boolean initialized = false;
+
     public Database(BFactions plugin) {
         this.plugin = plugin;
     }
@@ -63,9 +65,9 @@ public class Database {
             return false;
         }
 
+        this.initialized = true;
         return true;
     }
-
 
     public void executeQuery(String query, Consumer<ResultSet> action) {
         try (Connection connection = this.dataSource.getConnection();
@@ -114,5 +116,9 @@ public class Database {
 
     public String getUsersTableName() {
         return usersTableName;
+    }
+
+    public boolean isInitialized() {
+        return initialized;
     }
 }
