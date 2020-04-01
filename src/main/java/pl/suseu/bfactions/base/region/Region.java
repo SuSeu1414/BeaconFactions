@@ -62,7 +62,7 @@ public class Region {
         this.max = new Location(world, x + this.size, 256, z + this.size);
     }
 
-    public boolean inIn(Location location) {
+    public boolean isIn(Location location) {
         if (location == null) {
             return false;
         }
