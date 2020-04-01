@@ -1,4 +1,4 @@
-package pl.suseu.bfactions.base.util;
+package pl.suseu.bfactions.util;
 
 import java.util.Set;
 
