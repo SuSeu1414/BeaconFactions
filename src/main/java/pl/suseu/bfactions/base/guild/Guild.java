@@ -3,6 +3,8 @@ package pl.suseu.bfactions.base.guild;
 import org.bukkit.Bukkit;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.field.Field;
+import pl.suseu.bfactions.base.guild.permission.GuildPermission;
+import pl.suseu.bfactions.base.guild.permission.GuildPermissionSet;
 import pl.suseu.bfactions.base.region.Region;
 import pl.suseu.bfactions.base.user.User;
 

@@ -1,4 +1,4 @@
-package pl.suseu.bfactions.base.guild;
+package pl.suseu.bfactions.base.guild.permission;
 
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
