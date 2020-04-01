@@ -77,6 +77,7 @@ public class Database {
             action.accept(result);
         } catch (Exception ex) {
             plugin.getLogger().severe("Cannot execute mysql query!");
+            plugin.getLogger().severe("Query: " + query);
             ex.printStackTrace();
         }
     }
@@ -93,6 +94,7 @@ public class Database {
             return true;
         } catch (Exception ex) {
             plugin.getLogger().severe("Cannot execute mysql update!");
+            plugin.getLogger().severe("Query: " + query);
             ex.printStackTrace();
         }
         return false;
