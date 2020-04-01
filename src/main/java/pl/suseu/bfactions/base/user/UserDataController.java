@@ -107,7 +107,9 @@ public class UserDataController {
 
         sb.append("insert into `" + database.getUsersTableName() + "` ");
         sb.append("(`uuid`) values ( ");
-        sb.append("'" + user.getUuid() + "');");
+        sb.append("'" + user.getUuid() + "')");
+        sb.append(" on duplicate key update ");
+        sb.append("`uuid` = '" + user.getUuid() + "';");
 
         return sb.toString();
     }
