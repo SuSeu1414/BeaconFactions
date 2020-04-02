@@ -27,7 +27,7 @@ public class GuildDataController {
         AtomicInteger success = new AtomicInteger();
         AtomicInteger failure = new AtomicInteger();
 
-        for (Guild user : this.plugin.getGuildRepository().getGuilds()) {
+        for (Guild user : this.plugin.getGuildRepository().getModifiedGuilds()) {
             if (this.saveGuild(user)) {
                 success.getAndIncrement();
             } else {
