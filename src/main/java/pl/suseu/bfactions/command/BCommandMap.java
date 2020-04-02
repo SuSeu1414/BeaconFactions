@@ -1,6 +1,7 @@
 package pl.suseu.bfactions.command;
 
 import pl.suseu.bfactions.BFactions;
+import pl.suseu.bfactions.command.cmds.ItemSetCommandExecutor;
 import pl.suseu.bfactions.command.cmds.TestCommandExecutor;
 import pl.suseu.bfactions.util.StringArrayUtil;
 
@@ -13,11 +14,13 @@ public class BCommandMap {
     private final Set<BCommand> commands = new HashSet<>();
 
     private final TestCommandExecutor testCommandExecutor;
+    private final ItemSetCommandExecutor itemSetCommandExecutor;
 
     public BCommandMap(BFactions plugin) {
         this.plugin = plugin;
 
         this.testCommandExecutor = new TestCommandExecutor();
+        this.itemSetCommandExecutor = new ItemSetCommandExecutor(this.plugin);
     }
 
     public void addCommand(BCommand command) {
@@ -40,6 +43,12 @@ public class BCommandMap {
                 .addAlias("t")
                 .addAlias("tst")
                 .setUsage("test <arg>")
+                .build(this.commands);
+
+        new BCommandBuilder("setitem")
+                .setPermission("bfactions.setitem")
+                .setUsage("setitem item-id")
+                .setExecutor(this.itemSetCommandExecutor)
                 .build(this.commands);
     }
 }
