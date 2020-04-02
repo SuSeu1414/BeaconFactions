@@ -31,12 +31,7 @@ public class Region {
 
         for (int i = 0; i < 4; i++) {
             Location corner1 = corners()[i];
-
-            if (i == 3) {
-                i = -1;
-            }
-
-            Location corner2 = corners()[i + 1];
+            Location corner2 = corners()[i != 3 ? i + 1 : 0];
 
             int n = (int) Math.round(density * 255);
             double dY = (float) 255 / n;
