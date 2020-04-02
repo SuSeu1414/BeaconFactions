@@ -44,4 +44,12 @@ public class GuildRepository {
     public Set<Guild> getGuilds() {
         return new HashSet<>(this.guilds.values());
     }
+
+    public Set<Guild> getModifiedGuilds() {
+        Set<Guild> modified = new HashSet<>();
+        for (UUID uuid : this.modifiedGuilds) {
+            modified.add(this.getGuild(uuid));
+        }
+        return modified;
+    }
 }
