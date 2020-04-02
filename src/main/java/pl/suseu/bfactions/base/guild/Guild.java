@@ -18,12 +18,12 @@ public class Guild {
     private final BFactions plugin = ((BFactions) Bukkit.getPluginManager().getPlugin(BFactions.PLUGIN_NAME));
 
     private final UUID uuid;
-    private String name;
-    private User owner;
     private final Region region;
     private final Field field;
     private final Set<User> members = ConcurrentHashMap.newKeySet();
     private final Map<User, GuildPermissionSet> permissions = new ConcurrentHashMap<>();
+    private String name;
+    private User owner;
 
     public Guild(UUID uuid, String name, User owner, Region region, Field field) {
         this.uuid = uuid;

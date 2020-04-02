@@ -11,8 +11,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class GuildDataController {
 
-    private BFactions plugin;
-    private Database database;
+    private final BFactions plugin;
+    private final Database database;
 
     public GuildDataController(BFactions plugin) {
         this.plugin = plugin;
@@ -123,7 +123,7 @@ public class GuildDataController {
         sb.append("'" + guild.getOwner().getUuid() + "',");
         sb.append("'" + guild.getName().replace("'", "''") + "',");
         sb.append("'" + guild.getMembersSerialized() + "',");
-        sb.append("'" + guild.getPermissionsSerialized() + "',)");
+        sb.append("'" + guild.getPermissionsSerialized() + "')");
         sb.append(" on duplicate key update ");
         sb.append("`owner` = '" + guild.getOwner().getUuid() + "',");
         sb.append("`name` = '" + guild.getName().replace("'", "''") + "',");

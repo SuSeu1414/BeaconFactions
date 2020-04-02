@@ -20,23 +20,16 @@ import java.util.logging.Logger;
 public class BFactions extends JavaPlugin {
 
     public static final String PLUGIN_NAME = "BeaconFactions";
-
+    private final ObjectMapper jsonMapper = new ObjectMapper();
     private Settings settings;
     private Database database;
     private Logger log;
     private LangAPI lang;
-
     private GuildRepository guildRepository;
     private GuildDataController guildDataController;
-
     private UserRepository userRepository;
     private UserDataController userDataController;
-
     private RegionRepository regionRepository;
-
-
-    private final ObjectMapper jsonMapper = new ObjectMapper();
-
 
     @Override
     public void onEnable() {
