@@ -6,7 +6,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import pl.suseu.bfactions.BFactions;
+import pl.suseu.bfactions.base.field.Field;
 import pl.suseu.bfactions.base.guild.Guild;
+import pl.suseu.bfactions.base.region.Region;
 import pl.suseu.bfactions.base.user.User;
 
 import java.util.UUID;
@@ -30,7 +32,10 @@ public class BeaconPlaceListener implements Listener {
         Player player = event.getPlayer();
         User user = this.plugin.getUserRepository().getUser(player.getUniqueId());
 
-        Guild guild = new Guild(UUID.randomUUID(), player.getName() + "'s guild", user, null, null);
+        UUID uuid = UUID.randomUUID();
+        Region region = new Region(uuid, event.getBlock().getLocation(), plugin.getSettings().cuboidSizeInitial);
+        Field field = new Field(uuid);
+        Guild guild = new Guild(UUID.randomUUID(), player.getName() + "'s guild", user, region, field);
         this.plugin.getGuildRepository().addGuild(guild, true);
 
         this.plugin.getLang().sendMessage("guild-created", player);
