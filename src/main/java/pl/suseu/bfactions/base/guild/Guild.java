@@ -28,7 +28,11 @@ public class Guild {
     public Guild(UUID uuid, String name, User owner, Region region, Field field) {
         this.uuid = uuid;
         this.name = name;
+
         this.owner = owner;
+        if (this.owner != null) {
+            this.owner.addGuild(this);
+        }
 
         this.region = region;
         if (this.region != null) {
@@ -48,11 +52,17 @@ public class Guild {
     public void addMember(User user) {
         this.members.add(user);
         this.permissions.put(user, GuildPermissionSet.DEFAULT_PERMISSIONS);
+        if (user != null) {
+            user.addGuild(this);
+        }
     }
 
     public void removeMember(User user) {
         this.members.remove(user);
         this.permissions.remove(user);
+        if (user != null) {
+            user.removeGuild(this);
+        }
     }
 
     public void addMemberPermission(User member, GuildPermission permission) {
