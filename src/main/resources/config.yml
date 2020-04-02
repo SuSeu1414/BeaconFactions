@@ -20,7 +20,7 @@ field:
   #density of particles
   particle-density: 10
   #amount of blocks from which the field is visible
-  particle-visibility:
+  particle-visibility: 100
   #initial HP of the field
   initial-energy: 10000000
   #amount of energy to be subtracted
