@@ -6,6 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import pl.rynbou.langapi3.LangAPI;
 import pl.suseu.bfactions.base.guild.GuildDataController;
 import pl.suseu.bfactions.base.guild.GuildRepository;
+import pl.suseu.bfactions.base.guild.listener.BeaconPlaceListener;
 import pl.suseu.bfactions.base.region.RegionRepository;
 import pl.suseu.bfactions.base.user.UserDataController;
 import pl.suseu.bfactions.base.user.UserRepository;
@@ -77,6 +78,7 @@ public class BFactions extends JavaPlugin {
         getCommand("beaconfactions").setExecutor(new MainCommand(this));
 
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
+        getServer().getPluginManager().registerEvents(new BeaconPlaceListener(this), this);
     }
 
     @Override
