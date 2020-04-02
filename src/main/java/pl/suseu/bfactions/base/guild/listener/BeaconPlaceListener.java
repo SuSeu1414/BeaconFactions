@@ -28,10 +28,12 @@ public class BeaconPlaceListener implements Listener {
         }
 
         Player player = event.getPlayer();
-        User user = plugin.getUserRepository().getUser(player.getUniqueId());
+        User user = this.plugin.getUserRepository().getUser(player.getUniqueId());
 
         Guild guild = new Guild(UUID.randomUUID(), player.getName() + "'s guild", user, null, null);
-        plugin.getGuildRepository().addGuild(guild, true);
+        this.plugin.getGuildRepository().addGuild(guild, true);
+
+        this.plugin.getLang().sendMessage("guild-created", player);
     }
 
 }
