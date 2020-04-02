@@ -20,6 +20,7 @@ public class User {
     private final UUID uuid;
 
     private final Set<Guild> guilds = ConcurrentHashMap.newKeySet();
+    private final Set<UUID> projectiles = ConcurrentHashMap.newKeySet();
     private Location lastSafeLocation;
 
     public User(UUID uuid) {
@@ -97,5 +98,17 @@ public class User {
 
     public void setLastSafeLocation(Location lastSafeLocation) {
         this.lastSafeLocation = lastSafeLocation;
+    }
+
+    public Set<UUID> getProjectiles() {
+        return new HashSet<>(this.projectiles);
+    }
+
+    public void addProjectile(UUID uuid) {
+        this.projectiles.add(uuid);
+    }
+
+    public void removeProjectile(UUID uuid) {
+        this.projectiles.remove(uuid);
     }
 }
