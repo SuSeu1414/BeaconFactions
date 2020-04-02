@@ -37,6 +37,7 @@ public class BeaconPlaceListener implements Listener {
         Field field = new Field(uuid);
         Guild guild = new Guild(UUID.randomUUID(), player.getName() + "'s guild", user, region, field);
         this.plugin.getGuildRepository().addGuild(guild, true);
+        this.plugin.getRegionRepository().addRegion(region);
 
         this.plugin.getLang().sendMessage("guild-created", player);
     }

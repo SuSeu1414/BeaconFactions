@@ -32,6 +32,11 @@ public class FieldParticleTask implements Runnable {
         for (Player player : Bukkit.getOnlinePlayers()) {
             Location location = player.getLocation();
             Region closest = regionRepository.nearestRegion(location);
+
+            if (closest == null) {
+                continue;
+            }
+
             Set<Location> particles = locationsInRange(closest.walls(density), location, range);
 
             this.plugin.getServer().getScheduler().runTask(this.plugin, () -> {
