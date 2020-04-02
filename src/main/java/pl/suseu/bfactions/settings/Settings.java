@@ -20,6 +20,8 @@ public class Settings {
     public int cuboidSizeInitial;
     public int cuboidDistanceMin;
 
+    public double fieldParticleDensity;
+    public double fieldParticleRange;
     public double fieldEnergyInitial;
     public double fieldPassiveDrainAmount;
     public int fieldPassiveDrainDelay;
@@ -51,6 +53,8 @@ public class Settings {
         cuboidSizeInitial = cfg.getInt("cuboid.initial-size");
         cuboidDistanceMin = cfg.getInt("cuboid.minimum-distance");
 
+        fieldParticleDensity = cfg.getDouble("field.particle-density");
+        fieldParticleRange = cfg.getDouble("field.particle-visibility");
         fieldEnergyInitial = cfg.getDouble("field.initial-energy");
         fieldPassiveDrainAmount = cfg.getDouble("field.passive-drain-amount");
         fieldPassiveDrainDelay = cfg.getInt("field.passive-drain-delay");
@@ -122,6 +126,18 @@ public class Settings {
         } else {
             ConfigurationSection section = cfg.getConfigurationSection("field");
 
+            if (!section.isDouble("particle-density")
+                    && !section.isInt("particle-density")
+                    && !section.isLong("particle-density")) {
+                log.warning("Configuration (field): Missing/Invalid 'particle-density' entry!");
+                success = false;
+            }
+            if (!section.isDouble("particle-visibility")
+                    && !section.isInt("particle-visibility")
+                    && !section.isLong("particle-visibility")) {
+                log.warning("Configuration (field): Missing/Invalid 'particle-visibility' entry!");
+                success = false;
+            }
             if (!section.isDouble("initial-energy")
                     && !section.isInt("initial-energy")
                     && !section.isLong("initial-energy")) {
