@@ -47,6 +47,7 @@ public class BCommandMap {
 
         new BCommandBuilder("setitem")
                 .setPermission("bfactions.setitem")
+                .setNeedsArguments(true)
                 .setUsage("setitem item-id")
                 .setExecutor(this.itemSetCommandExecutor)
                 .build(this.commands);
