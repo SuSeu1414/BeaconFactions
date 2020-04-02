@@ -26,7 +26,7 @@ public class UserDataController {
         AtomicInteger success = new AtomicInteger();
         AtomicInteger failure = new AtomicInteger();
 
-        for (User user : this.plugin.getUserRepository().getUsers()) {
+        for (User user : this.plugin.getUserRepository().getModifiedUsers()) {
             if (this.saveUser(user)) {
                 success.getAndIncrement();
             } else {

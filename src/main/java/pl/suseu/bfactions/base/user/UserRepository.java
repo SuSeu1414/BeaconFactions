@@ -37,12 +37,25 @@ public class UserRepository {
         return user;
     }
 
+    public void addModifiedUser(User user) {
+        this.addModifiedUser(user.getUuid());
+    }
+
     public void addModifiedUser(UUID uuid) {
         modifiedUsers.add(uuid);
     }
 
-    public Set<UUID> getModifiedUsers() {
-        return modifiedUsers;
+    public Set<UUID> getModifiedUserUUID() {
+        return new HashSet<>(this.modifiedUsers);
+    }
+
+    public Set<User> getModifiedUsers() {
+        Set<User> modified = new HashSet<>();
+        for (UUID uuid : this.modifiedUsers) {
+            modified.add(this.getUser(uuid));
+        }
+
+        return modified;
     }
 
     /**
