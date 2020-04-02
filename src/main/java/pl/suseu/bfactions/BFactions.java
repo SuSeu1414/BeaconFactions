@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.rynbou.langapi3.LangAPI;
+import pl.suseu.bfactions.base.field.task.FieldParticleTask;
 import pl.suseu.bfactions.base.guild.GuildDataController;
 import pl.suseu.bfactions.base.guild.GuildRepository;
 import pl.suseu.bfactions.base.guild.listener.BeaconPlaceListener;
@@ -78,6 +79,8 @@ public class BFactions extends JavaPlugin {
 
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         getServer().getPluginManager().registerEvents(new BeaconPlaceListener(this), this);
+
+        getServer().getScheduler().runTaskTimerAsynchronously(this, new FieldParticleTask(this), 5, 5);
     }
 
     @Override
