@@ -121,7 +121,7 @@ public class GuildDataController {
         sb.append("(`uuid`, `owner`, `name`, `members`, `permissions`) values ( ");
         sb.append("'" + guild.getUuid() + "',");
         sb.append("'" + guild.getOwner().getUuid() + "',");
-        sb.append("'" + guild.getName() + "',");
+        sb.append("'" + guild.getName().replace("'", "''") + "',");
         sb.append("'" + guild.getMembersSerialized() + "',");
         sb.append("'" + guild.getPermissionsSerialized() + "',)");
         sb.append(" on duplicate key update ");
