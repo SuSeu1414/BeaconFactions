@@ -31,7 +31,12 @@ public class RegionListener implements Listener {
         Player player = event.getPlayer();
         User user = plugin.getUserRepository().getUser(player.getUniqueId());
         if (user.isInSafeLocation() == 1) {
-            player.teleport(user.getLastSafeLocation());
+            Location lastSafe = user.getLastSafeLocation();
+            if (lastSafe == null) {
+                //TODO teleport to spawn
+                return;
+            }
+            player.teleport(lastSafe);
         }
     }
 }

@@ -14,6 +14,7 @@ public class UserRepository {
 
     private final Map<UUID, User> users = new ConcurrentHashMap<>();
     private final Set<UUID> modifiedUsers = ConcurrentHashMap.newKeySet();
+    private final Set<UUID> projectileUsers = ConcurrentHashMap.newKeySet();
 
     public UserRepository(BFactions plugin) {
         this.plugin = plugin;
@@ -42,7 +43,7 @@ public class UserRepository {
     }
 
     public void addModifiedUser(UUID uuid) {
-        modifiedUsers.add(uuid);
+        this.modifiedUsers.add(uuid);
     }
 
     public Set<UUID> getModifiedUserUUID() {
@@ -50,12 +51,33 @@ public class UserRepository {
     }
 
     public Set<User> getModifiedUsers() {
-        Set<User> modified = new HashSet<>();
+        Set<User> users = new HashSet<>();
         for (UUID uuid : this.modifiedUsers) {
-            modified.add(this.getUser(uuid));
+            users.add(this.getUser(uuid));
         }
 
-        return modified;
+        return users;
+    }
+
+    public void addProjectileUser(User user) {
+        this.addProjectileUser(user.getUuid());
+    }
+
+    public void addProjectileUser(UUID uuid) {
+        this.projectileUsers.add(uuid);
+    }
+
+    public Set<UUID> getProjectileUserUUID() {
+        return new HashSet<>(this.projectileUsers);
+    }
+
+    public Set<User> getProjectileUsers() {
+        Set<User> users = new HashSet<>();
+        for (UUID uuid : this.projectileUsers) {
+            users.add(this.getUser(uuid));
+        }
+
+        return users;
     }
 
     /**
