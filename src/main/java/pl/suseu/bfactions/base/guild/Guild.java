@@ -1,6 +1,7 @@
 package pl.suseu.bfactions.base.guild;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.bukkit.Bukkit;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.field.Field;
@@ -131,6 +132,32 @@ public class Guild {
         }
     }
 
+    public void setMembersFromJson(String json) {
+        if (this.plugin == null) {
+            return;
+        }
+
+        List<String> uuids;
+
+        try {
+            uuids = this.plugin.getJsonMapper().readValue(json, new TypeReference<List<String>>() {
+            });
+        } catch (JsonProcessingException e) {
+            this.plugin.getLogger().warning("Cannot deserialize members json (guild_uuid: " + this.uuid + ")");
+            e.printStackTrace();
+            return;
+        }
+
+        for (String memberUUIDString : uuids) {
+            User member = plugin.getUserRepository().getUser(UUID.fromString(memberUUIDString));
+            if (member == null) {
+                this.plugin.getLogger().warning("Cannot get member! (guild: " + this.uuid + ", user: " + memberUUIDString + ")");
+                continue;
+            }
+            members.add(member);
+        }
+    }
+
     public String getPermissionsSerialized() {
         if (plugin == null) {
             return "null";
@@ -147,6 +174,37 @@ public class Guild {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             return "null";
+        }
+    }
+
+    public void setPermissionsFromJson(String json) {
+        if (this.plugin == null) {
+            return;
+        }
+
+        Map<String, Integer> perms;
+
+        try {
+            perms = this.plugin.getJsonMapper().readValue(json, new TypeReference<Map<String, Integer>>() {
+            });
+        } catch (JsonProcessingException e) {
+            this.plugin.getLogger().warning("Cannot deserialize permissions json (guild_uuid: " + this.uuid + ")");
+            e.printStackTrace();
+            return;
+        }
+
+        for (Map.Entry<String, Integer> entry : perms.entrySet()) {
+            UUID memberUUID = UUID.fromString(entry.getKey());
+            GuildPermissionSet permissionSet = new GuildPermissionSet(entry.getValue());
+
+            User user = this.plugin.getUserRepository().getUser(memberUUID);
+
+            if (user == null) {
+                this.plugin.getLogger().warning("Cannot get member! (guild: " + this.uuid + ", user: " + entry.getKey() + ")");
+                continue;
+            }
+
+            this.permissions.put(user, permissionSet);
         }
     }
 }
