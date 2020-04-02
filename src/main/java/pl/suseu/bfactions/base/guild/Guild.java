@@ -47,7 +47,7 @@ public class Guild {
 
     public void addMember(User user) {
         this.members.add(user);
-        // todo add default permission set to permissions map
+        this.permissions.put(user, GuildPermissionSet.DEFAULT_PERMISSIONS);
     }
 
     public void removeMember(User user) {

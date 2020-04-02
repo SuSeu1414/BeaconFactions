@@ -5,6 +5,8 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class GuildPermissionSet {
 
+    // can only walk in guild region
+    public static final GuildPermissionSet DEFAULT_PERMISSIONS = new GuildPermissionSet(0);
     private static final int MAX_BITS = 10;
 
     private Set<GuildPermission> permissions = ConcurrentHashMap.newKeySet();
