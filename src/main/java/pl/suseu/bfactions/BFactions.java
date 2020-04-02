@@ -13,6 +13,7 @@ import pl.suseu.bfactions.base.user.UserRepository;
 import pl.suseu.bfactions.base.user.listener.PlayerJoinListener;
 import pl.suseu.bfactions.command.MainCommand;
 import pl.suseu.bfactions.database.Database;
+import pl.suseu.bfactions.item.ItemRepository;
 import pl.suseu.bfactions.settings.Settings;
 
 import java.util.logging.Logger;
@@ -30,6 +31,7 @@ public class BFactions extends JavaPlugin {
     private UserRepository userRepository;
     private UserDataController userDataController;
     private RegionRepository regionRepository;
+    private ItemRepository itemRepository;
 
     @Override
     public void onEnable() {
@@ -45,6 +47,10 @@ public class BFactions extends JavaPlugin {
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
+
+        this.itemRepository = new ItemRepository(this);
+        this.itemRepository.load();
+
 
         this.database = new Database(this);
         if (!this.database.initDatabase()) {
@@ -105,6 +111,10 @@ public class BFactions extends JavaPlugin {
 
     public UserRepository getUserRepository() {
         return userRepository;
+    }
+
+    public ItemRepository getItemRepository() {
+        return itemRepository;
     }
 
     public LangAPI getLang() {
