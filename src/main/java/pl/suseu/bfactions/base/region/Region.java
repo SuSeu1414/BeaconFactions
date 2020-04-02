@@ -3,7 +3,10 @@ package pl.suseu.bfactions.base.region;
 import org.bukkit.Location;
 import org.bukkit.World;
 import pl.suseu.bfactions.base.guild.Guild;
+import pl.suseu.bfactions.util.GeometryUtil;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 public class Region {
@@ -23,40 +26,40 @@ public class Region {
         this.size = size;
     }
 
-    public UUID getUuid() {
-        return uuid;
+    public Set<Location> walls(double density) {
+        Set<Location> walls = new HashSet<>();
+
+        for (int i = 0; i < 4; i++) {
+            Location corner1 = corners()[i];
+
+            if (i == 3) {
+                i = -1;
+            }
+
+            Location corner2 = corners()[i + 1];
+
+            int n = (int) Math.round(density * 255);
+            double dY = (float) 255 / n;
+
+            for (int j = 0; j < n; j++) {
+                corner1.setY(dY * n);
+                corner2.setY(dY * n);
+                walls.addAll(GeometryUtil.line(corner1, corner2, density));
+            }
+        }
+
+        return walls;
     }
 
-    public Guild getGuild() {
-        return guild;
-    }
+    public Location[] corners() {
+        Location[] corners = new Location[4];
 
-    public void setGuild(Guild guild) {
-        this.guild = guild;
-    }
+        corners[0] = this.center.clone().add(size, 0, size);
+        corners[1] = this.center.clone().add(size, 0, -size);
+        corners[2] = this.center.clone().add(-size, 0, -size);
+        corners[3] = this.center.clone().add(-size, 0, size);
 
-    public Location getCenter() {
-        return center;
-    }
-
-    public void setCenter(Location center) {
-        this.center = center;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    public Location getMin() {
-        return min;
-    }
-
-    public Location getMax() {
-        return max;
+        return corners;
     }
 
     public void recalculate() {
@@ -98,5 +101,41 @@ public class Region {
         }
 
         return true;
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public Guild getGuild() {
+        return guild;
+    }
+
+    public void setGuild(Guild guild) {
+        this.guild = guild;
+    }
+
+    public Location getCenter() {
+        return center;
+    }
+
+    public void setCenter(Location center) {
+        this.center = center;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public Location getMin() {
+        return min;
+    }
+
+    public Location getMax() {
+        return max;
     }
 }
