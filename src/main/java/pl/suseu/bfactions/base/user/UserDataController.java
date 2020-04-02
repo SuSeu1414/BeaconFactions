@@ -10,8 +10,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class UserDataController {
 
-    private BFactions plugin;
-    private Database database;
+    private final BFactions plugin;
+    private final Database database;
 
     public UserDataController(BFactions plugin) {
         this.plugin = plugin;

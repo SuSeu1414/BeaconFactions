@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class GuildRepository {
 
-    private BFactions plugin;
+    private final BFactions plugin;
 
     private final Map<UUID, Guild> guilds = new ConcurrentHashMap<>();
     private final Set<UUID> modifiedGuilds = ConcurrentHashMap.newKeySet();

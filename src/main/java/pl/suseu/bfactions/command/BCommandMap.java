@@ -9,10 +9,10 @@ import java.util.Set;
 
 public class BCommandMap {
 
-    private BFactions plugin;
-    private Set<BCommand> commands = new HashSet<>();
+    private final BFactions plugin;
+    private final Set<BCommand> commands = new HashSet<>();
 
-    private TestCommandExecutor testCommandExecutor;
+    private final TestCommandExecutor testCommandExecutor;
 
     public BCommandMap(BFactions plugin) {
         this.plugin = plugin;

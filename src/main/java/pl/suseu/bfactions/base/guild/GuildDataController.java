@@ -109,7 +109,7 @@ public class GuildDataController {
         Guild guild = new Guild(uuid, name, owner, null, null);
         guild.setMembersFromJson(membersString);
         guild.setPermissionsFromJson(permissionsString);
-        plugin.getGuildRepository().addGuild(guild);
+        plugin.getGuildRepository().addGuild(guild, false);
 
         return true;
     }

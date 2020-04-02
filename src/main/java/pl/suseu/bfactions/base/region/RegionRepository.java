@@ -8,9 +8,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class RegionRepository {
 
-    private BFactions plugin;
+    private final BFactions plugin;
 
-    private Set<Region> regions = ConcurrentHashMap.newKeySet();
+    private final Set<Region> regions = ConcurrentHashMap.newKeySet();
 
     public RegionRepository(BFactions plugin) {
         this.plugin = plugin;

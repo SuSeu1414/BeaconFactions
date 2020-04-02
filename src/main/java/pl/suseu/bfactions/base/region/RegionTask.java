@@ -7,7 +7,7 @@ import pl.suseu.bfactions.base.user.User;
 
 public class RegionTask implements Runnable {
 
-    private BFactions plugin;
+    private final BFactions plugin;
 
     public RegionTask(BFactions plugin) {
         this.plugin = plugin;

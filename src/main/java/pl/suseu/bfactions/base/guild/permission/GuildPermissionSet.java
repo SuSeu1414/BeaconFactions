@@ -7,7 +7,6 @@ public class GuildPermissionSet {
 
     private static final int MAX_BITS = 10;
 
-
     private Set<GuildPermission> permissions = ConcurrentHashMap.newKeySet();
 
     public GuildPermissionSet(int data) {
