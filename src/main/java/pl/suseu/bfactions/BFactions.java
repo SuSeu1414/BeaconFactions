@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.rynbou.langapi3.LangAPI;
+import pl.suseu.bfactions.base.guild.GuildDataController;
 import pl.suseu.bfactions.base.guild.GuildRepository;
 import pl.suseu.bfactions.base.region.RegionRepository;
 import pl.suseu.bfactions.base.user.UserDataController;
@@ -24,11 +25,14 @@ public class BFactions extends JavaPlugin {
     private Logger log;
     private LangAPI lang;
 
+    private GuildRepository guildRepository;
+    private GuildDataController guildDataController;
+
     private UserRepository userRepository;
     private UserDataController userDataController;
 
     private RegionRepository regionRepository;
-    private GuildRepository guildRepository;
+
 
     private final ObjectMapper jsonMapper = new ObjectMapper();
 
@@ -56,13 +60,16 @@ public class BFactions extends JavaPlugin {
             return;
         }
 
+        this.guildRepository = new GuildRepository(this);
         this.userRepository = new UserRepository(this);
         this.regionRepository = new RegionRepository(this);
-        this.guildRepository = new GuildRepository(this);
 
+
+        this.guildDataController = new GuildDataController(this);
         this.userDataController = new UserDataController(this);
         //todo more data controlers
-        userDataController.loadUsers();
+        this.userDataController.loadUsers();
+        this.guildDataController.loadGuilds();
 
         int autoSave = getConfig().getInt("mysql.autoSave") * 20;
         getServer().getScheduler().runTaskTimerAsynchronously(this, this::saveData, autoSave, autoSave);
@@ -81,6 +88,7 @@ public class BFactions extends JavaPlugin {
         if (this.database != null && this.database.isInitialized()) {
             this.getLogger().info("Saving data...");
             this.userDataController.saveUsers();
+            this.guildDataController.saveGuilds();
         }
     }
 
