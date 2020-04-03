@@ -2,6 +2,7 @@ package pl.suseu.bfactions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.bukkit.Bukkit;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.rynbou.langapi3.LangAPI;
 import pl.suseu.bfactions.base.field.task.FieldParticleTask;
@@ -16,6 +17,7 @@ import pl.suseu.bfactions.command.MainCommand;
 import pl.suseu.bfactions.database.Database;
 import pl.suseu.bfactions.item.ItemRepository;
 import pl.suseu.bfactions.settings.Settings;
+import pl.suseu.eventwaiter.EventWaiter;
 
 import java.util.logging.Logger;
 
@@ -27,6 +29,7 @@ public class BFactions extends JavaPlugin {
     private Database database;
     private Logger log;
     private LangAPI lang;
+    private EventWaiter eventWaiter;
     private GuildRepository guildRepository;
     private GuildDataController guildDataController;
     private UserRepository userRepository;
@@ -77,6 +80,8 @@ public class BFactions extends JavaPlugin {
 
         getCommand("beaconfactions").setExecutor(new MainCommand(this));
 
+        this.eventWaiter = new EventWaiter(this);
+        this.eventWaiter.addEvents(AsyncPlayerChatEvent.class);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         getServer().getPluginManager().registerEvents(new BeaconPlaceListener(this), this);
 
@@ -126,5 +131,9 @@ public class BFactions extends JavaPlugin {
 
     public ObjectMapper getJsonMapper() {
         return jsonMapper;
+    }
+
+    public EventWaiter getEventWaiter() {
+        return eventWaiter;
     }
 }
