@@ -66,7 +66,7 @@ public class User {
         Location location = player.getLocation();
 
         for (Region region : plugin.getRegionRepository().getRegions()) {
-            if (!region.isIn(location)) {
+            if (!region.isInBorder(location)) {
                 continue;
             }
 
