@@ -89,7 +89,7 @@ public class Guild {
             return false;
         }
 
-        return permissionSet.hasPermission(permission);
+        return this.owner.equals(member) || permissionSet.hasPermission(permission);
     }
 
     public String getName() {
