@@ -38,6 +38,9 @@ field:
     DIAMOND: 100000
     EMERALD: 200000
 
+gui:
+  main-gui-title: '&2%guild%'
+
 
 # Information for the MYSQL data storage:
 #  > hostname - host of the database
