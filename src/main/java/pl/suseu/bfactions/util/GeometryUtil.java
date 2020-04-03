@@ -8,7 +8,7 @@ import java.util.Set;
 public class GeometryUtil {
 
     public static Set<Location> line(Location from, Location to, double density) {
-        Set<Location> locations = new HashSet<>();
+        Set<Location> line = new HashSet<>();
 
         int n = (int) Math.round(density * from.distance(to));
         double x = from.getX(), y = from.getY(), z = from.getZ();
@@ -16,11 +16,63 @@ public class GeometryUtil {
         double dY = (to.getY() - y) / n;
         double dZ = (to.getZ() - z) / n;
 
-        locations.add(from);
+        line.add(from);
         for (int i = 1; i < n; i++) {
-            locations.add(new Location(from.getWorld(), x + i * dX, y + i * dY, z + i * dZ));
+            line.add(new Location(from.getWorld(), x + i * dX, y + i * dY, z + i * dZ));
         }
 
-        return locations;
+        return line;
+    }
+
+    public static Set<Location> circle(Plane plane, Location center, double radius, double density) {
+        return arc(plane, center, radius, density, 0, Math.PI * 2);
+    }
+
+    public static Set<Location> arc(Plane plane, Location center, double radius, double density, double r1, double r2) {
+        Set<Location> circle = new HashSet<>();
+
+        int n = (int) Math.round(density * (r2 - r1) * radius);
+        double arc = 2 * (r2 - r1) / n;
+        double x = 0, y = 0, z = 0;
+
+        for (double angle = r1; angle < r2; angle += arc) {
+            switch (plane) {
+                case X:
+                    y = Math.cos(angle) * radius;
+                    z = Math.sin(angle) * radius;
+                    break;
+                case Y:
+                    x = Math.cos(angle) * radius;
+                    z = Math.sin(angle) * radius;
+                    break;
+                case Z:
+                    x = Math.cos(angle) * radius;
+                    y = Math.sin(angle) * radius;
+                    break;
+            }
+            circle.add(center.clone().add(x, y, z));
+        }
+
+        return circle;
+    }
+
+    public static Set<Location> dome(Location center, double radius, double density) {
+        Set<Location> dome = new HashSet<>();
+
+        Set<Location> base = arc(Plane.Z, center, radius, density, 0, Math.PI / 2);
+        for (Location l : base) {
+            double r = Math.abs(center.getX() - l.getX());
+            double y = Math.abs(center.getY() - l.getY());
+
+            dome.addAll(circle(Plane.Y, center.clone().add(0, y, 0), r, density));
+        }
+
+        return dome;
+    }
+
+    public enum Plane {
+        X,
+        Y,
+        Z
     }
 }

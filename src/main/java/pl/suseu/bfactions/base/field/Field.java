@@ -1,10 +1,12 @@
 package pl.suseu.bfactions.base.field;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.guild.Guild;
+import pl.suseu.bfactions.util.GeometryUtil;
 
-import java.util.UUID;
+import java.util.*;
 
 public class Field {
 
@@ -13,8 +15,96 @@ public class Field {
     private final UUID uuid;
     private Guild guild;
 
+    private final Map<Integer, Set<Location>> border = new HashMap<>();
+    private final Map<Integer, Set<Location>> dome = new HashMap<>();
+
     public Field(UUID uuid) {
         this.uuid = uuid;
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    public void recalculate() {
+        Location center = this.guild.getRegion().getCenter();
+        double radius = this.guild.getRegion().getSize();
+        double density = plugin.getSettings().fieldParticleDensity;
+
+        this.dome.clear();
+        this.border.clear();
+
+        for (int i = 0; i < 256; i++) {
+            border.put(i, new HashSet<>());
+            dome.put(i, new HashSet<>());
+        }
+
+        GeometryUtil.dome(center, radius, density).forEach(this::addDome);
+        Set<Location> circle = GeometryUtil.circle(GeometryUtil.Plane.Y, center, radius, density);
+
+        for (int i = 0; i < 256; i++) {
+            for (Location l : circle) {
+                l.setY(i);
+                addBorder(l.clone());
+            }
+        }
+    }
+
+    public Set<Location> domeInRange(Location location, double range) {
+        Set<Location> toReturn = new HashSet<>();
+
+        int low = (int) (location.getBlockY() - range);
+        int high = (int) (location.getBlockY() + range);
+
+        if (low < 0) {
+            low = 0;
+        }
+        if (high > 255) {
+            high = 255;
+        }
+
+        for (int y = low; y <= high; y++) {
+            for (Location l : dome.get(y)) {
+                if (l.distance(location) < range) {
+                    toReturn.add(l);
+                }
+            }
+        }
+
+        return toReturn;
+    }
+
+    public Set<Location> borderInRange(Location location, double range) {
+        Set<Location> toReturn = new HashSet<>();
+
+        int low = (int) (location.getBlockY() - range);
+        int high = (int) (location.getBlockY() + range);
+
+        if (low < 0) {
+            low = 0;
+        }
+        if (high > 255) {
+            high = 255;
+        }
+
+        for (int y = low; y <= high; y++) {
+            for (Location l : border.get(y)) {
+                if (l.distance(location) < range) {
+                    toReturn.add(l);
+                }
+            }
+        }
+
+        return toReturn;
+    }
+
+    private void addDome(Location location) {
+        int y = location.getBlockY();
+        this.dome.computeIfAbsent(y, k -> new HashSet<>());
+        this.dome.get(y).add(location);
+    }
+
+    private void addBorder(Location location) {
+        int y = location.getBlockY();
+        this.border.computeIfAbsent(y, k -> new HashSet<>());
+        this.border.get(y).add(location);
     }
 
     public UUID getUuid() {
