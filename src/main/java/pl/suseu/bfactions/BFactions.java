@@ -80,7 +80,7 @@ public class BFactions extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         getServer().getPluginManager().registerEvents(new BeaconPlaceListener(this), this);
 
-        getServer().getScheduler().runTaskTimerAsynchronously(this, new FieldParticleTask(this), 5, 5);
+        getServer().getScheduler().runTaskTimerAsynchronously(this, new FieldParticleTask(this), 10, 10);
     }
 
     @Override

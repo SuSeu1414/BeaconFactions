@@ -1,10 +1,12 @@
 package pl.suseu.bfactions.base.field.task;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Color;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import pl.suseu.bfactions.BFactions;
+import pl.suseu.bfactions.base.field.Field;
 import pl.suseu.bfactions.base.region.Region;
 import pl.suseu.bfactions.base.region.RegionRepository;
 import pl.suseu.bfactions.settings.Settings;
@@ -26,9 +28,6 @@ public class FieldParticleTask implements Runnable {
 
     @Override
     public void run() {
-        double density = settings.fieldParticleDensity;
-        double range = settings.fieldParticleRange;
-
         for (Player player : Bukkit.getOnlinePlayers()) {
             Location location = player.getLocation();
             Region closest = regionRepository.nearestRegion(location);
@@ -37,11 +36,20 @@ public class FieldParticleTask implements Runnable {
                 continue;
             }
 
-            Set<Location> particles = locationsInRange(closest.walls(density), location, range);
+            Field field = closest.getGuild().getField();
+            Set<Location> border = field.borderInRange(location, 10);
+            Set<Location> dome = field.domeInRange(location, 30);
+
+            Particle.DustOptions red = new Particle.DustOptions(Color.RED, 1);
+            Particle.DustOptions green = new Particle.DustOptions(Color.GREEN, 1);
+            Particle.DustOptions blue = new Particle.DustOptions(Color.BLUE, 1);
 
             this.plugin.getServer().getScheduler().runTask(this.plugin, () -> {
-                for (Location particle : particles) {
-                    player.spawnParticle(Particle.REDSTONE, particle, 1);
+                for (Location particle : border) {
+                    player.spawnParticle(Particle.REDSTONE, particle, 1, red);
+                }
+                for (Location particle : dome) {
+                    player.spawnParticle(Particle.REDSTONE, particle, 1, blue);
                 }
             });
 
