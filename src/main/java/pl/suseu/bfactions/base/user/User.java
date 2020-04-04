@@ -111,4 +111,19 @@ public class User {
     public void removeProjectile(UUID uuid) {
         this.projectiles.remove(uuid);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        return uuid.equals(user.uuid);
+    }
+
+    @Override
+    public int hashCode() {
+        return uuid.hashCode();
+    }
 }
