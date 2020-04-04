@@ -85,11 +85,7 @@ public class Guild {
 
     public boolean hasPermission(User member, GuildPermission permission) {
         GuildPermissionSet permissionSet = this.permissions.get(member);
-        if (permissionSet == null) {
-            return false;
-        }
-
-        return this.owner.equals(member) || permissionSet.hasPermission(permission);
+        return this.owner.equals(member) || (permissionSet != null && permissionSet.hasPermission(permission));
     }
 
     public String getName() {
