@@ -80,7 +80,7 @@ public class BFactions extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         getServer().getPluginManager().registerEvents(new BeaconPlaceListener(this), this);
 
-        getServer().getScheduler().runTaskTimerAsynchronously(this, new FieldParticleTask(this), 10, 10);
+        getServer().getScheduler().runTaskTimerAsynchronously(this, new FieldParticleTask(this), 5, 5);
     }
 
     @Override
@@ -90,7 +90,7 @@ public class BFactions extends JavaPlugin {
 
     private void saveData() {
         if (this.database != null && this.database.isInitialized()) {
-            this.getLogger().info("Saving data...");
+            this.log.info("Saving data...");
             this.userDataController.saveUsers();
             this.guildDataController.saveGuilds();
         }
