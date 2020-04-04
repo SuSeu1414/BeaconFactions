@@ -1,0 +1,36 @@
+package pl.suseu.bfactions.gui.listener;
+
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
+import pl.suseu.bfactions.gui.CustomInventoryHolder;
+
+public class InventoryClickListener implements Listener {
+
+    @EventHandler
+    public void onClick(InventoryClickEvent event) {
+        Inventory inv = event.getInventory();
+
+//        if (inv == null) {
+//            return;
+//        }
+
+        InventoryHolder inventoryHolder = inv.getHolder();
+
+        if (inventoryHolder == null) {
+            return;
+        }
+
+        if (!(inventoryHolder instanceof CustomInventoryHolder)) {
+            return;
+        }
+
+        CustomInventoryHolder holder = (CustomInventoryHolder) inventoryHolder;
+
+        holder.getAction(event.getRawSlot()).execute(((Player) event.getWhoClicked()));
+    }
+
+}
