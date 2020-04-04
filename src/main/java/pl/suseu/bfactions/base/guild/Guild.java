@@ -120,6 +120,10 @@ public class Guild {
         return field;
     }
 
+    public boolean isMember(User user) {
+        return user.getGuilds().contains(this);
+    }
+
     public String getMembersSerialized() {
         if (plugin == null) {
             return "null";
