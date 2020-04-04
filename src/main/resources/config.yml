@@ -18,11 +18,11 @@ cuboid:
 
 field:
   #density of the dome
-  dome-particle-density: 10
+  dome-particle-density: 1
   #amount of blocks from which the dome is visible
   dome-render-distance: 30
   #density of the wall
-  wall-particle-density: 10
+  wall-particle-density: 2
   #amount of blocks from which the wall is visible
   wall-render-distance: 5
   #initial HP of the field
