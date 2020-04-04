@@ -33,6 +33,9 @@ public class GuildRepository {
 
     public Guild getGuildByBeaconLocation(Location location) {
         for (Guild g : this.getGuilds()) {
+            if (g.getRegion() == null) {
+                continue;
+            }
             Location beacon = g.getRegion().getCenter();
             if (location.getBlockX() == beacon.getBlockX()
                     && location.getBlockY() == beacon.getBlockY()
