@@ -23,7 +23,7 @@ public class FieldParticleTask implements Runnable {
     public FieldParticleTask(BFactions plugin) {
         this.plugin = plugin;
         this.regionRepository = this.plugin.getRegionRepository();
-        this.settings = plugin.getSettings();
+        this.settings = this.plugin.getSettings();
     }
 
     @Override
@@ -37,8 +37,8 @@ public class FieldParticleTask implements Runnable {
             }
 
             Field field = closest.getGuild().getField();
-            Set<Location> border = field.borderInRange(location, 10);
-            Set<Location> dome = field.domeInRange(location, 30);
+            Set<Location> border = field.borderInRange(location, settings.fieldWallDistance);
+            Set<Location> dome = field.domeInRange(location, settings.fieldDomeDistance);
 
             Particle.DustOptions red = new Particle.DustOptions(Color.RED, 1);
             Particle.DustOptions green = new Particle.DustOptions(Color.GREEN, 1);
@@ -52,7 +52,6 @@ public class FieldParticleTask implements Runnable {
                     player.spawnParticle(Particle.REDSTONE, particle, 1, blue);
                 }
             });
-
         }
     }
 

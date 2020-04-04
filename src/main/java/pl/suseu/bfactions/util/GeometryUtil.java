@@ -31,8 +31,8 @@ public class GeometryUtil {
     public static Set<Location> arc(Plane plane, Location center, double radius, double density, double r1, double r2) {
         Set<Location> circle = new HashSet<>();
 
-        int n = (int) Math.round(density * (r2 - r1) * radius);
-        double arc = 2 * (r2 - r1) / n;
+        double n = density * (r2 - r1) * radius;
+        double arc = (r2 - r1) / n;
         double x = 0, y = 0, z = 0;
 
         for (double angle = r1; angle < r2; angle += arc) {
@@ -68,6 +68,23 @@ public class GeometryUtil {
         }
 
         return dome;
+    }
+
+    public static Set<Location> roller(Location center, double radius, double minY, double maxY, double density) {
+        Set<Location> roller = new HashSet<>();
+
+        Location centerY0 = center.clone();
+        centerY0.setY(0);
+
+        Set<Location> base = circle(Plane.Y, centerY0, radius, density);
+        for (Location l1 : base) {
+            Location l2 = l1.clone();
+            l2.setY(255);
+
+            roller.addAll(line(l1, l2, density));
+        }
+
+        return roller;
     }
 
     public enum Plane {

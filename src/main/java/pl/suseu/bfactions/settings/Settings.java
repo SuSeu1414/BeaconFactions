@@ -22,8 +22,10 @@ public class Settings {
     public int cuboidSizeInitial;
     public int cuboidDistanceMin;
 
-    public double fieldParticleDensity;
-    public double fieldParticleRange;
+    public double fieldDomeDensity;
+    public double fieldDomeDistance;
+    public double fieldWallDensity;
+    public double fieldWallDistance;
     public double fieldEnergyInitial;
     public double fieldPassiveDrainAmount;
     public int fieldPassiveDrainDelay;
@@ -56,8 +58,10 @@ public class Settings {
         cuboidSizeInitial = cfg.getInt("cuboid.initial-size");
         cuboidDistanceMin = cfg.getInt("cuboid.minimum-distance");
 
-        fieldParticleDensity = cfg.getDouble("field.particle-density");
-        fieldParticleRange = cfg.getDouble("field.particle-visibility");
+        fieldDomeDensity = cfg.getDouble("field.dome-particle-density");
+        fieldDomeDistance = cfg.getDouble("field.dome-render-distance");
+        fieldWallDensity = cfg.getDouble("field.wall-particle-density");
+        fieldWallDistance = cfg.getDouble("field.wall-render-distance");
         fieldEnergyInitial = cfg.getDouble("field.initial-energy");
         fieldPassiveDrainAmount = cfg.getDouble("field.passive-drain-amount");
         fieldPassiveDrainDelay = cfg.getInt("field.passive-drain-delay");
@@ -131,16 +135,28 @@ public class Settings {
         } else {
             ConfigurationSection section = cfg.getConfigurationSection("field");
 
-            if (!section.isDouble("particle-density")
-                    && !section.isInt("particle-density")
-                    && !section.isLong("particle-density")) {
-                log.warning("Configuration (field): Missing/Invalid 'particle-density' entry!");
+            if (!section.isDouble("dome-particle-density")
+                    && !section.isInt("dome-particle-density")
+                    && !section.isLong("dome-particle-density")) {
+                log.warning("Configuration (field): Missing/Invalid 'dome-particle-density' entry!");
                 success = false;
             }
-            if (!section.isDouble("particle-visibility")
-                    && !section.isInt("particle-visibility")
-                    && !section.isLong("particle-visibility")) {
-                log.warning("Configuration (field): Missing/Invalid 'particle-visibility' entry!");
+            if (!section.isDouble("dome-render-distance")
+                    && !section.isInt("dome-render-distance")
+                    && !section.isLong("dome-render-distance")) {
+                log.warning("Configuration (field): Missing/Invalid 'dome-render-distance' entry!");
+                success = false;
+            }
+            if (!section.isDouble("wall-particle-density")
+                    && !section.isInt("wall-particle-density")
+                    && !section.isLong("wall-particle-density")) {
+                log.warning("Configuration (field): Missing/Invalid 'wall-particle-density' entry!");
+                success = false;
+            }
+            if (!section.isDouble("wall-render-distance")
+                    && !section.isInt("wall-render-distance")
+                    && !section.isLong("wall-render-distance")) {
+                log.warning("Configuration (field): Missing/Invalid 'wall-render-distance' entry!");
                 success = false;
             }
             if (!section.isDouble("initial-energy")

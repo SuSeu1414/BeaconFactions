@@ -12,15 +12,19 @@ guild:
 
 cuboid:
   #initial size the cuboids are created with
-  initial-size: 50
+  initial-size: 20
   #minimum distance between cuboids in X/Y axis
   minimum-distance: 200
 
 field:
-  #density of particles
-  particle-density: 10
-  #amount of blocks from which the field is visible
-  particle-visibility: 100
+  #density of the dome
+  dome-particle-density: 1
+  #amount of blocks from which the dome is visible
+  dome-render-distance: 30
+  #density of the wall
+  wall-particle-density: 2
+  #amount of blocks from which the wall is visible
+  wall-render-distance: 5
   #initial HP of the field
   initial-energy: 10000000
   #amount of energy to be subtracted
