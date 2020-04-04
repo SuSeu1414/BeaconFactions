@@ -8,6 +8,7 @@ import pl.rynbou.langapi3.LangAPI;
 import pl.suseu.bfactions.base.field.task.FieldParticleTask;
 import pl.suseu.bfactions.base.guild.GuildDataController;
 import pl.suseu.bfactions.base.guild.GuildRepository;
+import pl.suseu.bfactions.base.guild.listener.BeaconClickListener;
 import pl.suseu.bfactions.base.guild.listener.BeaconPlaceListener;
 import pl.suseu.bfactions.base.region.RegionRepository;
 import pl.suseu.bfactions.base.user.UserDataController;
@@ -15,6 +16,7 @@ import pl.suseu.bfactions.base.user.UserRepository;
 import pl.suseu.bfactions.base.user.listener.PlayerJoinListener;
 import pl.suseu.bfactions.command.MainCommand;
 import pl.suseu.bfactions.database.Database;
+import pl.suseu.bfactions.gui.listener.InventoryClickListener;
 import pl.suseu.bfactions.item.ItemRepository;
 import pl.suseu.bfactions.settings.Settings;
 import pl.suseu.eventwaiter.EventWaiter;
@@ -84,6 +86,9 @@ public class BFactions extends JavaPlugin {
         this.eventWaiter.addEvents(AsyncPlayerChatEvent.class);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         getServer().getPluginManager().registerEvents(new BeaconPlaceListener(this), this);
+        getServer().getPluginManager().registerEvents(new BeaconClickListener(this), this);
+        getServer().getPluginManager().registerEvents(new InventoryClickListener(), this);
+
 
         getServer().getScheduler().runTaskTimerAsynchronously(this, new FieldParticleTask(this), 5, 5);
     }
