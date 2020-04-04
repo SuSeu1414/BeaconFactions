@@ -37,7 +37,7 @@ public class FieldParticleTask implements Runnable {
             }
 
             Field field = closest.getGuild().getField();
-            Set<Location> border = field.borderInRange(location, settings.fieldWallDistance);
+            Set<Location> border = field.borderInRange(location, settings.fieldBorderDistance);
             Set<Location> dome = field.domeInRange(location, settings.fieldDomeDistance);
 
             Particle.DustOptions red = new Particle.DustOptions(Color.RED, 1);

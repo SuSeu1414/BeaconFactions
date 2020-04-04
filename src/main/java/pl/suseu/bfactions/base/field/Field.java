@@ -38,7 +38,7 @@ public class Field {
         }
 
         GeometryUtil.dome(center, radius, settings.fieldDomeDensity).forEach(this::addDome);
-        GeometryUtil.roller(center, radius, 0, 255, settings.fieldWallDensity).forEach(this::addBorder);
+        GeometryUtil.roller(center, radius, 0, 255, settings.fieldBorderDensity).forEach(this::addBorder);
     }
 
     public Set<Location> domeInRange(Location location, double range) {

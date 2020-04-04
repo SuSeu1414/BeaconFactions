@@ -24,8 +24,8 @@ public class Settings {
 
     public double fieldDomeDensity;
     public double fieldDomeDistance;
-    public double fieldWallDensity;
-    public double fieldWallDistance;
+    public double fieldBorderDensity;
+    public double fieldBorderDistance;
     public double fieldEnergyInitial;
     public double fieldPassiveDrainAmount;
     public int fieldPassiveDrainDelay;
@@ -60,8 +60,8 @@ public class Settings {
 
         fieldDomeDensity = cfg.getDouble("field.dome-particle-density");
         fieldDomeDistance = cfg.getDouble("field.dome-render-distance");
-        fieldWallDensity = cfg.getDouble("field.wall-particle-density");
-        fieldWallDistance = cfg.getDouble("field.wall-render-distance");
+        fieldBorderDensity = cfg.getDouble("field.border-particle-density");
+        fieldBorderDistance = cfg.getDouble("field.border-render-distance");
         fieldEnergyInitial = cfg.getDouble("field.initial-energy");
         fieldPassiveDrainAmount = cfg.getDouble("field.passive-drain-amount");
         fieldPassiveDrainDelay = cfg.getInt("field.passive-drain-delay");
