@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.guild.Guild;
+import pl.suseu.bfactions.settings.Settings;
 import pl.suseu.bfactions.util.GeometryUtil;
 
 import java.util.*;
@@ -24,9 +25,9 @@ public class Field {
 
     @SuppressWarnings("ConstantConditions")
     public void recalculate() {
+        Settings settings = plugin.getSettings();
         Location center = this.guild.getRegion().getCenter();
         double radius = this.guild.getRegion().getSize();
-        double density = plugin.getSettings().fieldParticleDensity;
 
         this.dome.clear();
         this.border.clear();
@@ -36,15 +37,8 @@ public class Field {
             dome.put(i, new HashSet<>());
         }
 
-        GeometryUtil.dome(center, radius, density).forEach(this::addDome);
-        Set<Location> circle = GeometryUtil.circle(GeometryUtil.Plane.Y, center, radius, density);
-
-        for (int i = 0; i < 256; i++) {
-            for (Location l : circle) {
-                l.setY(i);
-                addBorder(l.clone());
-            }
-        }
+        GeometryUtil.dome(center, radius, settings.fieldDomeDensity).forEach(this::addDome);
+        GeometryUtil.roller(center, radius, 0, 255, settings.fieldWallDensity).forEach(this::addBorder);
     }
 
     public Set<Location> domeInRange(Location location, double range) {
