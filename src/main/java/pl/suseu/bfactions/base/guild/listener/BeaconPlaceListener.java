@@ -23,7 +23,7 @@ public class BeaconPlaceListener implements Listener {
 
     @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
-        //todo multiple checks (weather player has a guild etc)
+        //todo multiple checks (whether player has a guild etc)
 
         if (!event.getBlock().getType().equals(Material.BEACON)) { //todo check name, lore etc
             return;
