@@ -28,6 +28,8 @@ public class InventoryClickListener implements Listener {
             return;
         }
 
+        event.setCancelled(true);
+
         CustomInventoryHolder holder = (CustomInventoryHolder) inventoryHolder;
 
         holder.getAction(event.getRawSlot()).execute(((Player) event.getWhoClicked()));
