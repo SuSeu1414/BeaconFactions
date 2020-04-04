@@ -29,13 +29,13 @@ public class GeometryUtil {
     }
 
     public static Set<Location> arc(Plane plane, Location center, double radius, double density, double r1, double r2) {
-        Set<Location> circle = new HashSet<>();
+        Set<Location> arc = new HashSet<>();
 
-        double n = density * (r2 - r1) * radius;
-        double arc = (r2 - r1) / n;
+        int n = (int) Math.ceil(2 * Math.PI * radius * density);
+        double rad = 2 * Math.PI / n;
         double x = 0, y = 0, z = 0;
 
-        for (double angle = r1; angle < r2; angle += arc) {
+        for (double angle = r1; angle < r2; angle += rad) {
             switch (plane) {
                 case X:
                     y = Math.cos(angle) * radius;
@@ -50,10 +50,10 @@ public class GeometryUtil {
                     y = Math.sin(angle) * radius;
                     break;
             }
-            circle.add(center.clone().add(x, y, z));
+            arc.add(center.clone().add(x, y, z));
         }
 
-        return circle;
+        return arc;
     }
 
     public static Set<Location> dome(Location center, double radius, double density) {
@@ -74,12 +74,12 @@ public class GeometryUtil {
         Set<Location> roller = new HashSet<>();
 
         Location centerY0 = center.clone();
-        centerY0.setY(0);
+        centerY0.setY(minY);
 
         Set<Location> base = circle(Plane.Y, centerY0, radius, density);
         for (Location l1 : base) {
             Location l2 = l1.clone();
-            l2.setY(255);
+            l2.setY(maxY);
 
             roller.addAll(line(l1, l2, density));
         }
