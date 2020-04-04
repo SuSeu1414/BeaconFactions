@@ -1,5 +1,6 @@
 package pl.suseu.bfactions.base.guild;
 
+import org.bukkit.Location;
 import pl.suseu.bfactions.BFactions;
 
 import java.util.HashSet;
@@ -28,6 +29,21 @@ public class GuildRepository {
 
     public Guild getGuild(UUID uuid) {
         return this.guilds.get(uuid);
+    }
+
+    public Guild getGuildByBeaconLocation(Location location) {
+        for (Guild g : this.getGuilds()) {
+            if (g.getRegion() == null) {
+                continue;
+            }
+            Location beacon = g.getRegion().getCenter();
+            if (location.getBlockX() == beacon.getBlockX()
+                    && location.getBlockY() == beacon.getBlockY()
+                    && location.getBlockZ() == beacon.getBlockZ()) {
+                return g;
+            }
+        }
+        return null;
     }
 
     public void addModifiedGuild(Guild guild) {

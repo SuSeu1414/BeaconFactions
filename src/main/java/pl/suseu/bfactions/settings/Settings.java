@@ -1,5 +1,6 @@
 package pl.suseu.bfactions.settings;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -9,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+@SuppressWarnings("ConstantConditions")
 public class Settings {
 
     public int guildNameMaxLength;
@@ -31,9 +33,10 @@ public class Settings {
     public double fieldDamageTNT;
     public Map<Material, Double> fieldEnergyConversions = new HashMap<>();
 
-    private BFactions plugin;
-    private FileConfiguration cfg;
-    private Logger log;
+    private final BFactions plugin;
+    private final FileConfiguration cfg;
+    private final Logger log;
+    public String guiMainTitle;
 
     public Settings(BFactions plugin) {
         this.plugin = plugin;
@@ -73,6 +76,8 @@ public class Settings {
 
             fieldEnergyConversions.put(material, energy);
         }
+
+        guiMainTitle = ChatColor.translateAlternateColorCodes('&', cfg.getString("gui.main-gui-title"));
 
         return true;
     }
@@ -197,9 +202,20 @@ public class Settings {
                             && !conversionsSection.isLong(materialName))) {
                         log.warning("Configuration (field.energy-fuel): Invalid '" + materialName + "'");
                         success = false;
-                        continue;
                     }
                 }
+            }
+        }
+
+        if (!cfg.isConfigurationSection("gui")) {
+            log.warning("Configuration: Missing 'gui' section!");
+            success = false;
+        } else {
+            ConfigurationSection section = cfg.getConfigurationSection("gui");
+
+            if (!section.isString("main-gui-title")) {
+                log.warning("Configuration (gui): Missing/Invalid 'main-gui-title' entry!");
+                success = false;
             }
         }
 
