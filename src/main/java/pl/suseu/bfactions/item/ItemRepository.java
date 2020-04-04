@@ -7,6 +7,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import pl.suseu.bfactions.BFactions;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -24,19 +25,24 @@ public class ItemRepository {
     }
 
     public ItemStack getItem(String name) {
-        items.computeIfAbsent(name, item -> {
-            ItemStack result = new ItemStack(Material.COMMAND_BLOCK);
-            ItemMeta meta = result.getItemMeta();
-            if (meta == null) {
-                return result;
-            }
-            meta.setDisplayName(name);
-            result.setItemMeta(meta);
-            addItem(name, result);
-            return result;
-        });
+        ItemStack itemStack = items.get(name);
+        if (itemStack == null) {
+            return getDefaultItem(name);
+        }
+        return itemStack;
+    }
 
-        return items.get(name);
+    private ItemStack getDefaultItem(String name) {
+        ItemStack result = new ItemStack(Material.COMMAND_BLOCK);
+        ItemMeta meta = result.getItemMeta();
+        if (meta == null) {
+            return result;
+        }
+        meta.setDisplayName("Default (" + name + ")");
+        meta.setLore(Arrays.asList("To set this item use", "/bfactions setitem " + name));
+        result.setItemMeta(meta);
+        addItem(name, result);
+        return result;
     }
 
     public boolean save() {
