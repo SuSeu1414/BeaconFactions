@@ -40,8 +40,8 @@ public class ChangeGuildNameAction implements ClickAction {
             return;
         }
 
+        whoClicked.closeInventory();
         lang.sendMessage("type-new-guild-name-in-chat", whoClicked);
-
         this.eventWaiter.waitForEvent(AsyncPlayerChatEvent.class, EventPriority.NORMAL,
                 event -> event.getPlayer().equals(whoClicked),
                 event -> {
@@ -50,6 +50,7 @@ public class ChangeGuildNameAction implements ClickAction {
                     this.guild.setName(newName);
                     this.guildRepository.addModifiedGuild(this.guild);
                     this.lang.sendMessage("guild-name-changed", whoClicked);
+                    event.setCancelled(true);
                 }, 20 * 30, () -> {
                     this.lang.sendMessage("guild-name-listener-timed-out", whoClicked);
                 });
