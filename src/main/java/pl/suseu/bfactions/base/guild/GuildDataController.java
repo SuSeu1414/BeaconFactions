@@ -35,6 +35,7 @@ public class GuildDataController {
             }
         }
 
+        this.plugin.getGuildRepository().clearModifiedGuilds();
         plugin.getLogger().info("Saved " + success + " guilds successfully.");
         if (failure.get() != 0) {
             plugin.getLogger().warning("Failed to save " + failure + " guilds!");
