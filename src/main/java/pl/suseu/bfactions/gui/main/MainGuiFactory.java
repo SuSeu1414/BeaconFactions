@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.guild.Guild;
 import pl.suseu.bfactions.gui.CustomInventoryHolder;
+import pl.suseu.bfactions.gui.action.ChangeGuildNameAction;
 import pl.suseu.bfactions.gui.action.OpenInvitesGuiAction;
 import pl.suseu.bfactions.gui.action.OpenManagePermissionsGuiAction;
 import pl.suseu.bfactions.item.ItemRepository;
@@ -38,6 +39,7 @@ public class MainGuiFactory {
         holder.set(23, managePermissionsItem, new OpenManagePermissionsGuiAction(this.plugin, guild));
 
         ItemStack changeNameItem = this.itemRepository.getItem("change-name");
+        holder.set(32, changeNameItem, new ChangeGuildNameAction(plugin, guild));
 
         ItemStack book1 = this.itemRepository.getItem("main-book-1");
         ItemStack book2 = this.itemRepository.getItem("main-book-2");
