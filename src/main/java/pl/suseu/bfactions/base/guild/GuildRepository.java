@@ -54,6 +54,10 @@ public class GuildRepository {
         this.modifiedGuilds.add(uuid);
     }
 
+    public void clearModifiedGuilds() {
+        this.modifiedGuilds.clear();
+    }
+
     /**
      * @return a copy of guilds set
      */
