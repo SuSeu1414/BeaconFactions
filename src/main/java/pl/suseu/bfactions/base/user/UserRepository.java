@@ -38,6 +38,15 @@ public class UserRepository {
         return user;
     }
 
+    public User getUserByName(String name) {
+        for (User user : this.getUsers()) {
+            if (user.getName().equalsIgnoreCase(name)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
     public void addModifiedUser(User user) {
         this.addModifiedUser(user.getUuid());
     }
