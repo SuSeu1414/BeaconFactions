@@ -1,4 +1,4 @@
-package pl.suseu.bfactions.database;
+package pl.suseu.bfactions.data.database;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.bukkit.configuration.file.FileConfiguration;

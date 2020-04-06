@@ -1,8 +1,9 @@
-package pl.suseu.bfactions.base.guild;
+package pl.suseu.bfactions.data;
 
 import pl.suseu.bfactions.BFactions;
+import pl.suseu.bfactions.base.guild.Guild;
 import pl.suseu.bfactions.base.user.User;
-import pl.suseu.bfactions.database.Database;
+import pl.suseu.bfactions.data.database.Database;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
