@@ -21,6 +21,7 @@ public class Guild {
     private final Region region;
     private final Field field;
     private final Set<User> members = ConcurrentHashMap.newKeySet();
+    private final Set<User> invitedMembers = ConcurrentHashMap.newKeySet();
     private final Map<User, GuildPermissionSet> permissions = new ConcurrentHashMap<>();
     private String name;
     private User owner;
@@ -63,6 +64,18 @@ public class Guild {
         if (user != null) {
             user.removeGuild(this);
         }
+    }
+
+    public void addInvitedMember(User user) {
+        this.invitedMembers.add(user);
+    }
+
+    public void removeInvitedMember(User user) {
+        this.invitedMembers.remove(user);
+    }
+
+    public Set<User> getInvitedMembers() {
+        return new HashSet<>(this.invitedMembers);
     }
 
     public void addMemberPermission(User member, GuildPermission permission) {
