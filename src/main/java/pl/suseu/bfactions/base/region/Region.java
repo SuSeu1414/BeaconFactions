@@ -1,6 +1,7 @@
 package pl.suseu.bfactions.base.region;
 
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import pl.suseu.bfactions.base.guild.Guild;
 
 import java.util.UUID;
@@ -17,6 +18,11 @@ public class Region {
         this.uuid = uuid;
         this.center = center;
         this.size = size;
+    }
+
+    public void teleportToSafety(Player player) {
+        //TODO find safe location outside the region
+        player.teleport(player.getWorld().getSpawnLocation());
     }
 
     public boolean isInBorder(Location location) {

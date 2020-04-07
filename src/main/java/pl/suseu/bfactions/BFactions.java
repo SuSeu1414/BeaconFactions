@@ -5,12 +5,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.rynbou.langapi3.LangAPI;
+import pl.suseu.bfactions.base.field.listener.PlayerRegionChangeListener;
+import pl.suseu.bfactions.base.field.listener.PlayerRegionTeleportListener;
 import pl.suseu.bfactions.base.field.task.FieldParticleTask;
 import pl.suseu.bfactions.base.guild.GuildDataController;
 import pl.suseu.bfactions.base.guild.GuildRepository;
 import pl.suseu.bfactions.base.guild.listener.BeaconClickListener;
 import pl.suseu.bfactions.base.guild.listener.BeaconPlaceListener;
 import pl.suseu.bfactions.base.region.RegionRepository;
+import pl.suseu.bfactions.base.region.listener.PlayerMoveListener;
+import pl.suseu.bfactions.base.region.task.UserLocationTask;
 import pl.suseu.bfactions.base.user.UserDataController;
 import pl.suseu.bfactions.base.user.UserRepository;
 import pl.suseu.bfactions.base.user.listener.PlayerJoinListener;
@@ -88,9 +92,14 @@ public class BFactions extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BeaconPlaceListener(this), this);
         getServer().getPluginManager().registerEvents(new BeaconClickListener(this), this);
         getServer().getPluginManager().registerEvents(new InventoryClickListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerRegionTeleportListener(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerRegionChangeListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerMoveListener(this), this);
 
-
-        getServer().getScheduler().runTaskTimerAsynchronously(this, new FieldParticleTask(this), 5, 5);
+        getServer().getScheduler().runTaskTimerAsynchronously(this,
+                new FieldParticleTask(this), 5, 5);
+        getServer().getScheduler().runTaskTimerAsynchronously(this,
+                new UserLocationTask(this), 1, 1);
     }
 
     @Override
