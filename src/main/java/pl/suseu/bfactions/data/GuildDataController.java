@@ -1,7 +1,9 @@
 package pl.suseu.bfactions.data;
 
 import pl.suseu.bfactions.BFactions;
+import pl.suseu.bfactions.base.field.Field;
 import pl.suseu.bfactions.base.guild.Guild;
+import pl.suseu.bfactions.base.region.Region;
 import pl.suseu.bfactions.base.user.User;
 import pl.suseu.bfactions.data.database.Database;
 
@@ -15,9 +17,13 @@ public class GuildDataController {
     private final BFactions plugin;
     private final Database database;
 
+    private final RegionDataController regionDataController;
+
     public GuildDataController(BFactions plugin) {
         this.plugin = plugin;
         this.database = plugin.getDatabase();
+
+        this.regionDataController = new RegionDataController(plugin);
     }
 
     public boolean saveGuilds() {
@@ -28,8 +34,9 @@ public class GuildDataController {
         AtomicInteger success = new AtomicInteger();
         AtomicInteger failure = new AtomicInteger();
 
-        for (Guild user : this.plugin.getGuildRepository().getModifiedGuilds()) {
-            if (this.saveGuild(user)) {
+        for (Guild guild : this.plugin.getGuildRepository().getModifiedGuilds()) {
+            this.regionDataController.saveRegion(guild.getRegion());
+            if (this.saveGuild(guild)) {
                 success.getAndIncrement();
             } else {
                 failure.getAndIncrement();
@@ -45,6 +52,8 @@ public class GuildDataController {
     }
 
     public boolean loadGuilds() {
+        this.regionDataController.loadRegions();
+
         if (!createTable()) {
             return false;
         }
@@ -107,11 +116,20 @@ public class GuildDataController {
         UUID ownerUUID = UUID.fromString(ownerString);
 
         User owner = plugin.getUserRepository().getUser(ownerUUID);
-        //todo load region and field
-        Guild guild = new Guild(uuid, name, owner, null, null);
+        Region region = this.plugin.getRegionRepository().getRegion(uuid);
+
+        if (region == null) {
+            this.plugin.getLogger().warning("Cannot find region for guild with uuid " + uuidString);
+            return false;
+        }
+
+        Field field = new Field(uuid);
+        Guild guild = new Guild(uuid, name, owner, region, field);
         guild.setMembersFromJson(membersString);
         guild.setPermissionsFromJson(permissionsString);
         plugin.getGuildRepository().addGuild(guild, false);
+
+        field.recalculate();
 
         return true;
     }

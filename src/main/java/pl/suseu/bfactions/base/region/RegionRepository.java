@@ -4,14 +4,16 @@ import org.bukkit.Location;
 import pl.suseu.bfactions.BFactions;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class RegionRepository {
 
     private final BFactions plugin;
 
-    private final Set<Region> regions = ConcurrentHashMap.newKeySet();
+    private final Map<UUID, Region> regions = new ConcurrentHashMap<>();
 
     public RegionRepository(BFactions plugin) {
         this.plugin = plugin;
@@ -35,18 +37,22 @@ public class RegionRepository {
         return nearest;
     }
 
+    public Region getRegion(UUID uuid) {
+        return this.regions.get(uuid);
+    }
+
     public void addRegion(Region region) {
-        regions.add(region);
+        regions.put(region.getUuid(), region);
     }
 
     public void removeRegion(Region region) {
-        regions.remove(region);
+        regions.remove(region.getUuid());
     }
 
     /**
      * @return a copy of regions set
      */
     public Set<Region> getRegions() {
-        return new HashSet<>(regions);
+        return new HashSet<>(regions.values());
     }
 }
