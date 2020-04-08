@@ -21,7 +21,7 @@ public class ItemRepository {
     }
 
     public void addItem(String name, ItemStack item) {
-        items.put(name, item);
+        items.put(name, item.clone());
     }
 
     public ItemStack getItem(String name) {
@@ -29,7 +29,7 @@ public class ItemRepository {
         if (itemStack == null) {
             return getDefaultItem(name);
         }
-        return itemStack;
+        return itemStack.clone();
     }
 
     private ItemStack getDefaultItem(String name) {
@@ -42,7 +42,7 @@ public class ItemRepository {
         meta.setLore(Arrays.asList("To set this item use", "/bfactions setitem " + name));
         result.setItemMeta(meta);
         addItem(name, result);
-        return result;
+        return result.clone();
     }
 
     public boolean save() {
