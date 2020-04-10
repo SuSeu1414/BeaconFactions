@@ -9,6 +9,7 @@ import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.field.Field;
 import pl.suseu.bfactions.base.region.Region;
 import pl.suseu.bfactions.base.region.RegionRepository;
+import pl.suseu.bfactions.base.user.User;
 import pl.suseu.bfactions.settings.Settings;
 
 import java.util.HashSet;
@@ -36,20 +37,29 @@ public class FieldParticleTask implements Runnable {
                 continue;
             }
 
+            User user = plugin.getUserRepository().getUser(player.getUniqueId());
             Field field = closest.getGuild().getField();
-            Set<Location> border = field.borderInRange(location, settings.fieldBorderDistance);
+
+            Particle.DustOptions borderOptions =
+                    new Particle.DustOptions(closest.getGuild().isMember(user) ? Color.GREEN : Color.RED, 1);
+            Particle.DustOptions domeOptions =
+                    new Particle.DustOptions(Color.BLUE, 1);
+
             Set<Location> dome = field.domeInRange(location, settings.fieldDomeDistance);
+            this.plugin.getServer().getScheduler().runTask(this.plugin, () -> {
+                for (Location particle : dome) {
+                    player.spawnParticle(Particle.REDSTONE, particle, 1, domeOptions);
+                }
+            });
 
-            Particle.DustOptions red = new Particle.DustOptions(Color.RED, 1);
-            Particle.DustOptions green = new Particle.DustOptions(Color.GREEN, 1);
-            Particle.DustOptions blue = new Particle.DustOptions(Color.BLUE, 1);
+            if (closest.isInDome(location)) {
+                return;
+            }
 
+            Set<Location> border = field.borderInRange(location, settings.fieldBorderDistance);
             this.plugin.getServer().getScheduler().runTask(this.plugin, () -> {
                 for (Location particle : border) {
-                    player.spawnParticle(Particle.REDSTONE, particle, 1, red);
-                }
-                for (Location particle : dome) {
-                    player.spawnParticle(Particle.REDSTONE, particle, 1, blue);
+                    player.spawnParticle(Particle.REDSTONE, particle, 1, borderOptions);
                 }
             });
         }
