@@ -32,6 +32,12 @@ public class PlayerMoveInRegionListener implements Listener {
 
         Location from = event.getRegion().getCenter().clone();
         Location to = event.getFrom();
+        if (from.getX() == to.getX()) {
+            to.add(1, 0, 0);
+        }
+        if (from.getZ() == to.getZ()) {
+            to.add(0, 0, 1);
+        }
         if (!user.getCurrentRegion().isInBorder(from)) {
             return;
         }
