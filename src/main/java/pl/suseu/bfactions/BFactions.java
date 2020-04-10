@@ -5,6 +5,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.rynbou.langapi3.LangAPI;
+import pl.suseu.bfactions.base.field.listener.EntityExplodeListener;
+import pl.suseu.bfactions.base.field.listener.EntityRegionChangeListener;
 import pl.suseu.bfactions.base.field.listener.PlayerRegionChangeListener;
 import pl.suseu.bfactions.base.field.listener.PlayerRegionTeleportListener;
 import pl.suseu.bfactions.base.field.task.FieldParticleTask;
@@ -96,6 +98,8 @@ public class BFactions extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerRegionTeleportListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerRegionChangeListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerMoveListener(this), this);
+        getServer().getPluginManager().registerEvents(new EntityExplodeListener(this), this);
+        getServer().getPluginManager().registerEvents(new EntityRegionChangeListener(this), this);
 
         getServer().getScheduler().runTaskTimerAsynchronously(this,
                 new FieldParticleTask(this), 5, 5);
