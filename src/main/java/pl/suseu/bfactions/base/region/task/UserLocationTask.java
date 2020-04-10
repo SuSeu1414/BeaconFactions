@@ -36,6 +36,7 @@ public class UserLocationTask implements Runnable {
 
             if (oldRegion != newRegion) {
                 user.setCurrentRegion(newRegion);
+                user.setLastRegionChange(System.currentTimeMillis());
                 PlayerRegionChangeEvent event = new PlayerRegionChangeEvent(player, user, newRegion, oldLocation, newLocation);
                 plugin.getServer().getPluginManager().callEvent(event);
 

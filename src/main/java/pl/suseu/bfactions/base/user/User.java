@@ -22,6 +22,7 @@ public class User {
 
     private Region currentRegion;
     private Location currentLocation;
+    private long lastRegionChange;
 
     public User(UUID uuid) {
         this.uuid = uuid;
@@ -91,6 +92,14 @@ public class User {
 
     public void setCurrentLocation(Location currentLocation) {
         this.currentLocation = currentLocation;
+    }
+
+    public long getLastRegionChange() {
+        return lastRegionChange;
+    }
+
+    public void setLastRegionChange(long lastRegionChange) {
+        this.lastRegionChange = lastRegionChange;
     }
 
     @Override
