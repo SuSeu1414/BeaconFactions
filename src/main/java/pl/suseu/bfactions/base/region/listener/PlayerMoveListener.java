@@ -36,5 +36,8 @@ public class PlayerMoveListener implements Listener {
 
         PlayerMoveInRegionEvent playerMoveInRegionEvent = new PlayerMoveInRegionEvent(player, user, region, from, to);
         plugin.getServer().getPluginManager().callEvent(playerMoveInRegionEvent);
+        if (playerMoveInRegionEvent.isCancelled()) {
+            event.setCancelled(true);
+        }
     }
 }
