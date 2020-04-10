@@ -21,7 +21,7 @@ public class PlayerRegionChangeListener implements Listener {
         event.setCancelled(true);
         Location from = event.getRegion().getCenter().clone();
         Location to = event.getFrom();
-        from.setY(to.getY());
+//        from.setY(to.getY());
         Vector vector = from.toVector().subtract(to.toVector()).multiply(-1).normalize();
         event.getPlayer().setVelocity(vector);
     }

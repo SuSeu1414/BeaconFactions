@@ -25,7 +25,7 @@ public class UserLocationTask implements Runnable {
             Location oldLocation = user.getCurrentLocation();
             Location newLocation = player.getLocation();
 
-            if (newRegion != null && !newRegion.isInBorder(newLocation)) {
+            if (newRegion != null && !newRegion.isInDome(newLocation)) {
                 newRegion = null;
             }
 

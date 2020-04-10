@@ -36,7 +36,7 @@ public class PlayerMoveInRegionListener implements Listener {
             return;
         }
         from.setY(to.getY());
-        Vector vector = from.toVector().subtract(to.toVector()).multiply(-1).normalize().multiply(1);
+        Vector vector = from.toVector().subtract(to.toVector()).multiply(-1).normalize();
         event.getPlayer().setVelocity(vector);
     }
 }
