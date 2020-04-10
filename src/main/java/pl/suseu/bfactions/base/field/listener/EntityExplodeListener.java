@@ -1,11 +1,15 @@
 package pl.suseu.bfactions.base.field.listener;
 
 import org.bukkit.Location;
+import org.bukkit.block.Block;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.region.Region;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class EntityExplodeListener implements Listener {
 
@@ -19,9 +23,16 @@ public class EntityExplodeListener implements Listener {
     public void onEntityExplode(EntityExplodeEvent event) {
         Location location = event.getLocation();
         Region region = plugin.getRegionRepository().nearestRegion(location);
-        if (region == null || !region.isInDome(location)) {
+        if (region == null) {
             return;
         }
-        event.blockList().clear();
+        if (region.isInDome(location)) {
+            event.blockList().clear();
+            return;
+        }
+        Set<Block> inRegion = event.blockList().stream()
+                .filter(block -> region.isInBorder(block.getLocation()))
+                .collect(Collectors.toSet());
+        event.blockList().removeAll(inRegion);
     }
 }
