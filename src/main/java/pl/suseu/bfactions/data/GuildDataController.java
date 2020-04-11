@@ -56,6 +56,7 @@ public class GuildDataController {
 
     public boolean loadGuilds() {
         this.regionDataController.loadRegions();
+        this.fieldDataController.loadFields();
 
         if (!createTable()) {
             return false;
