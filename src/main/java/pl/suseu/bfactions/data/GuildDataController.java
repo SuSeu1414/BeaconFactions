@@ -123,7 +123,8 @@ public class GuildDataController {
             return false;
         }
 
-        Field field = new Field(uuid);
+        //TODO load tier
+        Field field = new Field(uuid, plugin.getSettings().fieldTiers.get(0));
         Guild guild = new Guild(uuid, name, owner, region, field);
         guild.setMembersFromJson(membersString);
         guild.setPermissionsFromJson(permissionsString);

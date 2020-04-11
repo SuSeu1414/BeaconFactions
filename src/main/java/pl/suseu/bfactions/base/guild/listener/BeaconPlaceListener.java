@@ -33,9 +33,10 @@ public class BeaconPlaceListener implements Listener {
         User user = this.plugin.getUserRepository().getUser(player.getUniqueId());
 
         UUID uuid = UUID.randomUUID();
+        //TODO load tier of region and field
         Region region = new Region(uuid, event.getBlock().getLocation().clone().add(0.5, 0, 0.5),
-                plugin.getSettings().fieldTiers.get(0).getRadius());
-        Field field = new Field(uuid);
+                plugin.getSettings().regionTiers.get(0));
+        Field field = new Field(uuid, plugin.getSettings().fieldTiers.get(0));
         Guild guild = new Guild(uuid, player.getName() + "'s guild", user, region, field);
         field.recalculate();
         this.plugin.getGuildRepository().addGuild(guild, true);

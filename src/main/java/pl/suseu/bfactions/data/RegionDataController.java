@@ -91,7 +91,8 @@ public class RegionDataController {
             return false;
         }
 
-        Region region = new Region(uuid, new Location(world, x + .5, y, z + .5), size);
+        //TODO load tier
+        Region region = new Region(uuid, new Location(world, x + .5, y, z + .5), plugin.getSettings().regionTiers.get(0));
         plugin.getRegionRepository().addRegion(region);
 
         return true;
