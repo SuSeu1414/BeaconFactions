@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.guild.Guild;
+import pl.suseu.bfactions.settings.FieldTier;
 import pl.suseu.bfactions.settings.Settings;
 import pl.suseu.bfactions.util.GeometryUtil;
 
@@ -15,12 +16,14 @@ public class Field {
 
     private final UUID uuid;
     private Guild guild;
+    private FieldTier tier;
 
     private final Map<Integer, Set<Location>> border = new HashMap<>();
     private final Map<Integer, Set<Location>> dome = new HashMap<>();
 
-    public Field(UUID uuid) {
+    public Field(UUID uuid, FieldTier tier) {
         this.uuid = uuid;
+        this.tier = tier;
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -111,5 +114,13 @@ public class Field {
 
     public void setGuild(Guild guild) {
         this.guild = guild;
+    }
+
+    public FieldTier getTier() {
+        return tier;
+    }
+
+    public void setTier(FieldTier tier) {
+        this.tier = tier;
     }
 }

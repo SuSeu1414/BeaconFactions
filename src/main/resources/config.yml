@@ -36,22 +36,29 @@ field:
   #upgrades of the field
   #the first tier is the initial configuration and should contain "initial-energy" field
   #the tiers are read in order as is in this file, the key of each tier should be unique
-  field-upgrades:
-    #the initial configuration
-    0:
-      max-energy: 10000000
-      initial-energy: 1000000
-      radius: 30
-      passive-drain-amount: 20
-    #first upgrade
+  initial-configuration:
+    max-energy: 10000000
+    initial-energy: 1000000
+    radius: 30
+    passive-drain-amount: 20
+
+  energy-upgrades:
     1:
       max-energy: 15000000
-      radius: 35
-      passive-drain-amount: 30
+      cost: 5000000
     2:
       max-energy: 20000000
+      cost: 5000000
+
+  size-upgrades:
+    1:
+      radius: 35
+      passive-drain-amount: 30
+      cost: 5000000
+    2:
       radius: 40
       passive-drain-amount: 40
+      cost: 10000000
 
 gui:
   main-gui-title: '&2%guild%'

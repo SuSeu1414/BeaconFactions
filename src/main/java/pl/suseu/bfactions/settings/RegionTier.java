@@ -1,25 +1,19 @@
-package pl.suseu.bfactions.base.field;
+package pl.suseu.bfactions.settings;
 
-public class FieldTier {
+public class RegionTier {
 
     private final int tier;
-    private final double maxEnergy;
     private final int radius;
     private final double drainAmount;
 
-    public FieldTier(int tier, double maxEnergy, int radius, double drainAmount) {
+    public RegionTier(int tier, int radius, double drainAmount) {
         this.tier = tier;
-        this.maxEnergy = maxEnergy;
         this.radius = radius;
         this.drainAmount = drainAmount;
     }
 
     public int getTier() {
         return tier;
-    }
-
-    public double getMaxEnergy() {
-        return maxEnergy;
     }
 
     public int getRadius() {

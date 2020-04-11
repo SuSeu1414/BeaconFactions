@@ -3,6 +3,7 @@ package pl.suseu.bfactions.base.region;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import pl.suseu.bfactions.base.guild.Guild;
+import pl.suseu.bfactions.settings.RegionTier;
 
 import java.util.UUID;
 
@@ -12,12 +13,12 @@ public class Region {
     private Guild guild;
 
     private Location center;
-    private int size;
+    private RegionTier tier;
 
-    public Region(UUID uuid, Location center, int size) {
+    public Region(UUID uuid, Location center, RegionTier tier) {
         this.uuid = uuid;
         this.center = center;
-        this.size = size;
+        this.tier = tier;
     }
 
     public void teleportToSafety(Player player) {
@@ -30,14 +31,14 @@ public class Region {
         Location l2 = this.center.clone();
         l1.setY(0);
         l2.setY(0);
-        return l1.distance(l2) < size;
+        return l1.distance(l2) < tier.getRadius();
     }
 
     public boolean isInDome(Location location) {
         if (location.getBlockY() < center.getBlockY()) {
             return false;
         }
-        if (location.distance(center) > size) {
+        if (location.distance(center) > tier.getRadius()) {
             return false;
         }
         return true;
@@ -64,10 +65,14 @@ public class Region {
     }
 
     public int getSize() {
-        return size;
+        return tier.getRadius();
     }
 
-    public void setSize(int size) {
-        this.size = size;
+    public RegionTier getTier() {
+        return tier;
+    }
+
+    public void setTier(RegionTier tier) {
+        this.tier = tier;
     }
 }
