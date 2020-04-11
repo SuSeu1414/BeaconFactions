@@ -19,7 +19,8 @@ public class Database {
 
     private String usersTableName;
     private String regionsTableName;
-    private String guildTableName;
+    private String guildsTableName;
+    private String fieldsTableName;
 
     private boolean initialized = false;
 
@@ -55,7 +56,8 @@ public class Database {
         this.tablePrefix = cfg.getString("mysql.tableName");
         this.usersTableName = this.tablePrefix + "users";
         this.regionsTableName = this.tablePrefix + "regions";
-        this.guildTableName = this.tablePrefix + "guilds";
+        this.guildsTableName = this.tablePrefix + "guilds";
+        this.fieldsTableName = this.tablePrefix + "fields";
 
         this.plugin.getLogger().info("Testing database connection...");
         try (final Connection ignored = this.dataSource.getConnection()) {
@@ -108,8 +110,8 @@ public class Database {
         return tablePrefix;
     }
 
-    public String getGuildTableName() {
-        return guildTableName;
+    public String getGuildsTableName() {
+        return guildsTableName;
     }
 
     public String getRegionsTableName() {
@@ -118,6 +120,10 @@ public class Database {
 
     public String getUsersTableName() {
         return usersTableName;
+    }
+
+    public String getFieldsTableName() {
+        return fieldsTableName;
     }
 
     public boolean isInitialized() {
