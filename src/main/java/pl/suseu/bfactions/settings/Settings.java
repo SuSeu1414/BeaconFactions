@@ -5,7 +5,6 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import pl.suseu.bfactions.BFactions;
-import pl.suseu.bfactions.base.field.FieldTier;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,8 +32,9 @@ public class Settings {
     public int fieldPassiveDrainDelay;
     public double fieldDamageArrow;
     public double fieldDamageTNT;
-    public Map<Material, Double> fieldEnergyConversions = new HashMap<>();
-    public List<FieldTier> fieldTiers = new ArrayList<>();
+    public final Map<Material, Double> fieldEnergyConversions = new HashMap<>();
+    public final List<FieldTier> fieldTiers = new ArrayList<>();
+    public final List<RegionTier> regionTiers = new ArrayList<>();
     public String guiMainTitle;
 
     public Settings(BFactions plugin) {
@@ -64,29 +64,34 @@ public class Settings {
         fieldDamageTNT = cfg.getDouble("field.tnt-damage");
         fieldEnergyConversions.clear();
         fieldTiers.clear();
+        regionTiers.clear();
 
         ConfigurationSection conversionsSection = cfg.getConfigurationSection("field.energy-fuel");
-        for (String materialName : conversionsSection.getKeys(false)) {
-            Material material = Material.getMaterial(materialName);
-            double energy = conversionsSection.getDouble(materialName);
+        for (String key : conversionsSection.getKeys(false)) {
+            Material material = Material.getMaterial(key);
+            double energy = conversionsSection.getDouble(key);
 
             fieldEnergyConversions.put(material, energy);
         }
 
-        ConfigurationSection upgradesSection = cfg.getConfigurationSection("field.field-upgrades");
+        ConfigurationSection energyUpgradesSection = cfg.getConfigurationSection("field.energy-upgrades");
         int i = 0;
-        for (String tierName : upgradesSection.getKeys(false)) {
-            ConfigurationSection tierSection = upgradesSection.getConfigurationSection(tierName);
+        for (String key : energyUpgradesSection.getKeys(false)) {
+            ConfigurationSection upgradeSection = energyUpgradesSection.getConfigurationSection(key);
+            double maxEnergy = upgradeSection.getDouble("max-energy");
+            double cost = upgradeSection.getDouble("cost");
+            fieldTiers.add(new FieldTier(i, maxEnergy, cost));
+            i++;
+        }
 
-            double maxEnergy = tierSection.getDouble("max-energy");
-            int radius = tierSection.getInt("radius");
-            double drain = tierSection.getDouble("passive-drain-amount");
-
-            if (i == 0) {
-                fieldEnergyInitial = tierSection.getDouble("initial-energy");
-            }
-
-            fieldTiers.add(new FieldTier(i, maxEnergy, radius, drain));
+        i = 0;
+        ConfigurationSection sizeUpgradesSection = cfg.getConfigurationSection("field.size-upgrades");
+        for (String key : sizeUpgradesSection.getKeys(false)) {
+            ConfigurationSection upgradeSection = sizeUpgradesSection.getConfigurationSection(key);
+            int radius = upgradeSection.getInt("radius");
+            double drain = upgradeSection.getDouble("passive-drain-amount");
+            double cost = upgradeSection.getDouble("cost");
+            regionTiers.add(new RegionTier(i, radius, drain, cost));
             i++;
         }
 
@@ -102,29 +107,29 @@ public class Settings {
             log.warning("Configuration: Missing 'guild' section!");
             success = false;
         } else {
-            ConfigurationSection section = cfg.getConfigurationSection("guild");
+            ConfigurationSection guildSection = cfg.getConfigurationSection("guild");
 
-            if (!section.isInt("name-max-length")) {
+            if (!guildSection.isInt("name-max-length")) {
                 log.warning("Configuration (guild): Missing/Invalid 'name-max-length' entry!");
                 success = false;
             }
-            if (!section.isInt("name-min-length")) {
+            if (!guildSection.isInt("name-min-length")) {
                 log.warning("Configuration (guild): Missing/Invalid 'name-min-length' entry!");
                 success = false;
             }
-            if (!section.isInt("tag-max-length")) {
+            if (!guildSection.isInt("tag-max-length")) {
                 log.warning("Configuration (guild): Missing/Invalid 'tag-max-length' entry!");
                 success = false;
             }
-            if (!section.isInt("tag-min-length")) {
+            if (!guildSection.isInt("tag-min-length")) {
                 log.warning("Configuration (guild): Missing/Invalid 'tag-min-length' entry!");
                 success = false;
             }
-            if (!section.isInt("max-members")) {
+            if (!guildSection.isInt("max-members")) {
                 log.warning("Configuration (guild): Missing/Invalid 'max-members' entry!");
                 success = false;
             }
-            if (!section.isInt("minimum-distance")) {
+            if (!guildSection.isInt("minimum-distance")) {
                 log.warning("Configuration (guild): Missing/Invalid 'minimum-distance' entry!");
                 success = false;
             }
@@ -134,54 +139,54 @@ public class Settings {
             log.warning("Configuration: Missing 'field' section!");
             success = false;
         } else {
-            ConfigurationSection section = cfg.getConfigurationSection("field");
+            ConfigurationSection fieldSection = cfg.getConfigurationSection("field");
 
-            if (!section.isDouble("dome-particle-density")
-                    && !section.isInt("dome-particle-density")
-                    && !section.isLong("dome-particle-density")) {
+            if (!fieldSection.isDouble("dome-particle-density")
+                    && !fieldSection.isInt("dome-particle-density")
+                    && !fieldSection.isLong("dome-particle-density")) {
                 log.warning("Configuration (field): Missing/Invalid 'dome-particle-density' entry!");
                 success = false;
             }
-            if (!section.isDouble("dome-render-distance")
-                    && !section.isInt("dome-render-distance")
-                    && !section.isLong("dome-render-distance")) {
+            if (!fieldSection.isDouble("dome-render-distance")
+                    && !fieldSection.isInt("dome-render-distance")
+                    && !fieldSection.isLong("dome-render-distance")) {
                 log.warning("Configuration (field): Missing/Invalid 'dome-render-distance' entry!");
                 success = false;
             }
-            if (!section.isDouble("border-particle-density")
-                    && !section.isInt("border-particle-density")
-                    && !section.isLong("border-particle-density")) {
+            if (!fieldSection.isDouble("border-particle-density")
+                    && !fieldSection.isInt("border-particle-density")
+                    && !fieldSection.isLong("border-particle-density")) {
                 log.warning("Configuration (field): Missing/Invalid 'border-particle-density' entry!");
                 success = false;
             }
-            if (!section.isDouble("border-render-distance")
-                    && !section.isInt("border-render-distance")
-                    && !section.isLong("border-render-distance")) {
+            if (!fieldSection.isDouble("border-render-distance")
+                    && !fieldSection.isInt("border-render-distance")
+                    && !fieldSection.isLong("border-render-distance")) {
                 log.warning("Configuration (field): Missing/Invalid 'border-render-distance' entry!");
                 success = false;
             }
-            if (!section.isInt("passive-drain-delay")) {
+            if (!fieldSection.isInt("passive-drain-delay")) {
                 log.warning("Configuration (field): Missing/Invalid 'passive-drain-delay' entry!");
                 success = false;
             }
-            if (!section.isDouble("arrow-damage")
-                    && !section.isInt("arrow-damage")
-                    && !section.isLong("arrow-damage")) {
+            if (!fieldSection.isDouble("arrow-damage")
+                    && !fieldSection.isInt("arrow-damage")
+                    && !fieldSection.isLong("arrow-damage")) {
                 log.warning("Configuration (field): Missing/Invalid 'arrow-damage' entry!");
                 success = false;
             }
-            if (!section.isDouble("tnt-damage")
-                    && !section.isInt("tnt-damage")
-                    && !section.isLong("tnt-damage")) {
+            if (!fieldSection.isDouble("tnt-damage")
+                    && !fieldSection.isInt("tnt-damage")
+                    && !fieldSection.isLong("tnt-damage")) {
                 log.warning("Configuration (field): Missing/Invalid 'tnt-damage' entry!");
                 success = false;
             }
 
-            if (!section.isConfigurationSection("energy-fuel")) {
+            if (!fieldSection.isConfigurationSection("energy-fuel")) {
                 log.warning("Configuration (field): Missing 'energy-fuel' section!");
                 success = false;
             } else {
-                ConfigurationSection conversionsSection = section.getConfigurationSection("energy-fuel");
+                ConfigurationSection conversionsSection = fieldSection.getConfigurationSection("energy-fuel");
 
                 for (String materialName : conversionsSection.getKeys(false)) {
                     Material material = Material.getMaterial(materialName);
@@ -195,53 +200,85 @@ public class Settings {
                 }
             }
 
-            if (!section.isConfigurationSection("field-upgrades")) {
-                log.warning("Configuration (field): Missing 'field-upgrades' section!");
+            if (!fieldSection.isConfigurationSection("initial-configuration")) {
+                log.warning("Configuration (field): Missing 'initial-configuration' section!");
                 success = false;
             } else {
-                ConfigurationSection upgradesSection = section.getConfigurationSection("field-upgrades");
-                int i = 0;
+                ConfigurationSection initialCfgSection = fieldSection.getConfigurationSection("initial-configuration");
 
-                if (upgradesSection.getKeys(false).size() < 1) {
-                    log.warning("Configuration (field.field-upgrades): There must be at least one tier specified!");
-                    log.warning("Unable to find initial configuration!");
+                if (!initialCfgSection.isDouble("max-energy")
+                        && !initialCfgSection.isInt("max-energy")
+                        && !initialCfgSection.isLong("max-energy")) {
+                    log.warning("Configuration (field.initial-configuration): Missing/Invalid 'max-energy' entry!");
                     success = false;
                 }
+                if (!initialCfgSection.isDouble("initial-energy")
+                        && !initialCfgSection.isInt("initial-energy")
+                        && !initialCfgSection.isLong("initial-energy")) {
+                    log.warning("Configuration (field.initial-configuration): Missing/Invalid 'initial-energy' entry!");
+                    success = false;
+                }
+                if (!initialCfgSection.isInt("radius")) {
+                    log.warning("Configuration (field.initial-configuration): Missing/Invalid 'radius' entry!");
+                    success = false;
+                }
+                if (!initialCfgSection.isDouble("passive-drain-amount")
+                        && !initialCfgSection.isInt("passive-drain-amount")
+                        && !initialCfgSection.isLong("passive-drain-amount")) {
+                    log.warning("Configuration (field.initial-configuration): Missing/Invalid 'passive-drain-amount' entry!");
+                    success = false;
+                }
+            }
 
-                for (String tier : upgradesSection.getKeys(false)) {
-                    ConfigurationSection tierSection = upgradesSection.getConfigurationSection(tier);
+            if (!fieldSection.isConfigurationSection("energy-upgrades")) {
+                log.warning("Configuration (field): Missing 'energy-upgrades' section!");
+                success = false;
+            } else {
+                ConfigurationSection energyUpgradesSection = fieldSection.getConfigurationSection("energy-upgrades");
 
-                    if (!tierSection.isDouble("initial-energy")
-                            && !tierSection.isInt("initial-energy")
-                            && !tierSection.isLong("initial-energy")) {
-                        if (i == 0) {
-                            log.warning("Configuration (field.field-upgrades): 'initial-energy' field not found in the first upgrade!");
-                            log.warning("Unable to find initial configuration!");
-                            success = false;
-                        }
-                    } else {
-                        if (i != 0) {
-                            log.warning("Configuration (field.field-upgrades): Unnecessary 'initial-energy' field in '" + tier + "'!");
-                        }
-                    }
+                for (String key : energyUpgradesSection.getKeys(false)) {
+                    ConfigurationSection upgradeSection = energyUpgradesSection.getConfigurationSection(key);
 
-                    if (!tierSection.isDouble("max-energy")
-                            && !tierSection.isInt("max-energy")
-                            && !tierSection.isLong("max-energy")) {
-                        log.warning("Configuration (field.field-upgrades): Missing/Invalid 'max-energy' in tier '" + tier + "'!");
+                    if (!upgradeSection.isDouble("max-energy")
+                            && !upgradeSection.isInt("max-energy")
+                            && !upgradeSection.isLong("max-energy")) {
+                        log.warning("Configuration (field.energy-upgrades): Missing/Invalid 'max-energy' entry!");
                         success = false;
                     }
-                    if (!tierSection.isInt("radius")) {
-                        log.warning("Configuration (field.field-upgrades): Missing/Invalid 'radius' in tier '" + tier + "'!");
+                    if (!upgradeSection.isDouble("cost")
+                            && !upgradeSection.isInt("cost")
+                            && !upgradeSection.isLong("cost")) {
+                        log.warning("Configuration (field.energy-upgrades): Missing/Invalid 'cost' entry!");
                         success = false;
                     }
-                    if (!tierSection.isDouble("passive-drain-amount")
-                            && !tierSection.isInt("passive-drain-amount")
-                            && !tierSection.isLong("passive-drain-amount")) {
-                        log.warning("Configuration (field.field-upgrades): Missing/Invalid 'passive-drain-amount' in tier '" + tier + "'!");
+                }
+            }
+
+            if (!fieldSection.isConfigurationSection("size-upgrades")) {
+                log.warning("Configuration (field): Missing 'size-upgrades' section!");
+                success = false;
+            } else {
+                ConfigurationSection sizeUpgradesSection = fieldSection.getConfigurationSection("size-upgrades");
+
+                for (String key : sizeUpgradesSection.getKeys(false)) {
+                    ConfigurationSection upgradeSection = sizeUpgradesSection.getConfigurationSection(key);
+
+                    if (!upgradeSection.isInt("radius")) {
+                        log.warning("Configuration (field.size-upgrades): Missing/Invalid 'radius' entry!");
                         success = false;
                     }
-                    i++;
+                    if (!upgradeSection.isDouble("passive-drain-amount")
+                            && !upgradeSection.isInt("passive-drain-amount")
+                            && !upgradeSection.isLong("passive-drain-amount")) {
+                        log.warning("Configuration (field.size-upgrades): Missing/Invalid 'passive-drain-amount' entry!");
+                        success = false;
+                    }
+                    if (!upgradeSection.isDouble("cost")
+                            && !upgradeSection.isInt("cost")
+                            && !upgradeSection.isLong("cost")) {
+                        log.warning("Configuration (field.size-upgrades): Missing/Invalid 'cost' entry!");
+                        success = false;
+                    }
                 }
             }
         }
@@ -250,9 +287,9 @@ public class Settings {
             log.warning("Configuration: Missing 'gui' section!");
             success = false;
         } else {
-            ConfigurationSection section = cfg.getConfigurationSection("gui");
+            ConfigurationSection guiSection = cfg.getConfigurationSection("gui");
 
-            if (!section.isString("main-gui-title")) {
+            if (!guiSection.isString("main-gui-title")) {
                 log.warning("Configuration (gui): Missing/Invalid 'main-gui-title' entry!");
                 success = false;
             }
