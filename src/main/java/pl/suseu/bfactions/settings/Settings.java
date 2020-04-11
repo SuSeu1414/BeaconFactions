@@ -74,8 +74,15 @@ public class Settings {
             fieldEnergyConversions.put(material, energy);
         }
 
+        double initialMaxEnergy = cfg.getDouble("field.initial-configuration.max-energy");
+        double initialEnergy = cfg.getDouble("field.initial-configuration.initial-energy");
+        int initialRadius = cfg.getInt("field.initial-configuration.radius");
+        double initialDrain = cfg.getDouble("field.initial-configuration.passive-drain-amount");
+        fieldTiers.add(new FieldTier(0, initialMaxEnergy, 0));
+        regionTiers.add(new RegionTier(0, initialRadius, initialDrain, 0));
+
         ConfigurationSection energyUpgradesSection = cfg.getConfigurationSection("field.energy-upgrades");
-        int i = 0;
+        int i = 1;
         for (String key : energyUpgradesSection.getKeys(false)) {
             ConfigurationSection upgradeSection = energyUpgradesSection.getConfigurationSection(key);
             double maxEnergy = upgradeSection.getDouble("max-energy");
@@ -84,7 +91,7 @@ public class Settings {
             i++;
         }
 
-        i = 0;
+        i = 1;
         ConfigurationSection sizeUpgradesSection = cfg.getConfigurationSection("field.size-upgrades");
         for (String key : sizeUpgradesSection.getKeys(false)) {
             ConfigurationSection upgradeSection = sizeUpgradesSection.getConfigurationSection(key);
