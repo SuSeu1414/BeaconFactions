@@ -35,6 +35,8 @@ public class UserDataController {
             }
         }
 
+        //todo clear modified users
+
         plugin.getLogger().info("Saved " + success + " users successfully.");
         if (failure.get() != 0) {
             plugin.getLogger().warning("Failed to save " + failure + " users!");

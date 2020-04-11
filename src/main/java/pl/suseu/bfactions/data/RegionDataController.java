@@ -6,6 +6,7 @@ import org.bukkit.World;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.region.Region;
 import pl.suseu.bfactions.data.database.Database;
+import pl.suseu.bfactions.settings.RegionTier;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -72,7 +73,7 @@ public class RegionDataController {
 
     private boolean loadRegion(ResultSet result) throws SQLException {
         String uuidString = result.getString("uuid");
-        int size = result.getInt("size");
+        int tierIndex = result.getInt("tier");
         String worldName = result.getString("world");
         int x = result.getInt("x");
         int y = result.getInt("y");
@@ -91,8 +92,8 @@ public class RegionDataController {
             return false;
         }
 
-        //TODO load tier
-        Region region = new Region(uuid, new Location(world, x + .5, y, z + .5), plugin.getSettings().regionTiers.get(0));
+        RegionTier tier = this.plugin.getSettings().regionTiers.get(tierIndex);
+        Region region = new Region(uuid, new Location(world, x + .5, y, z + .5), tier);
         plugin.getRegionRepository().addRegion(region);
 
         return true;
@@ -103,15 +104,15 @@ public class RegionDataController {
         StringBuilder sb = new StringBuilder();
 
         sb.append("insert into `" + database.getRegionsTableName() + "` ");
-        sb.append("(`uuid`, `size`, `world`, `x`, `y`, `z`) values ( ");
+        sb.append("(`uuid`, `tier`, `world`, `x`, `y`, `z`) values ( ");
         sb.append("'" + region.getUuid() + "',");
-        sb.append("'" + region.getSize() + "',");
+        sb.append("'" + region.getTier().getTier() + "',");
         sb.append("'" + region.getCenter().getWorld().getName() + "',");
         sb.append("'" + region.getCenter().getBlockX() + "',");
         sb.append("'" + region.getCenter().getBlockY() + "',");
         sb.append("'" + region.getCenter().getBlockZ() + "')");
         sb.append(" on duplicate key update ");
-        sb.append("`size` = '" + region.getSize() + "',");
+        sb.append("`tier` = '" + region.getTier().getTier() + "',");
         sb.append("`world` = '" + region.getCenter().getWorld().getName() + "',");
         sb.append("`x` = '" + region.getCenter().getBlockX() + "',");
         sb.append("`y` = '" + region.getCenter().getBlockY() + "',");
@@ -126,7 +127,7 @@ public class RegionDataController {
         sb.append("create table if not exists ");
         sb.append("`").append(database.getRegionsTableName()).append("`");
         sb.append("(`uuid` varchar(36) not null,");
-        sb.append("`size` int,");
+        sb.append("`tier` int,");
         sb.append("`world` text,");
         sb.append("`x` int,");
         sb.append("`y` int,");

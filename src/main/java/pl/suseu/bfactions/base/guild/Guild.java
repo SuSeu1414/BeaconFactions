@@ -177,7 +177,7 @@ public class Guild {
                 this.plugin.getLogger().warning("Cannot get member! (guild: " + this.uuid + ", user: " + memberUUIDString + ")");
                 continue;
             }
-            members.add(member);
+            addMember(member);
         }
     }
 

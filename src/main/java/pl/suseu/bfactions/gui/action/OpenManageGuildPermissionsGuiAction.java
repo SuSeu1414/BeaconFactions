@@ -1,11 +1,12 @@
 package pl.suseu.bfactions.gui.action;
 
-import org.bukkit.Material;
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import pl.rynbou.langapi3.LangAPI;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.guild.Guild;
@@ -14,26 +15,28 @@ import pl.suseu.bfactions.base.user.User;
 import pl.suseu.bfactions.base.user.UserRepository;
 import pl.suseu.bfactions.gui.CustomInventoryHolder;
 import pl.suseu.bfactions.gui.paginator.PaginatorFactory;
+import pl.suseu.bfactions.item.ItemRepository;
+import pl.suseu.bfactions.util.ItemUtil;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
-public class OpenManagePermissionsGuiAction implements ClickAction {
+public class OpenManageGuildPermissionsGuiAction implements ClickAction {
 
     private final BFactions plugin;
     private final UserRepository userRepository;
-    private final LangAPI lang;
-    private final PaginatorFactory paginatorFactory;
-
+    private final ItemRepository itemRepository;
     private final Guild guild;
+    private final LangAPI lang;
 
-    public OpenManagePermissionsGuiAction(BFactions plugin, Guild guild) {
+    public OpenManageGuildPermissionsGuiAction(BFactions plugin, Guild guild) {
         this.plugin = plugin;
         this.userRepository = plugin.getUserRepository();
-        this.lang = plugin.getLang();
-        this.paginatorFactory = new PaginatorFactory(plugin);
         this.guild = guild;
+        this.lang = plugin.getLang();
+        this.itemRepository = plugin.getItemRepository();
     }
 
     @Override
@@ -45,23 +48,31 @@ public class OpenManagePermissionsGuiAction implements ClickAction {
             return;
         }
 
-        whoClicked.closeInventory();
-
+        Set<User> members = this.guild.getMembers();
         List<AbstractMap.SimpleEntry<ItemStack, ClickAction>> items = new ArrayList<>();
 
-        for (int i = 0; i <= 108; i++) {
-            ItemStack is = new ItemStack(Material.PAPER, 1);
-            ItemMeta itemMeta = is.getItemMeta();
+        for (User member : members) {
+            ItemStack itemStack = this.itemRepository.getItem("member-info");
+            ItemMeta itemMeta = itemStack.getItemMeta();
             if (itemMeta == null) {
-                continue;
+                return;
             }
-            itemMeta.setDisplayName("Item " + i);
-            is.setItemMeta(itemMeta);
-            int finalI = i;
-            items.add(new AbstractMap.SimpleEntry<>(is, whoClicked1 -> whoClicked1.sendMessage(finalI + "")));
+
+            if (itemMeta instanceof SkullMeta) {
+                SkullMeta skullMeta = ((SkullMeta) itemMeta);
+                skullMeta.setOwningPlayer(Bukkit.getOfflinePlayer(member.getUuid()));
+                itemStack.setItemMeta(skullMeta);
+            }
+
+            ItemUtil.replace(itemStack, "%name%", member.getName());
+
+            OpenManageMemberPermissionsGuiAction action =
+                    new OpenManageMemberPermissionsGuiAction(this.plugin, this.guild, member);
+            items.add(new AbstractMap.SimpleEntry<>(itemStack, action));
         }
 
-        CustomInventoryHolder paginator = this.paginatorFactory.createPaginator("Test %page%/%pages%", 6, 1, items);
+        PaginatorFactory paginatorFactory = new PaginatorFactory(this.plugin);
+        CustomInventoryHolder paginator = paginatorFactory.createPaginator("Test %page%/%pages%", 6, 1, items);
         Inventory inv = paginator.getInventory();
         whoClicked.openInventory(inv);
     }
