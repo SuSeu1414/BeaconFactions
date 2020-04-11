@@ -18,12 +18,14 @@ public class GuildDataController {
     private final Database database;
 
     private final RegionDataController regionDataController;
+    private final FieldDataController fieldDataController;
 
     public GuildDataController(BFactions plugin) {
         this.plugin = plugin;
         this.database = plugin.getDatabase();
 
         this.regionDataController = new RegionDataController(plugin);
+        this.fieldDataController = new FieldDataController(plugin);
     }
 
     public boolean saveGuilds() {
@@ -36,6 +38,7 @@ public class GuildDataController {
 
         for (Guild guild : this.plugin.getGuildRepository().getModifiedGuilds()) {
             this.regionDataController.saveRegion(guild.getRegion());
+            this.fieldDataController.saveField(guild.getField());
             if (this.saveGuild(guild)) {
                 success.getAndIncrement();
             } else {
@@ -123,8 +126,13 @@ public class GuildDataController {
             return false;
         }
 
-        //TODO load tier
-        Field field = new Field(uuid, plugin.getSettings().fieldTiers.get(0));
+        Field field = this.plugin.getFieldRepository().getField(uuid);
+
+        if (field == null) {
+            this.plugin.getLogger().warning("Cannot find field for guild with uuid " + uuidString);
+            return false;
+        }
+
         Guild guild = new Guild(uuid, name, owner, region, field);
         guild.setMembersFromJson(membersString);
         guild.setPermissionsFromJson(permissionsString);
