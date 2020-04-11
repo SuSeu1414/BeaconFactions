@@ -9,10 +9,6 @@ guild:
   tag-min-length: 2
   #maximal number of members
   max-members: 15
-
-cuboid:
-  #initial size the cuboids are created with
-  initial-size: 20
   #minimum distance between cuboids in X/Y axis
   minimum-distance: 200
 
@@ -25,10 +21,6 @@ field:
   border-particle-density: 1
   #amount of blocks from which the wall is visible
   border-render-distance: 5
-  #initial HP of the field
-  initial-energy: 10000000
-  #amount of energy to be subtracted
-  passive-drain-amount: 20
   #how often passive drain should trigger in ticks
   passive-drain-delay: 20
   #how much damage should be inflicted on the field by an arrow
@@ -41,10 +33,25 @@ field:
     #MATERIAL_NAME: ENERGY_AMOUNT
     DIAMOND: 100000
     EMERALD: 200000
+  #upgrades of the field
+  #the first tier is the initial configuration and should contain initial energy
+  field-upgrades:
+    0:
+      max-energy: 10000000
+      initial-energy: 1000000
+      radius: 30
+      passive-drain-amount: 20
+    1:
+      max-energy: 15000000
+      radius: 35
+      passive-drain-amount: 30
+    2:
+      max-energy: 20000000
+      radius: 40
+      passive-drain-amount: 40
 
 gui:
   main-gui-title: '&2%guild%'
-
 
 # Information for the MYSQL data storage:
 #  > hostname - host of the database
