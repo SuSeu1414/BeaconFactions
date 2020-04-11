@@ -74,7 +74,7 @@ public class OpenGuildInvitesGuiAction implements ClickAction {
 
             ClickAction action = plr -> {
                 this.guild.removeInvitedMember(invitedUser);
-                this.guildRepository.addModifiedGuild(this.guild);
+//                this.guildRepository.addModifiedGuild(this.guild);
                 this.lang.sendMessage("invite-removed", plr);
                 plr.closeInventory();
             };

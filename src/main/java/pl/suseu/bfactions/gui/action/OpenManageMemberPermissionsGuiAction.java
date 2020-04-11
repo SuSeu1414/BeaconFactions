@@ -98,7 +98,7 @@ public class OpenManageMemberPermissionsGuiAction implements ClickAction {
         holder.setAction(slot + 1, whoClicked -> {
             this.guild.removeMemberPermission(this.user, permission);
             displayOffButtons(holder, permission, slot);
-            this.guildRepository.addModifiedGuild(this.guild);
+//            this.guildRepository.addModifiedGuild(this.guild);
         });
     }
 
@@ -108,7 +108,7 @@ public class OpenManageMemberPermissionsGuiAction implements ClickAction {
         holder.setAction(slot, whoClicked -> {
             this.guild.addMemberPermission(this.user, permission);
             displayOnButtons(holder, permission, slot);
-            this.guildRepository.addModifiedGuild(this.guild);
+//            this.guildRepository.addModifiedGuild(this.guild);
         });
         holder.setAction(slot + 1, null);
 

@@ -48,7 +48,7 @@ public class ChangeGuildNameAction implements ClickAction {
                     String newName = event.getMessage();
                     //todo check if name already exists
                     this.guild.setName(newName);
-                    this.guildRepository.addModifiedGuild(this.guild);
+//                    this.guildRepository.addModifiedGuild(this.guild);
                     this.lang.sendMessage("guild-name-changed", whoClicked);
                     event.setCancelled(true);
                 }, 20 * 30, () -> {
