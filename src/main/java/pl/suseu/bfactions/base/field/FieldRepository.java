@@ -30,11 +30,7 @@ public class FieldRepository {
         this.fields.remove(field.getUuid());
     }
 
-    /**
-     * @return a copy of regions set
-     */
     public Set<Field> getFields() {
-        return new HashSet<>(this.fields.values());
+        return new HashSet<>(fields.values());
     }
-
 }
