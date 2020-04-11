@@ -17,6 +17,7 @@ public class Field {
     private final UUID uuid;
     private Guild guild;
     private FieldTier tier;
+    private double currentEnergy;
 
     private final Map<Integer, Set<Location>> border = new HashMap<>();
     private final Map<Integer, Set<Location>> dome = new HashMap<>();
@@ -122,5 +123,13 @@ public class Field {
 
     public void setTier(FieldTier tier) {
         this.tier = tier;
+    }
+
+    public double getCurrentEnergy() {
+        return currentEnergy;
+    }
+
+    public void setCurrentEnergy(double currentEnergy) {
+        this.currentEnergy = currentEnergy;
     }
 }
