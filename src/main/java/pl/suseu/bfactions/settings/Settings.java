@@ -78,6 +78,7 @@ public class Settings {
         double initialEnergy = cfg.getDouble("field.initial-configuration.initial-energy");
         int initialRadius = cfg.getInt("field.initial-configuration.radius");
         double initialDrain = cfg.getDouble("field.initial-configuration.passive-drain-amount");
+        fieldEnergyInitial = cfg.getDouble("field.initial-configuration.initial-energy");
         fieldTiers.add(new FieldTier(0, initialMaxEnergy, 0));
         regionTiers.add(new RegionTier(0, initialRadius, initialDrain, 0));
 
