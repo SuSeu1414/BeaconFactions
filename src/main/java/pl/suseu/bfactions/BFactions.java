@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.rynbou.langapi3.LangAPI;
+import pl.suseu.bfactions.base.field.FieldRepository;
 import pl.suseu.bfactions.base.field.listener.*;
 import pl.suseu.bfactions.base.field.task.FieldParticleTask;
 import pl.suseu.bfactions.base.guild.GuildRepository;
@@ -42,6 +43,7 @@ public class BFactions extends JavaPlugin {
     private UserDataController userDataController;
     private RegionRepository regionRepository;
     private ItemRepository itemRepository;
+    private FieldRepository fieldRepository;
 
     @Override
     public void onEnable() {
@@ -73,7 +75,7 @@ public class BFactions extends JavaPlugin {
         this.guildRepository = new GuildRepository(this);
         this.userRepository = new UserRepository(this);
         this.regionRepository = new RegionRepository(this);
-
+        this.fieldRepository = new FieldRepository(this);
 
         this.guildDataController = new GuildDataController(this);
         this.userDataController = new UserDataController(this);
@@ -142,6 +144,10 @@ public class BFactions extends JavaPlugin {
 
     public ItemRepository getItemRepository() {
         return itemRepository;
+    }
+
+    public FieldRepository getFieldRepository() {
+        return fieldRepository;
     }
 
     public LangAPI getLang() {
