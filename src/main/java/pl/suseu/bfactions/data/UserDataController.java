@@ -35,7 +35,7 @@ public class UserDataController {
             }
         }
 
-        //todo clear modified users
+        this.plugin.getUserRepository().clearModifiedUsers();
 
         plugin.getLogger().info("Saved " + success + " users successfully.");
         if (failure.get() != 0) {

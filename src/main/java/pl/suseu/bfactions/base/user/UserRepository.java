@@ -68,6 +68,10 @@ public class UserRepository {
         return users;
     }
 
+    public void clearModifiedUsers() {
+        this.modifiedUsers.clear();
+    }
+
     public void addProjectileUser(User user) {
         this.addProjectileUser(user.getUuid());
     }
