@@ -61,7 +61,7 @@ public class GuildDataController {
         AtomicInteger success = new AtomicInteger();
         AtomicInteger failure = new AtomicInteger();
 
-        String query = "select * from `" + database.getGuildTableName() + "`;";
+        String query = "select * from `" + database.getGuildsTableName() + "`;";
 
         database.executeQuery(query, resultSet -> {
             try {
@@ -138,7 +138,7 @@ public class GuildDataController {
     private String getInsert(Guild guild) {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("insert into `" + database.getGuildTableName() + "` ");
+        sb.append("insert into `" + database.getGuildsTableName() + "` ");
         sb.append("(`uuid`, `owner`, `name`, `members`, `permissions`) values ( ");
         sb.append("'" + guild.getUuid() + "',");
         sb.append("'" + guild.getOwner().getUuid() + "',");
@@ -158,7 +158,7 @@ public class GuildDataController {
         StringBuilder sb = new StringBuilder();
 
         sb.append("create table if not exists ");
-        sb.append("`").append(database.getGuildTableName()).append("`");
+        sb.append("`").append(database.getGuildsTableName()).append("`");
         sb.append("(`uuid` varchar(36) not null,");
         sb.append("`owner` varchar(36) not null,");
         sb.append("`name` text not null,");
