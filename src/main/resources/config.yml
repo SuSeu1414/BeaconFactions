@@ -34,13 +34,16 @@ field:
     DIAMOND: 100000
     EMERALD: 200000
   #upgrades of the field
-  #the first tier is the initial configuration and should contain initial energy
+  #the first tier is the initial configuration and should contain "initial-energy" field
+  #the tiers are read in order as is in this file, the key of each tier should be unique
   field-upgrades:
+    #the initial configuration
     0:
       max-energy: 10000000
       initial-energy: 1000000
       radius: 30
       passive-drain-amount: 20
+    #first upgrade
     1:
       max-energy: 15000000
       radius: 35
