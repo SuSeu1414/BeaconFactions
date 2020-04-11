@@ -89,7 +89,11 @@ public class PaginatorFactory {
     }
 
     private int maxPages(int itemsPerPage, int items) {
-        return (int) Math.ceil((double) items / itemsPerPage);
+        int maxPages = (int) Math.ceil((double) items / itemsPerPage);
+        if (maxPages == 0) {
+            maxPages = 1;
+        }
+        return maxPages;
     }
 
 }

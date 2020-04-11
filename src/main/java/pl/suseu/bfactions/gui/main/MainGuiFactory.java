@@ -8,8 +8,8 @@ import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.guild.Guild;
 import pl.suseu.bfactions.gui.CustomInventoryHolder;
 import pl.suseu.bfactions.gui.action.ChangeGuildNameAction;
-import pl.suseu.bfactions.gui.action.OpenInvitesGuiAction;
-import pl.suseu.bfactions.gui.action.OpenManagePermissionsGuiAction;
+import pl.suseu.bfactions.gui.action.OpenGuildInvitesGuiAction;
+import pl.suseu.bfactions.gui.action.OpenManageGuildPermissionsGuiAction;
 import pl.suseu.bfactions.item.ItemRepository;
 import pl.suseu.bfactions.settings.Settings;
 
@@ -33,10 +33,10 @@ public class MainGuiFactory {
         CustomInventoryHolder holder = new CustomInventoryHolder(title, size);
 
         ItemStack manageInvitesItem = this.itemRepository.getItem("manage-invites");
-        holder.set(14, manageInvitesItem, new OpenInvitesGuiAction(this.plugin, guild));
+        holder.set(14, manageInvitesItem, new OpenGuildInvitesGuiAction(this.plugin, guild));
 
         ItemStack managePermissionsItem = this.itemRepository.getItem("manage-permissions");
-        holder.set(23, managePermissionsItem, new OpenManagePermissionsGuiAction(this.plugin, guild));
+        holder.set(23, managePermissionsItem, new OpenManageGuildPermissionsGuiAction(this.plugin, guild));
 
         ItemStack changeNameItem = this.itemRepository.getItem("change-name");
         holder.set(32, changeNameItem, new ChangeGuildNameAction(plugin, guild));
