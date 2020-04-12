@@ -1,10 +1,9 @@
-package pl.suseu.bfactions.gui;
+package pl.suseu.bfactions.gui.base;
 
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
-import pl.suseu.bfactions.gui.action.ClickAction;
 
 import java.util.HashMap;
 import java.util.Map;

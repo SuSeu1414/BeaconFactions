@@ -10,7 +10,7 @@ import org.bukkit.inventory.Inventory;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.guild.Guild;
 import pl.suseu.bfactions.base.guild.GuildRepository;
-import pl.suseu.bfactions.gui.main.MainGuiFactory;
+import pl.suseu.bfactions.gui.main.factory.MainGuiFactory;
 
 public class BeaconClickListener implements Listener {
 

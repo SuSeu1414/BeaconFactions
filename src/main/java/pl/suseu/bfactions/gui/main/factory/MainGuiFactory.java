@@ -1,4 +1,4 @@
-package pl.suseu.bfactions.gui.main;
+package pl.suseu.bfactions.gui.main.factory;
 
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.entity.Player;
@@ -6,10 +6,10 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.guild.Guild;
-import pl.suseu.bfactions.gui.CustomInventoryHolder;
-import pl.suseu.bfactions.gui.action.ChangeGuildNameAction;
-import pl.suseu.bfactions.gui.action.OpenGuildInvitesGuiAction;
-import pl.suseu.bfactions.gui.action.OpenManageGuildPermissionsGuiAction;
+import pl.suseu.bfactions.gui.base.CustomInventoryHolder;
+import pl.suseu.bfactions.gui.main.action.ChangeGuildNameAction;
+import pl.suseu.bfactions.gui.main.action.invite.OpenGuildInvitesGuiAction;
+import pl.suseu.bfactions.gui.main.action.permission.OpenManageGuildPermissionsGuiAction;
 import pl.suseu.bfactions.item.ItemRepository;
 import pl.suseu.bfactions.settings.Settings;
 

@@ -1,13 +1,13 @@
-package pl.suseu.bfactions.gui.paginator;
+package pl.suseu.bfactions.gui.main.factory.paginator;
 
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Sound;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.ItemStack;
 import pl.suseu.bfactions.BFactions;
-import pl.suseu.bfactions.gui.CustomInventoryHolder;
-import pl.suseu.bfactions.gui.action.ChangePageAction;
-import pl.suseu.bfactions.gui.action.ClickAction;
+import pl.suseu.bfactions.gui.base.ClickAction;
+import pl.suseu.bfactions.gui.base.CustomInventoryHolder;
+import pl.suseu.bfactions.gui.main.action.paginator.ChangePageAction;
 import pl.suseu.bfactions.item.ItemRepository;
 
 import java.util.AbstractMap;
@@ -78,14 +78,6 @@ public class PaginatorFactory {
         holder.set(size - 7, this.itemRepository.getItem("previous-page"), prevPageAction);
 
         return holder;
-    }
-
-    private int firstIndex(int page, int itemsPerPage) {
-        if (page == 1) {
-            return 9;
-        }
-
-        return itemsPerPage * page + 9;
     }
 
     private int maxPages(int itemsPerPage, int items) {
