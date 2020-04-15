@@ -111,7 +111,7 @@ public class BFactions extends JavaPlugin {
         getServer().getScheduler().runTaskTimerAsynchronously(this,
                 new EntityLocationTask(this), 1, 1);
         getServer().getScheduler().runTaskTimerAsynchronously(this,
-                new FieldBarTask(this), 1, 1);
+                new FieldBarTask(this), 20, 20);
         getServer().getScheduler().runTaskTimerAsynchronously(this,
                 new FieldPassiveDrainTask(this), 1, 1);
     }
