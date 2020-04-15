@@ -40,8 +40,14 @@ public class FieldParticleTask implements Runnable {
             User user = plugin.getUserRepository().getUser(player.getUniqueId());
             Field field = closest.getGuild().getField();
 
-            Particle.DustOptions borderOptions =
-                    new Particle.DustOptions(closest.getGuild().isMember(user) ? Color.GREEN : Color.RED, 1);
+            Particle.DustOptions borderOptions;
+            if (closest.getGuild().isMember(user)) {
+                borderOptions = new Particle.DustOptions(Color.GREEN, 1);
+            } else if (closest.getGuild().getInvitedMembers().contains(user)) {
+                borderOptions = new Particle.DustOptions(Color.PURPLE, 1);
+            } else {
+                borderOptions = new Particle.DustOptions(Color.RED, 1);
+            }
             Particle.DustOptions domeOptions =
                     new Particle.DustOptions(Color.BLUE, 1);
 
