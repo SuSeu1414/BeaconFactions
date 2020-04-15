@@ -48,9 +48,6 @@ public class Field {
         this.dome.clear();
         this.border.clear();
 
-        alliedBar.getPlayers().clear();
-        enemyBar.getPlayers().clear();
-
         for (int i = 0; i < 256; i++) {
             border.put(i, new HashSet<>());
             dome.put(i, new HashSet<>());
