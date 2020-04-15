@@ -116,8 +116,8 @@ public class BFactions extends JavaPlugin {
     public void onDisable() {
         saveData();
         for (Field field : fieldRepository.getFields()) {
-            field.getAlliedBar().setVisible(false);
-            field.getEnemyBar().setVisible(false);
+            field.getAlliedBar().removeAll();
+            field.getEnemyBar().removeAll();
         }
     }
 
