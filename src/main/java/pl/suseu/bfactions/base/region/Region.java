@@ -44,6 +44,10 @@ public class Region {
         return true;
     }
 
+    public double flatDistance(Location location) {
+        return Math.sqrt(Math.pow(location.getX() - center.getX(), 2) + Math.pow(location.getZ() - center.getZ(), 2));
+    }
+
     public UUID getUuid() {
         return uuid;
     }
