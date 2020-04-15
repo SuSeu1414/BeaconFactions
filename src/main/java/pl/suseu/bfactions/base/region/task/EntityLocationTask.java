@@ -10,14 +10,18 @@ import pl.suseu.bfactions.base.region.Region;
 import pl.suseu.bfactions.base.region.event.EntityRegionChangeEvent;
 import pl.suseu.bfactions.util.EntityUtil;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class EntityLocationTask implements Runnable {
 
     private final BFactions plugin;
 
-    private final Map<UUID, Location> locationMap = new HashMap<>();
-    private final Map<UUID, Region> regionMap = new HashMap<>();
+    private final Map<UUID, Location> locationMap = new ConcurrentHashMap<>();
+    private final Map<UUID, Region> regionMap = new ConcurrentHashMap<>();
 
     public EntityLocationTask(BFactions plugin) {
         this.plugin = plugin;
