@@ -57,6 +57,10 @@ public class Field {
         GeometryUtil.roller(center, radius, 0, 255, settings.fieldBorderDensity).forEach(this::addBorder);
     }
 
+    public void addEnergy(double energy) {
+        this.currentEnergy += energy;
+    }
+
     public Set<Location> domeInRange(Location location, double range) {
         Set<Location> toReturn = new HashSet<>();
 
