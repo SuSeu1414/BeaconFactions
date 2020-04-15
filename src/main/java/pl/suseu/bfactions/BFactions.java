@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.rynbou.langapi3.LangAPI;
+import pl.suseu.bfactions.base.field.Field;
 import pl.suseu.bfactions.base.field.FieldRepository;
 import pl.suseu.bfactions.base.field.listener.*;
 import pl.suseu.bfactions.base.field.task.FieldBarTask;
@@ -114,6 +115,10 @@ public class BFactions extends JavaPlugin {
     @Override
     public void onDisable() {
         saveData();
+        for (Field field : fieldRepository.getFields()) {
+            field.getAlliedBar().setVisible(false);
+            field.getEnemyBar().setVisible(false);
+        }
     }
 
     private void saveData() {
