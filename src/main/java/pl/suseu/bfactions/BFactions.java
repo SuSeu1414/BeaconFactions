@@ -10,6 +10,7 @@ import pl.suseu.bfactions.base.field.FieldRepository;
 import pl.suseu.bfactions.base.field.listener.*;
 import pl.suseu.bfactions.base.field.task.FieldBarTask;
 import pl.suseu.bfactions.base.field.task.FieldParticleTask;
+import pl.suseu.bfactions.base.field.task.FieldPassiveDrainTask;
 import pl.suseu.bfactions.base.guild.GuildRepository;
 import pl.suseu.bfactions.base.guild.listener.BeaconClickListener;
 import pl.suseu.bfactions.base.guild.listener.BeaconPlaceListener;
@@ -109,7 +110,10 @@ public class BFactions extends JavaPlugin {
                 new UserLocationTask(this), 1, 1);
         getServer().getScheduler().runTaskTimerAsynchronously(this,
                 new EntityLocationTask(this), 1, 1);
-        getServer().getScheduler().runTaskTimerAsynchronously(this, new FieldBarTask(this), 1, 1);
+        getServer().getScheduler().runTaskTimerAsynchronously(this,
+                new FieldBarTask(this), 1, 1);
+        getServer().getScheduler().runTaskTimerAsynchronously(this,
+                new FieldPassiveDrainTask(this), 1, 1);
     }
 
     @Override
