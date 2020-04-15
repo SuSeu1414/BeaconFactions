@@ -6,6 +6,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.guild.Guild;
+import pl.suseu.bfactions.gui.base.ClickAction;
 import pl.suseu.bfactions.gui.base.CustomInventoryHolder;
 import pl.suseu.bfactions.gui.main.action.ChangeGuildNameAction;
 import pl.suseu.bfactions.gui.main.action.invite.OpenGuildInvitesGuiAction;
@@ -45,6 +46,11 @@ public class MainGuiFactory {
         ItemStack book2 = this.itemRepository.getItem("main-book-2");
         ItemStack book3 = this.itemRepository.getItem("main-book-3");
         ItemStack book4 = this.itemRepository.getItem("main-book-4");
+
+
+        ItemStack addFuelItem = this.itemRepository.getItem("add-fuel");
+        ClickAction openAddFuelGuiAction = whoClicked -> whoClicked.openInventory(guild.getFuelInventory());
+        holder.set(41, addFuelItem, openAddFuelGuiAction);
 
 
         return holder.getInventory();

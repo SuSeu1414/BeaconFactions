@@ -3,12 +3,14 @@ package pl.suseu.bfactions.base.guild;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.bukkit.Bukkit;
+import org.bukkit.inventory.Inventory;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.field.Field;
 import pl.suseu.bfactions.base.guild.permission.GuildPermission;
 import pl.suseu.bfactions.base.guild.permission.GuildPermissionSet;
 import pl.suseu.bfactions.base.region.Region;
 import pl.suseu.bfactions.base.user.User;
+import pl.suseu.bfactions.gui.base.FuelInventoryHolder;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -25,6 +27,8 @@ public class Guild {
     private final Map<User, GuildPermissionSet> permissions = new ConcurrentHashMap<>();
     private String name;
     private User owner;
+
+    private Inventory fuelInventory;
 
     public Guild(UUID uuid, String name, User owner, Region region, Field field) {
         this.uuid = uuid;
@@ -44,6 +48,8 @@ public class Guild {
         if (this.field != null) {
             this.field.setGuild(this);
         }
+
+        this.fuelInventory = new FuelInventoryHolder(this).getInventory();
     }
 
     public UUID getUuid() {
@@ -229,5 +235,9 @@ public class Guild {
 
             this.permissions.put(user, permissionSet);
         }
+    }
+
+    public Inventory getFuelInventory() {
+        return fuelInventory;
     }
 }
