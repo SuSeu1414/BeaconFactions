@@ -13,6 +13,8 @@ guild:
   minimum-distance: 200
 
 field:
+  #render distance of the bossbar outside the border
+  hp-bar-render-distance: 30
   #density of the dome
   dome-particle-density: 0.5
   #amount of blocks from which the dome is visible
@@ -39,7 +41,7 @@ field:
   initial-configuration:
     max-energy: 10000000
     initial-energy: 1000000
-    radius: 30
+    radius: 20
     passive-drain-amount: 20
 
   energy-upgrades:
@@ -52,11 +54,11 @@ field:
 
   size-upgrades:
     1:
-      radius: 35
+      radius: 25
       passive-drain-amount: 30
       cost: 5000000
     2:
-      radius: 40
+      radius: 30
       passive-drain-amount: 40
       cost: 10000000
 

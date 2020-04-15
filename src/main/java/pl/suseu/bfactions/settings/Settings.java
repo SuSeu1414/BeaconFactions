@@ -24,6 +24,7 @@ public class Settings {
     public int guildTagMinLength;
     public int guildMembersMax;
     public int cuboidDistanceMin;
+    public double fieldBarDistance;
     public double fieldDomeDensity;
     public double fieldDomeDistance;
     public double fieldBorderDensity;
@@ -55,6 +56,7 @@ public class Settings {
         guildMembersMax = cfg.getInt("guild.max-members");
         cuboidDistanceMin = cfg.getInt("guild.minimum-distance");
 
+        fieldBarDistance = cfg.getDouble("field.hp-bar-render-distance");
         fieldDomeDensity = cfg.getDouble("field.dome-particle-density");
         fieldDomeDistance = cfg.getDouble("field.dome-render-distance");
         fieldBorderDensity = cfg.getDouble("field.border-particle-density");
@@ -148,7 +150,12 @@ public class Settings {
             success = false;
         } else {
             ConfigurationSection fieldSection = cfg.getConfigurationSection("field");
-
+            if (!fieldSection.isDouble("hp-bar-render-distance")
+                    && !fieldSection.isInt("hp-bar-render-distance")
+                    && !fieldSection.isLong("hp-bar-render-distance")) {
+                log.warning("Configuration (field): Missing/Invalid 'hp-bar-render-distance' entry!");
+                success = false;
+            }
             if (!fieldSection.isDouble("dome-particle-density")
                     && !fieldSection.isInt("dome-particle-density")
                     && !fieldSection.isLong("dome-particle-density")) {
