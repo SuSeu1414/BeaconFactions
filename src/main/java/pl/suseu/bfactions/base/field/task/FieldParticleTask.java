@@ -53,7 +53,7 @@ public class FieldParticleTask implements Runnable {
             });
 
             if (closest.isInDome(location)) {
-                return;
+                continue;
             }
 
             Set<Location> border = field.borderInRange(location, settings.fieldBorderDistance);
