@@ -3,6 +3,7 @@ package pl.suseu.bfactions.base.guild;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.field.Field;
@@ -57,18 +58,28 @@ public class Guild {
     }
 
     public void addMember(User user) {
+        if (user == null) {
+            return;
+        }
         this.members.add(user);
         this.permissions.put(user, GuildPermissionSet.DEFAULT_PERMISSIONS);
-        if (user != null) {
-            user.addGuild(this);
+        user.addGuild(this);
+        Player player = Bukkit.getPlayer(user.getUuid());
+        if (player != null) {
+            this.getField().getEnemyBar().removePlayer(player);
         }
     }
 
     public void removeMember(User user) {
+        if (user == null) {
+            return;
+        }
         this.members.remove(user);
         this.permissions.remove(user);
-        if (user != null) {
-            user.removeGuild(this);
+        user.removeGuild(this);
+        Player player = Bukkit.getPlayer(user.getUuid());
+        if (player != null) {
+            this.getField().getAlliedBar().removePlayer(player);
         }
     }
 
