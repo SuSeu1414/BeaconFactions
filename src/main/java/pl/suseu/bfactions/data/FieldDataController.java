@@ -85,6 +85,7 @@ public class FieldDataController {
 
         FieldTier tier = this.settings.fieldTiers.get(tierIndex);
         Field field = new Field(uuid, tier);
+        field.setCurrentEnergy(currentEnergy);
         this.plugin.getFieldRepository().addField(field);
 
         return true;
