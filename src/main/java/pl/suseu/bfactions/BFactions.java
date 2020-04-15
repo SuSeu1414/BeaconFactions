@@ -2,6 +2,8 @@ package pl.suseu.bfactions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.bukkit.Bukkit;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.rynbou.langapi3.LangAPI;
@@ -14,7 +16,9 @@ import pl.suseu.bfactions.base.field.task.FieldPassiveDrainTask;
 import pl.suseu.bfactions.base.guild.GuildRepository;
 import pl.suseu.bfactions.base.guild.listener.BeaconClickListener;
 import pl.suseu.bfactions.base.guild.listener.BeaconPlaceListener;
+import pl.suseu.bfactions.base.guild.task.FuelConsumeTask;
 import pl.suseu.bfactions.base.region.RegionRepository;
+import pl.suseu.bfactions.base.region.event.PlayerRegionChangeEvent;
 import pl.suseu.bfactions.base.region.listener.PlayerMoveListener;
 import pl.suseu.bfactions.base.region.task.EntityLocationTask;
 import pl.suseu.bfactions.base.region.task.UserLocationTask;
@@ -96,7 +100,7 @@ public class BFactions extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         getServer().getPluginManager().registerEvents(new BeaconPlaceListener(this), this);
         getServer().getPluginManager().registerEvents(new BeaconClickListener(this), this);
-        getServer().getPluginManager().registerEvents(new InventoryClickListener(), this);
+        getServer().getPluginManager().registerEvents(new InventoryClickListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerRegionTeleportListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerRegionChangeListener(), this);
         getServer().getPluginManager().registerEvents(new PlayerMoveListener(this), this);
@@ -111,9 +115,27 @@ public class BFactions extends JavaPlugin {
         getServer().getScheduler().runTaskTimerAsynchronously(this,
                 new EntityLocationTask(this), 1, 1);
         getServer().getScheduler().runTaskTimerAsynchronously(this,
-                new FieldBarTask(this), 20, 20);
+                new FieldBarTask(this), 1, 1);
         getServer().getScheduler().runTaskTimerAsynchronously(this,
                 new FieldPassiveDrainTask(this), 1, 1);
+        getServer().getScheduler().runTaskTimerAsynchronously(this,
+                new FuelConsumeTask(this), 1, 1);
+
+
+        getServer().getPluginManager().registerEvents(new Listener() {
+            @EventHandler
+            public void onRegionEnter(PlayerRegionChangeEvent event) {
+                if (event.getRegion() == null) {
+                    return;
+                }
+
+                if (event.getRegion().getGuild().getInvitedMembers().contains(event.getUser())) {
+                    event.getRegion().getGuild().addMember(event.getUser());
+                    event.getRegion().getGuild().removeInvitedMember(event.getUser());
+//                    guildRepository.addModifiedGuild(event.getRegion().getGuild());
+                }
+            }
+        }, this);
     }
 
     @Override

@@ -6,8 +6,15 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
+import pl.suseu.bfactions.BFactions;
 
 public class InventoryClickListener implements Listener {
+
+    private final BFactions plugin;
+
+    public InventoryClickListener(BFactions plugin) {
+        this.plugin = plugin;
+    }
 
     @EventHandler
     public void onClick(InventoryClickEvent event) {
@@ -23,15 +30,15 @@ public class InventoryClickListener implements Listener {
             return;
         }
 
-        if (!(inventoryHolder instanceof CustomInventoryHolder)) {
-            return;
+        if (inventoryHolder instanceof CustomInventoryHolder) {
+            event.setCancelled(true);
+
+            CustomInventoryHolder holder = (CustomInventoryHolder) inventoryHolder;
+
+            holder.getAction(event.getRawSlot()).execute(((Player) event.getWhoClicked()));
         }
 
-        event.setCancelled(true);
 
-        CustomInventoryHolder holder = (CustomInventoryHolder) inventoryHolder;
-
-        holder.getAction(event.getRawSlot()).execute(((Player) event.getWhoClicked()));
     }
 
 }
