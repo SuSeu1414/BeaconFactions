@@ -28,6 +28,7 @@ public class EntityExplodeListener implements Listener {
         }
         if (region.isInDome(location)) {
             event.blockList().clear();
+            region.getGuild().getField().addEnergy(-1 * plugin.getSettings().fieldDamageTNT);
             return;
         }
         Set<Block> inRegion = event.blockList().stream()

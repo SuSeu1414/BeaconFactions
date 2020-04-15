@@ -48,6 +48,8 @@ public class EntityRegionChangeListener implements Listener {
                 return;
             }
 
+            event.getRegion().getGuild().getField().addEnergy(-1 * plugin.getSettings().fieldDamageArrow);
+
             double range = plugin.getSettings().fieldDomeDistance;
             Location location = arrow.getLocation();
             plugin.getServer().getScheduler().runTask(plugin, () -> {
