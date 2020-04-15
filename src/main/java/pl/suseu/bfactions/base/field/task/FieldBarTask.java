@@ -37,7 +37,7 @@ public class FieldBarTask implements Runnable {
             double range = region.getSize() + settings.fieldBarDistance;
 
             double progress = field.getCurrentEnergy() / field.getTier().getMaxEnergy();
-            String title = String.format("%.0f (%.0f)", field.getCurrentEnergy(), progress);
+            String title = String.format("%.0f (%.0f)", field.getCurrentEnergy(), progress * 100);
 
             BossBar alliedBar = field.getAlliedBar();
             BossBar enemyBar = field.getEnemyBar();
