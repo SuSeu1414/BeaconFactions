@@ -58,7 +58,11 @@ public class Field {
     }
 
     public void addEnergy(double energy) {
-        this.currentEnergy += energy;
+        if (currentEnergy + energy < 0) {
+            this.currentEnergy = 0;
+        } else {
+            this.currentEnergy += energy;
+        }
     }
 
     public Set<Location> domeInRange(Location location, double range) {
@@ -146,6 +150,9 @@ public class Field {
     }
 
     public void setCurrentEnergy(double currentEnergy) {
+        if (currentEnergy < 0) {
+            return;
+        }
         this.currentEnergy = currentEnergy;
     }
 
