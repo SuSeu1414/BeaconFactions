@@ -30,6 +30,7 @@ public class FuelConsumeTask implements Runnable {
                 Double itemEnergy = conversions.get(itemStack.getType());
 
                 if (itemEnergy == null) {
+                    guild.getFuelInventory().remove(itemStack);
                     dropItem(center, itemStack);
                     continue;
                 }
