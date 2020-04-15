@@ -22,7 +22,7 @@ import pl.suseu.bfactions.command.MainCommand;
 import pl.suseu.bfactions.data.GuildDataController;
 import pl.suseu.bfactions.data.UserDataController;
 import pl.suseu.bfactions.data.database.Database;
-import pl.suseu.bfactions.gui.listener.InventoryClickListener;
+import pl.suseu.bfactions.gui.base.InventoryClickListener;
 import pl.suseu.bfactions.item.ItemRepository;
 import pl.suseu.bfactions.settings.Settings;
 import pl.suseu.eventwaiter.EventWaiter;

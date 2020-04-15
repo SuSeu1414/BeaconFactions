@@ -36,7 +36,8 @@ public class GuildDataController {
         AtomicInteger success = new AtomicInteger();
         AtomicInteger failure = new AtomicInteger();
 
-        for (Guild guild : this.plugin.getGuildRepository().getModifiedGuilds()) {
+//        for (Guild guild : this.plugin.getGuildRepository().getModifiedGuilds()) {
+        for (Guild guild : this.plugin.getGuildRepository().getGuilds()) {
             this.regionDataController.saveRegion(guild.getRegion());
             this.fieldDataController.saveField(guild.getField());
             if (this.saveGuild(guild)) {
@@ -46,7 +47,7 @@ public class GuildDataController {
             }
         }
 
-        this.plugin.getGuildRepository().clearModifiedGuilds();
+//        this.plugin.getGuildRepository().clearModifiedGuilds();
         plugin.getLogger().info("Saved " + success + " guilds successfully.");
         if (failure.get() != 0) {
             plugin.getLogger().warning("Failed to save " + failure + " guilds!");

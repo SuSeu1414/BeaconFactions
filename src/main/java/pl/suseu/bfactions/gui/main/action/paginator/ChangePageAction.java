@@ -1,11 +1,12 @@
-package pl.suseu.bfactions.gui.action;
+package pl.suseu.bfactions.gui.main.action.paginator;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import pl.suseu.bfactions.BFactions;
-import pl.suseu.bfactions.gui.paginator.PaginatorFactory;
+import pl.suseu.bfactions.gui.base.ClickAction;
+import pl.suseu.bfactions.gui.main.factory.paginator.PaginatorFactory;
 
 import java.util.AbstractMap;
 import java.util.List;

@@ -1,4 +1,4 @@
-package pl.suseu.bfactions.gui.action;
+package pl.suseu.bfactions.gui.main.action;
 
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -11,6 +11,7 @@ import pl.suseu.bfactions.base.guild.GuildRepository;
 import pl.suseu.bfactions.base.guild.permission.GuildPermission;
 import pl.suseu.bfactions.base.user.User;
 import pl.suseu.bfactions.base.user.UserRepository;
+import pl.suseu.bfactions.gui.base.ClickAction;
 import pl.suseu.eventwaiter.EventWaiter;
 
 public class ChangeGuildNameAction implements ClickAction {
@@ -48,7 +49,7 @@ public class ChangeGuildNameAction implements ClickAction {
                     String newName = event.getMessage();
                     //todo check if name already exists
                     this.guild.setName(newName);
-                    this.guildRepository.addModifiedGuild(this.guild);
+//                    this.guildRepository.addModifiedGuild(this.guild);
                     this.lang.sendMessage("guild-name-changed", whoClicked);
                     event.setCancelled(true);
                 }, 20 * 30, () -> {

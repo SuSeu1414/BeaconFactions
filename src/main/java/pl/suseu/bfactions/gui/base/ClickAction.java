@@ -1,4 +1,4 @@
-package pl.suseu.bfactions.gui.action;
+package pl.suseu.bfactions.gui.base;
 
 import org.bukkit.entity.Player;
 

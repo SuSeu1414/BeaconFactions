@@ -22,9 +22,9 @@ public class GuildRepository {
 
     public void addGuild(Guild guild, boolean isNew) {
         this.guilds.put(guild.getUuid(), guild);
-        if (isNew) {
-            this.addModifiedGuild(guild);
-        }
+//        if (isNew) {
+//            this.addModifiedGuild(guild);
+//        }
     }
 
     public Guild getGuild(UUID uuid) {
@@ -46,17 +46,17 @@ public class GuildRepository {
         return null;
     }
 
-    public void addModifiedGuild(Guild guild) {
-        this.addModifiedGuild(guild.getUuid());
-    }
-
-    public void addModifiedGuild(UUID uuid) {
-        this.modifiedGuilds.add(uuid);
-    }
-
-    public void clearModifiedGuilds() {
-        this.modifiedGuilds.clear();
-    }
+//    public void addModifiedGuild(Guild guild) {
+//        this.addModifiedGuild(guild.getUuid());
+//    }
+//
+//    public void addModifiedGuild(UUID uuid) {
+//        this.modifiedGuilds.add(uuid);
+//    }
+//
+//    public void clearModifiedGuilds() {
+//        this.modifiedGuilds.clear();
+//    }
 
     /**
      * @return a copy of guilds set
@@ -65,11 +65,11 @@ public class GuildRepository {
         return new HashSet<>(this.guilds.values());
     }
 
-    public Set<Guild> getModifiedGuilds() {
-        Set<Guild> modified = new HashSet<>();
-        for (UUID uuid : this.modifiedGuilds) {
-            modified.add(this.getGuild(uuid));
-        }
-        return modified;
-    }
+//    public Set<Guild> getModifiedGuilds() {
+//        Set<Guild> modified = new HashSet<>();
+//        for (UUID uuid : this.modifiedGuilds) {
+//            modified.add(this.getGuild(uuid));
+//        }
+//        return modified;
+//    }
 }

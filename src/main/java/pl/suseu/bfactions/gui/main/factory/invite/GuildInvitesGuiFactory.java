@@ -1,8 +1,6 @@
-package pl.suseu.bfactions.gui.action;
+package pl.suseu.bfactions.gui.main.factory.invite;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -10,58 +8,40 @@ import org.bukkit.inventory.meta.SkullMeta;
 import pl.rynbou.langapi3.LangAPI;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.guild.Guild;
-import pl.suseu.bfactions.base.guild.GuildRepository;
-import pl.suseu.bfactions.base.guild.permission.GuildPermission;
 import pl.suseu.bfactions.base.user.User;
-import pl.suseu.bfactions.base.user.UserRepository;
-import pl.suseu.bfactions.gui.CustomInventoryHolder;
-import pl.suseu.bfactions.gui.paginator.PaginatorFactory;
+import pl.suseu.bfactions.gui.base.ClickAction;
+import pl.suseu.bfactions.gui.base.CustomInventoryHolder;
+import pl.suseu.bfactions.gui.main.action.invite.InviteMemberAction;
+import pl.suseu.bfactions.gui.main.factory.paginator.PaginatorFactory;
 import pl.suseu.bfactions.item.ItemRepository;
 import pl.suseu.bfactions.util.ItemUtil;
-import pl.suseu.eventwaiter.EventWaiter;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class OpenGuildInvitesGuiAction implements ClickAction {
+public class GuildInvitesGuiFactory {
 
     private final BFactions plugin;
-    private final UserRepository userRepository;
-    private final GuildRepository guildRepository;
-    private final ItemRepository itemRepository;
-    private final Guild guild;
     private final LangAPI lang;
-    private final EventWaiter eventWaiter;
+    private final ItemRepository itemRepository;
 
-    public OpenGuildInvitesGuiAction(BFactions plugin, Guild guild) {
+    public GuildInvitesGuiFactory(BFactions plugin) {
         this.plugin = plugin;
-        this.userRepository = plugin.getUserRepository();
-        this.guildRepository = plugin.getGuildRepository();
-        this.guild = guild;
-        this.eventWaiter = plugin.getEventWaiter();
         this.lang = plugin.getLang();
         this.itemRepository = plugin.getItemRepository();
     }
 
-    @Override
-    public void execute(Player whoClicked) {
-        User user = this.userRepository.getUser(whoClicked.getUniqueId());
-        if (!this.guild.hasPermission(user, GuildPermission.MANAGE)) {
-            whoClicked.playSound(whoClicked.getLocation(), Sound.ENTITY_VILLAGER_HURT, 1.0f, 1.0f);
-            this.lang.sendMessage("no-guild-permissions", whoClicked);
-            return;
-        }
-
-        Set<User> invitedMembers = this.guild.getInvitedMembers();
+    public Inventory createGui(Guild guild) {
+        Set<User> invitedMembers = guild.getInvitedMembers();
         List<AbstractMap.SimpleEntry<ItemStack, ClickAction>> items = new ArrayList<>();
 
         for (User invitedUser : invitedMembers) {
             ItemStack itemStack = this.itemRepository.getItem("invite-info");
             ItemMeta itemMeta = itemStack.getItemMeta();
             if (itemMeta == null) {
-                return;
+                return null;
             }
 
             if (itemMeta instanceof SkullMeta) {
@@ -73,8 +53,8 @@ public class OpenGuildInvitesGuiAction implements ClickAction {
             ItemUtil.replace(itemStack, "%name%", invitedUser.getName());
 
             ClickAction action = plr -> {
-                this.guild.removeInvitedMember(invitedUser);
-                this.guildRepository.addModifiedGuild(this.guild);
+                guild.removeInvitedMember(invitedUser);
+//                this.guildRepository.addModifiedGuild(this.guild);
                 this.lang.sendMessage("invite-removed", plr);
                 plr.closeInventory();
             };
@@ -86,10 +66,10 @@ public class OpenGuildInvitesGuiAction implements ClickAction {
         PaginatorFactory paginatorFactory = new PaginatorFactory(this.plugin);
         // todo configurable title
         CustomInventoryHolder holder = paginatorFactory.createPaginator("Invites %page%/%pages%", 6, 1, items);
-        holder.set(4, this.itemRepository.getItem("invite-player"), new InviteMemberAction(this.plugin, this.guild));
+        holder.set(4, this.itemRepository.getItem("invite-player"), new InviteMemberAction(this.plugin, guild));
         //todo set fancy items
 
-        Inventory inventory = holder.getInventory();
-        whoClicked.openInventory(inventory);
+        return holder.getInventory();
     }
+
 }
