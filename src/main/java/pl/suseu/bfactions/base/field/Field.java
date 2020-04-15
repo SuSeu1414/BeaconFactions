@@ -2,6 +2,9 @@ package pl.suseu.bfactions.base.field;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.guild.Guild;
 import pl.suseu.bfactions.settings.FieldTier;
@@ -19,12 +22,21 @@ public class Field {
     private FieldTier tier;
     private double currentEnergy;
 
+    private BossBar alliedBar;
+    private BossBar enemyBar;
+
     private final Map<Integer, Set<Location>> border = new HashMap<>();
     private final Map<Integer, Set<Location>> dome = new HashMap<>();
 
     public Field(UUID uuid, FieldTier tier) {
         this.uuid = uuid;
         this.tier = tier;
+        alliedBar = Bukkit.createBossBar("", BarColor.GREEN, BarStyle.SOLID);
+        alliedBar.setProgress(1);
+        alliedBar.setVisible(true);
+        enemyBar = Bukkit.createBossBar("", BarColor.RED, BarStyle.SOLID);
+        enemyBar.setProgress(1);
+        enemyBar.setVisible(true);
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -35,6 +47,9 @@ public class Field {
 
         this.dome.clear();
         this.border.clear();
+
+        alliedBar.getPlayers().clear();
+        enemyBar.getPlayers().clear();
 
         for (int i = 0; i < 256; i++) {
             border.put(i, new HashSet<>());
@@ -131,5 +146,13 @@ public class Field {
 
     public void setCurrentEnergy(double currentEnergy) {
         this.currentEnergy = currentEnergy;
+    }
+
+    public BossBar getAlliedBar() {
+        return alliedBar;
+    }
+
+    public BossBar getEnemyBar() {
+        return enemyBar;
     }
 }
