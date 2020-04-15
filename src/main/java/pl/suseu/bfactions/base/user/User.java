@@ -21,6 +21,7 @@ public class User {
     private final Set<UUID> projectiles = ConcurrentHashMap.newKeySet();
 
     private Region currentRegion;
+    private Region nearestRegion;
     private Location currentLocation;
     private long lastRegionChange;
 
@@ -84,6 +85,14 @@ public class User {
 
     public void setCurrentRegion(Region currentRegion) {
         this.currentRegion = currentRegion;
+    }
+
+    public Region getNearestRegion() {
+        return nearestRegion;
+    }
+
+    public void setNearestRegion(Region nearestRegion) {
+        this.nearestRegion = nearestRegion;
     }
 
     public Location getCurrentLocation() {

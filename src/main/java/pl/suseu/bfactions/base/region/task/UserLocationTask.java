@@ -21,9 +21,14 @@ public class UserLocationTask implements Runnable {
         for (Player player : Bukkit.getOnlinePlayers()) {
             User user = plugin.getUserRepository().getUser(player.getUniqueId());
             Region oldRegion = user.getCurrentRegion();
+            Region nearestRegion = plugin.getRegionRepository().nearestRegion(player.getLocation());
             Region newRegion = plugin.getRegionRepository().nearestRegion(player.getLocation());
             Location oldLocation = user.getCurrentLocation();
             Location newLocation = player.getLocation();
+
+            if (nearestRegion != user.getNearestRegion()) {
+                user.setNearestRegion(nearestRegion);
+            }
 
             if (newRegion != null && !newRegion.isInDome(newLocation)) {
                 newRegion = null;
