@@ -69,7 +69,11 @@ public class EntityLocationTask implements Runnable {
                 }
 
                 if (oldRegion != newRegion) {
-                    regionMap.put(uuid, newRegion);
+                    if (newRegion == null) {
+                        regionMap.remove(uuid);
+                    } else {
+                        regionMap.put(uuid, newRegion);
+                    }
                     EntityRegionChangeEvent event = new EntityRegionChangeEvent(entity, newRegion, oldLocation, newLocation);
                     plugin.getServer().getPluginManager().callEvent(event);
 
