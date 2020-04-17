@@ -1,6 +1,7 @@
 package pl.suseu.bfactions;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -38,7 +39,7 @@ import java.util.logging.Logger;
 public class BFactions extends JavaPlugin {
 
     public static final String PLUGIN_NAME = "BeaconFactions";
-    private final ObjectMapper jsonMapper = new ObjectMapper();
+    private final Gson gson = new GsonBuilder().create();
     private Settings settings;
     private Database database;
     private Logger log;
@@ -187,8 +188,8 @@ public class BFactions extends JavaPlugin {
         return this.lang;
     }
 
-    public ObjectMapper getJsonMapper() {
-        return jsonMapper;
+    public Gson getGson() {
+        return gson;
     }
 
     public EventWaiter getEventWaiter() {

@@ -1,7 +1,6 @@
 package pl.suseu.bfactions.base.guild;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.gson.reflect.TypeToken;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -159,14 +158,14 @@ public class Guild {
             return "null";
         }
 
-        List<UUID> uuids = new ArrayList<>();
+        List<String> uuids = new ArrayList<>();
         for (User member : this.members) {
-            uuids.add(member.getUuid());
+            uuids.add(member.getUuid().toString());
         }
 
         try {
-            return plugin.getJsonMapper().writeValueAsString(uuids);
-        } catch (JsonProcessingException e) {
+            return plugin.getGson().toJson(uuids);
+        } catch (Exception e) {
             e.printStackTrace();
             return "null";
         }
@@ -180,9 +179,9 @@ public class Guild {
         List<String> uuids;
 
         try {
-            uuids = this.plugin.getJsonMapper().readValue(json, new TypeReference<List<String>>() {
-            });
-        } catch (JsonProcessingException e) {
+            uuids = this.plugin.getGson().fromJson(json, new TypeToken<List<String>>() {
+            }.getType());
+        } catch (Exception e) {
             this.plugin.getLogger().warning("Cannot deserialize members json (guild_uuid: " + this.uuid + ")");
             e.printStackTrace();
             return;
@@ -210,8 +209,8 @@ public class Guild {
         }
 
         try {
-            return plugin.getJsonMapper().writeValueAsString(permissionMap);
-        } catch (JsonProcessingException e) {
+            return plugin.getGson().toJson(permissionMap);
+        } catch (Exception e) {
             e.printStackTrace();
             return "null";
         }
@@ -225,9 +224,9 @@ public class Guild {
         Map<String, Integer> perms;
 
         try {
-            perms = this.plugin.getJsonMapper().readValue(json, new TypeReference<Map<String, Integer>>() {
-            });
-        } catch (JsonProcessingException e) {
+            perms = this.plugin.getGson().fromJson(json, new TypeToken<Map<String, Integer>>() {
+            }.getType());
+        } catch (Exception e) {
             this.plugin.getLogger().warning("Cannot deserialize permissions json (guild_uuid: " + this.uuid + ")");
             e.printStackTrace();
             return;
