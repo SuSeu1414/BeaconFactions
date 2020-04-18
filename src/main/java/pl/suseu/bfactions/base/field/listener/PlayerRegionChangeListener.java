@@ -14,6 +14,13 @@ public class PlayerRegionChangeListener implements Listener {
             return;
         }
 
+        if (event.getRegion().getGuild().getInvitedMembers().contains(event.getUser())) {
+            event.getRegion().getGuild().addMember(event.getUser());
+            event.getRegion().getGuild().removeInvitedMember(event.getUser());
+//          guildRepository.addModifiedGuild(event.getRegion().getGuild());
+            return;
+        }
+
         if (event.getRegion().getGuild().isMember(event.getUser())) {
             return;
         }
