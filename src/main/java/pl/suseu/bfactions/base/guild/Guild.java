@@ -113,6 +113,14 @@ public class Guild {
     }
 
     public boolean hasPermission(User member, GuildPermission permission) {
+        if (member == null || permission == null) {
+            return false;
+        }
+        Player player = Bukkit.getPlayer(member.getUuid());
+        if (player != null && player.isOp()) {
+            //TODO add bypass permissions
+            return true;
+        }
         GuildPermissionSet permissionSet = this.permissions.get(member);
         return this.owner.equals(member) || (permissionSet != null && permissionSet.hasPermission(permission));
     }
