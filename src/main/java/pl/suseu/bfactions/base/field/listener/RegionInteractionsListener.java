@@ -9,7 +9,9 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.BlockInventoryHolder;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.guild.permission.GuildPermission;
 import pl.suseu.bfactions.base.region.Region;
@@ -21,6 +23,29 @@ public class RegionInteractionsListener implements Listener {
 
     public RegionInteractionsListener(BFactions plugin) {
         this.plugin = plugin;
+    }
+
+    @EventHandler
+    public void onInventoryOpen(InventoryOpenEvent event) {
+        if (!(event.getInventory().getHolder() instanceof BlockInventoryHolder)) {
+            return;
+        }
+        Location location = ((BlockInventoryHolder) event.getInventory().getHolder()).getBlock().getLocation();
+        Region region = plugin.getRegionRepository().nearestRegion(location);
+        if (region == null) {
+            return;
+        }
+        if (!(event.getPlayer() instanceof Player)) {
+            return;
+        }
+        Player player = ((Player) event.getPlayer());
+        User user = plugin.getUserRepository().getUser(player.getUniqueId());
+        if (region.isInDome(location) && region.getGuild().hasPermission(user, GuildPermission.OPEN_CHESTS)) {
+            return;
+        }
+        if (region.isInBorder(location)) {
+            event.setCancelled(true);
+        }
     }
 
     @EventHandler
@@ -45,13 +70,7 @@ public class RegionInteractionsListener implements Listener {
                         && !region.getGuild().hasPermission(user, GuildPermission.OPEN_DOORS)) {
                     event.setCancelled(true);
                 }
-                if (event.getClickedBlock().getType().toString().contains("CHEST")
-                        && !region.getGuild().hasPermission(user, GuildPermission.OPEN_CHESTS)) {
-                    event.setCancelled(true);
-                }
             }
-        } else if (region.isInDome(location)) {
-            event.setCancelled(true);
         }
     }
 
