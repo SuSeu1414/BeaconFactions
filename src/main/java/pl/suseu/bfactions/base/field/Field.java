@@ -5,8 +5,10 @@ import org.bukkit.Location;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
+import org.bukkit.inventory.Inventory;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.guild.Guild;
+import pl.suseu.bfactions.gui.base.UndamageableFieldInventoryHolder;
 import pl.suseu.bfactions.settings.FieldTier;
 import pl.suseu.bfactions.settings.Settings;
 import pl.suseu.bfactions.util.GeometryUtil;
@@ -28,6 +30,9 @@ public class Field {
     private final Map<Integer, Set<Location>> border = new HashMap<>();
     private final Map<Integer, Set<Location>> dome = new HashMap<>();
 
+    private long undamageableTime;
+    private Inventory undamageableItemInventory;
+
     public Field(UUID uuid, FieldTier tier) {
         this.uuid = uuid;
         this.tier = tier;
@@ -37,6 +42,11 @@ public class Field {
         enemyBar = Bukkit.createBossBar("", BarColor.RED, BarStyle.SOLID);
         enemyBar.setProgress(1);
         enemyBar.setVisible(true);
+        updateUndamageableItemInventory();
+    }
+
+    public void updateUndamageableItemInventory() {
+        this.undamageableItemInventory = new UndamageableFieldInventoryHolder(this.plugin).getInventory();
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -163,4 +173,26 @@ public class Field {
     public BossBar getEnemyBar() {
         return enemyBar;
     }
+
+    public long getUndamageableTime() {
+        return undamageableTime;
+    }
+
+    public void setUndamageableTime(long undamageableTime) {
+        this.undamageableTime = undamageableTime;
+    }
+
+    public boolean isUndamageable() {
+        return this.getUndamageableTime() > 0;
+    }
+
+    public Inventory getUndamageableItemInventory() {
+        return undamageableItemInventory;
+    }
+
+    public void setUndamageableItemInventory(Inventory undamageableItemInventory) {
+        this.undamageableItemInventory = undamageableItemInventory;
+    }
+
+
 }

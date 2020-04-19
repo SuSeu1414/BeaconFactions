@@ -64,12 +64,12 @@ field:
 
   # In this section you can specify items which make the field undamageable
   # in this example "test" is the item id
-  # to set it execute /bf setitem undamageable-test
-  # to get it execute /bf giveitem undamageable-test
+  # to set it execute /bf setitem boost-undamageable-test
+  # to get it execute /bf giveitem boost-undamageable-test
   # you can use %time% as a placeholder so it will show actual time left
   # you can also create your custom ids and delete the test one
   # the number is the time (in seconds) for how long can the item make your field undamageable
-  undamageable-items:
+  boost-undamageable-items:
     test: 600
     some-id: 666
 

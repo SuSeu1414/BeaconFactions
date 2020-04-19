@@ -36,7 +36,7 @@ public class Settings {
     public final Map<Material, Double> fieldEnergyConversions = new HashMap<>();
     public final List<FieldTier> fieldTiers = new ArrayList<>();
     public final List<RegionTier> regionTiers = new ArrayList<>();
-    public final Map<String, Long> undamageableItems = new HashMap<>();
+    public final Map<String, Long> fieldBoostUndamageableItems = new HashMap<>();
     public String guiMainTitle;
 
     public Settings(BFactions plugin) {
@@ -105,13 +105,11 @@ public class Settings {
             i++;
         }
 
-        ConfigurationSection itemsSection = cfg.getConfigurationSection("field.undamageable-items");
+        ConfigurationSection itemsSection = cfg.getConfigurationSection("field.boost-undamageable-items");
 
         for (String key : itemsSection.getKeys(false)) {
-            ConfigurationSection itemSection = itemsSection.getConfigurationSection(key);
-
-            long time = itemSection.getLong(key);
-            this.undamageableItems.put(key, time);
+            long time = itemsSection.getLong(key);
+            this.fieldBoostUndamageableItems.put("boost-undamageable-" + key, time);
         }
 
         guiMainTitle = ChatColor.translateAlternateColorCodes('&', cfg.getString("gui.main-gui-title"));
@@ -306,17 +304,15 @@ public class Settings {
                 }
             }
 
-            if (!fieldSection.isConfigurationSection("undamageable-items")) {
-                log.warning("Configuration (field): Missing 'undamageable-items' section!");
+            if (!fieldSection.isConfigurationSection("boost-undamageable-items")) {
+                log.warning("Configuration (field): Missing 'boost-undamageable-items' section!");
                 success = false;
             } else {
-                ConfigurationSection itemsSection = fieldSection.getConfigurationSection("undamageable-items");
+                ConfigurationSection itemsSection = fieldSection.getConfigurationSection("boost-undamageable-items");
 
                 for (String key : itemsSection.getKeys(false)) {
-                    ConfigurationSection itemSection = itemsSection.getConfigurationSection(key);
-
-                    if (!itemSection.isInt(key) && itemSection.isLong(key)) {
-                        log.warning("Configuration (field.undamageable-items." + key + "): Invalid '" + key + "' entry!");
+                    if (!itemsSection.isInt(key) && itemsSection.isLong(key)) {
+                        log.warning("Configuration (field.boost-undamageable-items." + key + "): Invalid '" + key + "' entry!");
                         success = false;
                     }
                 }

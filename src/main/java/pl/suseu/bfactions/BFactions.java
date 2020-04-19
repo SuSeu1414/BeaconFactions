@@ -15,7 +15,7 @@ import pl.suseu.bfactions.base.field.task.FieldPassiveDrainTask;
 import pl.suseu.bfactions.base.guild.GuildRepository;
 import pl.suseu.bfactions.base.guild.listener.BeaconClickListener;
 import pl.suseu.bfactions.base.guild.listener.BeaconPlaceListener;
-import pl.suseu.bfactions.base.guild.task.FuelConsumeTask;
+import pl.suseu.bfactions.base.guild.task.GuildInventoriesTask;
 import pl.suseu.bfactions.base.region.RegionRepository;
 import pl.suseu.bfactions.base.region.listener.PlayerMoveListener;
 import pl.suseu.bfactions.base.region.task.EntityLocationTask;
@@ -118,7 +118,7 @@ public class BFactions extends JavaPlugin {
         getServer().getScheduler().runTaskTimerAsynchronously(this,
                 new FieldPassiveDrainTask(this), 1, 1);
         getServer().getScheduler().runTaskTimerAsynchronously(this,
-                new FuelConsumeTask(this), 1, 1);
+                new GuildInventoriesTask(this), 1, 1);
     }
 
     @Override

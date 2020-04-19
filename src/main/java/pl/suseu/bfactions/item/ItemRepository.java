@@ -5,6 +5,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import pl.suseu.bfactions.BFactions;
+import pl.suseu.bfactions.base.field.Field;
+import pl.suseu.bfactions.util.ItemUtil;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -21,7 +23,20 @@ public class ItemRepository {
     }
 
     public void addItem(String name, ItemStack item) {
-        items.put(name, item.clone());
+        ItemStack clone = item.clone();
+        ItemMeta itemMeta = clone.getItemMeta();
+        if (itemMeta == null) {
+            return;
+        }
+        // do stuff with item meta
+        clone.setItemMeta(itemMeta);
+        items.put(name, clone);
+
+        if (name.equalsIgnoreCase("blank-item-boost-undamageable-gui")) {
+            for (Field field : this.plugin.getFieldRepository().getFields()) {
+                field.updateUndamageableItemInventory();
+            }
+        }
     }
 
     public ItemStack getItem(String name) {
@@ -29,7 +44,21 @@ public class ItemRepository {
         if (itemStack == null) {
             return getDefaultItem(name);
         }
-        return itemStack.clone();
+
+        ItemStack clone = itemStack.clone();
+        ItemMeta itemMeta = clone.getItemMeta();
+        if (itemMeta == null) {
+            return getDefaultItem("error"); // should never happen
+        }
+
+        if (ItemUtil.isBoostItem("undamageable", name)) {
+            ItemUtil.addBoostTags(itemMeta, "undamageable", name);
+            ItemUtil.replace(clone, "%time%", "some time"); // todo time
+        }
+
+        clone.setItemMeta(itemMeta);
+
+        return clone;
     }
 
     private ItemStack getDefaultItem(String name) {
