@@ -84,7 +84,6 @@ public class BFactions extends JavaPlugin {
 
         this.guildDataController = new GuildDataController(this);
         this.userDataController = new UserDataController(this);
-        //todo more data controlers
         this.userDataController.loadUsers();
         this.guildDataController.loadGuilds();
 
