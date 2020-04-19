@@ -3,11 +3,14 @@ package pl.suseu.bfactions.command.cmds;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import pl.rynbou.langapi3.LangAPI;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.command.BCommand;
 import pl.suseu.bfactions.command.BCommandExecutor;
 import pl.suseu.bfactions.item.ItemRepository;
+import pl.suseu.bfactions.settings.Settings;
+import pl.suseu.bfactions.util.ItemUtil;
 
 import java.util.List;
 
@@ -16,11 +19,13 @@ public class ItemGiveCommandExecutor implements BCommandExecutor {
     private final BFactions plugin;
     private final LangAPI lang;
     private final ItemRepository itemRepository;
+    private final Settings settings;
 
     public ItemGiveCommandExecutor(BFactions plugin) {
         this.plugin = plugin;
         this.lang = this.plugin.getLang();
         this.itemRepository = this.plugin.getItemRepository();
+        this.settings = plugin.getSettings();
     }
 
     @Override
@@ -46,7 +51,10 @@ public class ItemGiveCommandExecutor implements BCommandExecutor {
             return;
         }
 
-        player.getInventory().addItem(this.itemRepository.getItem(id));
+        ItemStack itemStack = this.itemRepository.getItem(id);
+        Long time = this.settings.fieldBoostUndamageableItems.get(id);
+        ItemUtil.replace(itemStack, "%time%", String.valueOf(time)); // todo time
+        player.getInventory().addItem(itemStack);
         sender.sendMessage("Given " + id + " to " + player.getName());
     }
 }

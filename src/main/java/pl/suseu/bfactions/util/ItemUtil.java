@@ -10,6 +10,7 @@ import pl.suseu.bfactions.BFactions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class ItemUtil {
 
@@ -42,8 +43,10 @@ public class ItemUtil {
         PersistentDataContainer container = itemMeta.getPersistentDataContainer();
         NamespacedKey isBoostKey = new NamespacedKey(plugin, "is-boost-" + boost + "-item");
         NamespacedKey boostIdKey = new NamespacedKey(plugin, "boost-" + boost + "-item-id");
+        NamespacedKey randomKey = new NamespacedKey(plugin, "random-uuid");
         container.set(isBoostKey, PersistentDataType.BYTE, (byte) 1);
         container.set(boostIdKey, PersistentDataType.STRING, id);
+        container.set(randomKey, PersistentDataType.STRING, UUID.randomUUID().toString());
         if (boost.equals("undamageable")) {
             long time = plugin.getSettings().fieldBoostUndamageableItems.get(id);
             if (time != 0) {
