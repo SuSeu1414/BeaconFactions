@@ -42,6 +42,10 @@ public class FieldBarTask implements Runnable {
             BossBar alliedBar = field.getAlliedBar();
             BossBar enemyBar = field.getEnemyBar();
 
+            if (progress > 1) {
+                progress = 1;
+            }
+
             alliedBar.setTitle(title);
             alliedBar.setProgress(progress);
             enemyBar.setTitle(title);
