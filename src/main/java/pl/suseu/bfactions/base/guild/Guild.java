@@ -183,6 +183,9 @@ public class Guild {
 
         if (tier instanceof RegionTier) {
             this.region.setTier(((RegionTier) tier));
+            if (this.plugin != null) {
+                this.plugin.getServer().getScheduler().runTaskAsynchronously(this.plugin, this.field::recalculate);
+            }
         }
     }
 
