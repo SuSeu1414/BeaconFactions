@@ -1,10 +1,14 @@
 package pl.suseu.bfactions.data;
 
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.field.Field;
 import pl.suseu.bfactions.data.database.Database;
 import pl.suseu.bfactions.settings.FieldTier;
 import pl.suseu.bfactions.settings.Settings;
+import pl.suseu.bfactions.util.ItemUtil;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -75,6 +79,8 @@ public class FieldDataController {
         String uuidString = result.getString("uuid");
         int tierIndex = result.getInt("tier");
         double currentEnergy = result.getDouble("currentEnergy");
+        String boostUndamageableItemId = result.getString("boost-undamageable-item");
+        long boostUndamageableTime = result.getLong("boost-undamageable-time");
 
         if (uuidString == null) {
             this.plugin.getLogger().warning("Cannot load field uuid!");
@@ -88,20 +94,51 @@ public class FieldDataController {
         field.setCurrentEnergy(currentEnergy);
         this.plugin.getFieldRepository().addField(field);
 
+        try {
+            if (boostUndamageableItemId != null && !boostUndamageableItemId.isEmpty() && !boostUndamageableItemId.equals("null")) {
+                ItemStack itemStack = this.plugin.getItemRepository().getItem(boostUndamageableItemId);
+                ItemUtil.replace(itemStack, "%time%", boostUndamageableTime + "");
+                ItemMeta itemMeta = itemStack.getItemMeta();
+                field.setUndamageableTime(boostUndamageableTime);
+                ItemUtil.setBoostUndamageableRemainingTime(itemMeta, boostUndamageableTime);
+                itemStack.setItemMeta(itemMeta);
+                field.getUndamageableItemInventory().setItem(13, itemStack);
+            }
+        } catch (Exception e) {
+            this.plugin.getLogger().warning("Cannot load boost item for field! uuid: " + uuidString);
+            e.printStackTrace();
+        }
+
         return true;
     }
 
     private String getInsert(Field field) {
         StringBuilder sb = new StringBuilder();
 
+        String boostUndamageableItem = "null";
+        long boostUndamageableTime = 0;
+
+        Inventory inv = field.getUndamageableItemInventory();
+        if (inv != null) {
+            ItemStack itemStack = inv.getItem(13);
+            if (itemStack != null && itemStack.hasItemMeta()) {
+                boostUndamageableItem = ItemUtil.getBoostItemId(itemStack.getItemMeta(), "undamageable");
+                boostUndamageableTime = ItemUtil.getBoostUndamageableRemainingTime(itemStack.getItemMeta());
+            }
+        }
+
         sb.append("insert into `" + database.getFieldsTableName() + "` ");
-        sb.append("(`uuid`, `tier`, `currentEnergy`) values ( ");
+        sb.append("(`uuid`, `tier`, `currentEnergy`, `boost-undamageable-item`, `boost-undamageable-time`) values ( ");
         sb.append("'" + field.getUuid() + "',");
         sb.append("'" + field.getTier().getTier() + "',");
-        sb.append("'" + field.getCurrentEnergy() + "')");
+        sb.append("'" + field.getCurrentEnergy() + "',");
+        sb.append("'" + boostUndamageableItem + "',");
+        sb.append("'" + boostUndamageableTime + "')");
         sb.append(" on duplicate key update ");
         sb.append("`tier` = '" + field.getTier().getTier() + "',");
-        sb.append("`currentEnergy` = '" + field.getCurrentEnergy() + "'");
+        sb.append("`currentEnergy` = '" + field.getCurrentEnergy() + "',");
+        sb.append("`boost-undamageable-item` = '" + boostUndamageableItem + "',");
+        sb.append("`boost-undamageable-time` = '" + boostUndamageableTime + "'");
 
         return sb.toString();
     }
@@ -114,6 +151,8 @@ public class FieldDataController {
         sb.append("(`uuid` varchar(36) not null,");
         sb.append("`tier` int,");
         sb.append("`currentEnergy` double,");
+        sb.append("`boost-undamageable-item` text,");
+        sb.append("`boost-undamageable-time` bigint,");
         sb.append("primary key (`uuid`));");
 
         return database.executeUpdate(sb.toString());
