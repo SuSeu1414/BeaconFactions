@@ -1,6 +1,7 @@
 package pl.suseu.bfactions.command;
 
 import pl.suseu.bfactions.BFactions;
+import pl.suseu.bfactions.command.cmds.ItemGiveCommandExecutor;
 import pl.suseu.bfactions.command.cmds.ItemSetCommandExecutor;
 import pl.suseu.bfactions.command.cmds.TestCommandExecutor;
 import pl.suseu.bfactions.util.StringArrayUtil;
@@ -15,12 +16,14 @@ public class BCommandMap {
 
     private final TestCommandExecutor testCommandExecutor;
     private final ItemSetCommandExecutor itemSetCommandExecutor;
+    private final ItemGiveCommandExecutor itemGiveCommandExecutor;
 
     public BCommandMap(BFactions plugin) {
         this.plugin = plugin;
 
         this.testCommandExecutor = new TestCommandExecutor();
         this.itemSetCommandExecutor = new ItemSetCommandExecutor(this.plugin);
+        this.itemGiveCommandExecutor = new ItemGiveCommandExecutor(this.plugin);
     }
 
     public void addCommand(BCommand command) {
@@ -50,6 +53,11 @@ public class BCommandMap {
                 .setNeedsArguments(true)
                 .setUsage("setitem item-id")
                 .setExecutor(this.itemSetCommandExecutor)
+                .build(this.commands);
+
+        new BCommandBuilder("giveitem")
+                .setPermission("bfactions.giveitem")
+                .setExecutor(itemGiveCommandExecutor)
                 .build(this.commands);
     }
 }

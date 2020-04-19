@@ -38,6 +38,23 @@ public class InventoryClickListener implements Listener {
             holder.getAction(event.getRawSlot()).execute(((Player) event.getWhoClicked()));
         }
 
+        Inventory clickedInventory = event.getClickedInventory();
+        if (clickedInventory == null) {
+            return;
+        }
+
+        inventoryHolder = clickedInventory.getHolder();
+
+        if (inventoryHolder == null) {
+            return;
+        }
+
+        if (inventoryHolder instanceof UndamageableFieldInventoryHolder) {
+            if (event.getRawSlot() != 13) {
+                event.setCancelled(true);
+            }
+        }
+
 
     }
 
