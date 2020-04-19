@@ -11,6 +11,9 @@ import pl.suseu.bfactions.base.guild.permission.GuildPermissionSet;
 import pl.suseu.bfactions.base.region.Region;
 import pl.suseu.bfactions.base.user.User;
 import pl.suseu.bfactions.gui.base.FuelInventoryHolder;
+import pl.suseu.bfactions.settings.FieldTier;
+import pl.suseu.bfactions.settings.RegionTier;
+import pl.suseu.bfactions.settings.Tier;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -160,6 +163,29 @@ public class Guild {
     public boolean isMember(User user) {
         return user.getGuilds().contains(this);
     }
+
+    public Tier getTier(Tier.TierType tierType) {
+        if (tierType == Tier.TierType.FIELD) {
+            return this.field.getTier();
+        }
+
+        if (tierType == Tier.TierType.REGION) {
+            return this.region.getTier();
+        }
+
+        return null;
+    }
+
+    public void setTier(Tier tier) {
+        if (tier instanceof FieldTier) {
+            this.field.setTier(((FieldTier) tier));
+        }
+
+        if (tier instanceof RegionTier) {
+            this.region.setTier(((RegionTier) tier));
+        }
+    }
+
 
     public String getMembersSerialized() {
         if (plugin == null) {

@@ -1,21 +1,14 @@
 package pl.suseu.bfactions.settings;
 
-public class RegionTier {
+public class RegionTier extends Tier {
 
-    private final int tier;
     private final int radius;
     private final double drainAmount;
-    private final double cost;
 
     public RegionTier(int tier, int radius, double drainAmount, double cost) {
-        this.tier = tier;
+        super(tier, cost, TierType.REGION);
         this.radius = radius;
         this.drainAmount = drainAmount;
-        this.cost = cost;
-    }
-
-    public int getTier() {
-        return tier;
     }
 
     public int getRadius() {
@@ -24,9 +17,5 @@ public class RegionTier {
 
     public double getDrainAmount() {
         return drainAmount;
-    }
-
-    public double getCost() {
-        return cost;
     }
 }
