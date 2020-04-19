@@ -11,8 +11,10 @@ import pl.suseu.bfactions.gui.base.CustomInventoryHolder;
 import pl.suseu.bfactions.gui.main.action.ChangeGuildNameAction;
 import pl.suseu.bfactions.gui.main.action.invite.OpenGuildInvitesGuiAction;
 import pl.suseu.bfactions.gui.main.action.permission.OpenManageGuildPermissionsGuiAction;
+import pl.suseu.bfactions.gui.main.action.upgrade.OpenFieldUpgradeGuiAction;
 import pl.suseu.bfactions.item.ItemRepository;
 import pl.suseu.bfactions.settings.Settings;
+import pl.suseu.bfactions.settings.Tier;
 
 public class MainGuiFactory {
 
@@ -52,6 +54,13 @@ public class MainGuiFactory {
         ClickAction openAddFuelGuiAction = whoClicked -> whoClicked.openInventory(guild.getFuelInventory());
         holder.set(41, addFuelItem, openAddFuelGuiAction);
 
+        ItemStack openFieldUpgradesItem = this.itemRepository.getItem("field-upgrades");
+        ClickAction openFieldUpgradesAction = new OpenFieldUpgradeGuiAction(this.plugin, guild, Tier.TierType.FIELD);
+        holder.set(0, openFieldUpgradesItem, openFieldUpgradesAction);
+
+        ItemStack regionUpgradesItem = this.itemRepository.getItem("region-upgrades");
+        ClickAction regionUpgradesAction = new OpenFieldUpgradeGuiAction(this.plugin, guild, Tier.TierType.REGION);
+        holder.set(1, regionUpgradesItem, regionUpgradesAction);
 
         return holder.getInventory();
     }

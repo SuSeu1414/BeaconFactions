@@ -48,6 +48,10 @@ public class CustomInventoryHolder implements InventoryHolder {
         };
     }
 
+    public boolean isSet(int slot) {
+        return items.containsKey(slot);
+    }
+
     @Override
     public Inventory getInventory() {
         this.inventory = Bukkit.createInventory(this, this.size, this.title);
