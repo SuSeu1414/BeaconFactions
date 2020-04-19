@@ -45,8 +45,12 @@ public class RegionRepository {
         regions.put(region.getUuid(), region);
     }
 
+    public void removeRegion(UUID uuid) {
+        regions.remove(uuid);
+    }
+
     public void removeRegion(Region region) {
-        regions.remove(region.getUuid());
+        this.removeRegion(region.getUuid());
     }
 
     /**

@@ -46,6 +46,10 @@ public class GuildRepository {
         return null;
     }
 
+    public void removeGuild(UUID uuid) {
+        this.guilds.remove(uuid);
+    }
+
 //    public void addModifiedGuild(Guild guild) {
 //        this.addModifiedGuild(guild.getUuid());
 //    }

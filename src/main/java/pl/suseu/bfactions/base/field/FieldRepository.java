@@ -26,8 +26,12 @@ public class FieldRepository {
         this.fields.put(field.getUuid(), field);
     }
 
+    public void removeField(UUID uuid) {
+        this.fields.remove(uuid);
+    }
+
     public void removeField(Field field) {
-        this.fields.remove(field.getUuid());
+        this.removeField(field.getUuid());
     }
 
     public Set<Field> getFields() {

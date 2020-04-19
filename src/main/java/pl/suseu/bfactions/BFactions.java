@@ -23,6 +23,7 @@ import pl.suseu.bfactions.base.region.task.UserLocationTask;
 import pl.suseu.bfactions.base.user.UserRepository;
 import pl.suseu.bfactions.base.user.listener.PlayerJoinListener;
 import pl.suseu.bfactions.command.MainCommand;
+import pl.suseu.bfactions.data.DataIntegrator;
 import pl.suseu.bfactions.data.GuildDataController;
 import pl.suseu.bfactions.data.UserDataController;
 import pl.suseu.bfactions.data.database.Database;
@@ -49,6 +50,7 @@ public class BFactions extends JavaPlugin {
     private RegionRepository regionRepository;
     private ItemRepository itemRepository;
     private FieldRepository fieldRepository;
+    private DataIntegrator dataIntegrator;
 
     @Override
     public void onEnable() {
@@ -86,6 +88,9 @@ public class BFactions extends JavaPlugin {
         this.userDataController = new UserDataController(this);
         this.userDataController.loadUsers();
         this.guildDataController.loadGuilds();
+
+        this.dataIntegrator = new DataIntegrator(this);
+        this.dataIntegrator.checkIntegrity();
 
         int autoSave = getConfig().getInt("mysql.autoSave") * 20;
         getServer().getScheduler().runTaskTimerAsynchronously(this, this::saveData, autoSave, autoSave);
