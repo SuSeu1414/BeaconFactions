@@ -67,7 +67,10 @@ public class GuildInvitesGuiFactory {
         // todo configurable title
         CustomInventoryHolder holder = paginatorFactory.createPaginator("Invites %page%/%pages%", 6, 1, items);
         holder.set(4, this.itemRepository.getItem("invite-player"), new InviteMemberAction(this.plugin, guild));
-        //todo set fancy items
+        ItemStack filler = this.itemRepository.getItem("invites-filler");
+        for (int i : new int[]{0, 1, 2, 3, 5, 6, 7, 8, 45, 46, 48, 50, 52, 53}) {
+            holder.setItem(i, filler);
+        }
 
         return holder.getInventory();
     }
