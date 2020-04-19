@@ -62,6 +62,10 @@ public class MainGuiFactory {
         ClickAction regionUpgradesAction = new OpenFieldUpgradeGuiAction(this.plugin, guild, Tier.TierType.REGION);
         holder.set(1, regionUpgradesItem, regionUpgradesAction);
 
+        ItemStack openUndamageableItem = this.itemRepository.getItem("field-undamageable-inventory");
+        ClickAction openUndamageableAction = whoClicked -> whoClicked.openInventory(guild.getField().getUndamageableItemInventory());
+        holder.set(2, openFieldUpgradesItem, openUndamageableAction);
+
         return holder.getInventory();
     }
 
