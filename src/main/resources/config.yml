@@ -1,14 +1,4 @@
 guild:
-  #maximum length of a full name
-  name-max-length: 22
-  #minimal length of a full name
-  name-min-length: 4
-  #maximum length of a tag
-  tag-max-length: 4
-  #minimal length of a tag
-  tag-min-length: 2
-  #maximal number of members
-  max-members: 15
   #minimum distance between cuboids in X/Y axis
   minimum-distance: 200
 

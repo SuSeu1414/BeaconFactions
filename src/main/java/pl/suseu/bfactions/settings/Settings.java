@@ -18,11 +18,11 @@ public class Settings {
     private final BFactions plugin;
     private final FileConfiguration cfg;
     private final Logger log;
-    public int guildNameMaxLength;
-    public int guildNameMinLength;
-    public int guildTagMaxLength;
-    public int guildTagMinLength;
-    public int guildMembersMax;
+    //    public int guildNameMaxLength;
+//    public int guildNameMinLength;
+//    public int guildTagMaxLength;
+//    public int guildTagMinLength;
+//    public int guildMembersMax;
     public int cuboidDistanceMin;
     public double fieldBarDistance;
     public double fieldDomeDensity;
@@ -50,11 +50,11 @@ public class Settings {
             return false;
         }
 
-        guildNameMaxLength = cfg.getInt("guild.name-max-length");
-        guildNameMinLength = cfg.getInt("guild.name-min-length");
-        guildTagMaxLength = cfg.getInt("guild.tag-max-length");
-        guildTagMinLength = cfg.getInt("guild.tag-min-length");
-        guildMembersMax = cfg.getInt("guild.max-members");
+//        guildNameMaxLength = cfg.getInt("guild.name-max-length");
+//        guildNameMinLength = cfg.getInt("guild.name-min-length");
+//        guildTagMaxLength = cfg.getInt("guild.tag-max-length");
+//        guildTagMinLength = cfg.getInt("guild.tag-min-length");
+//        guildMembersMax = cfg.getInt("guild.max-members");
         cuboidDistanceMin = cfg.getInt("guild.minimum-distance");
 
         fieldBarDistance = cfg.getDouble("field.hp-bar-render-distance");
@@ -126,26 +126,26 @@ public class Settings {
         } else {
             ConfigurationSection guildSection = cfg.getConfigurationSection("guild");
 
-            if (!guildSection.isInt("name-max-length")) {
-                log.warning("Configuration (guild): Missing/Invalid 'name-max-length' entry!");
-                success = false;
-            }
-            if (!guildSection.isInt("name-min-length")) {
-                log.warning("Configuration (guild): Missing/Invalid 'name-min-length' entry!");
-                success = false;
-            }
-            if (!guildSection.isInt("tag-max-length")) {
-                log.warning("Configuration (guild): Missing/Invalid 'tag-max-length' entry!");
-                success = false;
-            }
-            if (!guildSection.isInt("tag-min-length")) {
-                log.warning("Configuration (guild): Missing/Invalid 'tag-min-length' entry!");
-                success = false;
-            }
-            if (!guildSection.isInt("max-members")) {
-                log.warning("Configuration (guild): Missing/Invalid 'max-members' entry!");
-                success = false;
-            }
+//            if (!guildSection.isInt("name-max-length")) {
+//                log.warning("Configuration (guild): Missing/Invalid 'name-max-length' entry!");
+//                success = false;
+//            }
+//            if (!guildSection.isInt("name-min-length")) {
+//                log.warning("Configuration (guild): Missing/Invalid 'name-min-length' entry!");
+//                success = false;
+//            }
+//            if (!guildSection.isInt("tag-max-length")) {
+//                log.warning("Configuration (guild): Missing/Invalid 'tag-max-length' entry!");
+//                success = false;
+//            }
+//            if (!guildSection.isInt("tag-min-length")) {
+//                log.warning("Configuration (guild): Missing/Invalid 'tag-min-length' entry!");
+//                success = false;
+//            }
+//            if (!guildSection.isInt("max-members")) {
+//                log.warning("Configuration (guild): Missing/Invalid 'max-members' entry!");
+//                success = false;
+//            }
             if (!guildSection.isInt("minimum-distance")) {
                 log.warning("Configuration (guild): Missing/Invalid 'minimum-distance' entry!");
                 success = false;
