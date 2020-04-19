@@ -36,7 +36,7 @@ public class Settings {
     public final Map<Material, Double> fieldEnergyConversions = new HashMap<>();
     public final List<FieldTier> fieldTiers = new ArrayList<>();
     public final List<RegionTier> regionTiers = new ArrayList<>();
-    public final Map<String, Integer> undamageableItems = new HashMap<>();
+    public final Map<String, Long> undamageableItems = new HashMap<>();
     public String guiMainTitle;
 
     public Settings(BFactions plugin) {
@@ -110,7 +110,7 @@ public class Settings {
         for (String key : itemsSection.getKeys(false)) {
             ConfigurationSection itemSection = itemsSection.getConfigurationSection(key);
 
-            int time = itemSection.getInt(key);
+            long time = itemSection.getLong(key);
             this.undamageableItems.put(key, time);
         }
 
@@ -315,8 +315,8 @@ public class Settings {
                 for (String key : itemsSection.getKeys(false)) {
                     ConfigurationSection itemSection = itemsSection.getConfigurationSection(key);
 
-                    if (!itemSection.isInt(key)) {
-                        log.warning("Configuration (field.undamageable-items." + key + "): Missing/Invalid '" + key + "' entry!");
+                    if (!itemSection.isInt(key) && itemSection.isLong(key)) {
+                        log.warning("Configuration (field.undamageable-items." + key + "): Invalid '" + key + "' entry!");
                         success = false;
                     }
                 }
