@@ -1,6 +1,5 @@
 package pl.suseu.bfactions.base.guild;
 
-import com.google.gson.reflect.TypeToken;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -15,7 +14,10 @@ import pl.suseu.bfactions.settings.FieldTier;
 import pl.suseu.bfactions.settings.RegionTier;
 import pl.suseu.bfactions.settings.Tier;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Guild {
@@ -95,6 +97,13 @@ public class Guild {
 
     public Set<User> getInvitedMembers() {
         return new HashSet<>(this.invitedMembers);
+    }
+
+    public void setMemberPermissionSet(User member, GuildPermissionSet set) {
+        if (set == null) {
+            return;
+        }
+        this.permissions.put(member, set);
     }
 
     public void addMemberPermission(User member, GuildPermission permission) {
@@ -192,96 +201,30 @@ public class Guild {
 
     public String getMembersSerialized() {
         if (plugin == null) {
-            return "null";
+            return "[]";
         }
-
-        List<String> uuids = new ArrayList<>();
-        for (User member : this.members) {
-            uuids.add(member.getUuid().toString());
-        }
-
-        try {
-            return plugin.getGson().toJson(uuids);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "null";
-        }
+        return plugin.getDataSerializer().getMembersSerialized(this.getMembers());
     }
 
     public void setMembersFromJson(String json) {
-        if (this.plugin == null) {
+        if (plugin == null) {
             return;
         }
-
-        List<String> uuids;
-
-        try {
-            uuids = this.plugin.getGson().fromJson(json, new TypeToken<List<String>>() {
-            }.getType());
-        } catch (Exception e) {
-            this.plugin.getLogger().warning("Cannot deserialize members json (guild_uuid: " + this.uuid + ")");
-            e.printStackTrace();
-            return;
-        }
-
-        for (String memberUUIDString : uuids) {
-            User member = plugin.getUserRepository().getUser(UUID.fromString(memberUUIDString));
-            if (member == null) {
-                this.plugin.getLogger().warning("Cannot get member! (guild: " + this.uuid + ", user: " + memberUUIDString + ")");
-                continue;
-            }
-            addMember(member);
-        }
+        plugin.getDataSerializer().setMembersFromJson(json, this);
     }
 
     public String getPermissionsSerialized() {
         if (plugin == null) {
-            return "null";
+            return "{}";
         }
-
-        Map<String, Integer> permissionMap = new HashMap<>();
-
-        for (Map.Entry<User, GuildPermissionSet> entry : this.permissions.entrySet()) {
-            permissionMap.put(entry.getKey().getUuid().toString(), entry.getValue().serialize());
-        }
-
-        try {
-            return plugin.getGson().toJson(permissionMap);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "null";
-        }
+        return plugin.getDataSerializer().getPermissionsSerialized(this.permissions);
     }
 
     public void setPermissionsFromJson(String json) {
-        if (this.plugin == null) {
+        if (plugin == null) {
             return;
         }
-
-        Map<String, Integer> perms;
-
-        try {
-            perms = this.plugin.getGson().fromJson(json, new TypeToken<Map<String, Integer>>() {
-            }.getType());
-        } catch (Exception e) {
-            this.plugin.getLogger().warning("Cannot deserialize permissions json (guild_uuid: " + this.uuid + ")");
-            e.printStackTrace();
-            return;
-        }
-
-        for (Map.Entry<String, Integer> entry : perms.entrySet()) {
-            UUID memberUUID = UUID.fromString(entry.getKey());
-            GuildPermissionSet permissionSet = new GuildPermissionSet(entry.getValue());
-
-            User user = this.plugin.getUserRepository().getUser(memberUUID);
-
-            if (user == null) {
-                this.plugin.getLogger().warning("Cannot get member! (guild: " + this.uuid + ", user: " + entry.getKey() + ")");
-                continue;
-            }
-
-            this.permissions.put(user, permissionSet);
-        }
+        plugin.getDataSerializer().setMembersFromJson(json, this);
     }
 
     public Inventory getFuelInventory() {

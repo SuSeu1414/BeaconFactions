@@ -27,6 +27,7 @@ import pl.suseu.bfactions.data.DataIntegrator;
 import pl.suseu.bfactions.data.GuildDataController;
 import pl.suseu.bfactions.data.UserDataController;
 import pl.suseu.bfactions.data.database.Database;
+import pl.suseu.bfactions.data.serializer.DataSerializer;
 import pl.suseu.bfactions.gui.base.InventoryClickListener;
 import pl.suseu.bfactions.item.ItemRepository;
 import pl.suseu.bfactions.settings.Settings;
@@ -51,6 +52,7 @@ public class BFactions extends JavaPlugin {
     private ItemRepository itemRepository;
     private FieldRepository fieldRepository;
     private DataIntegrator dataIntegrator;
+    private DataSerializer dataSerializer;
 
     @Override
     public void onEnable() {
@@ -78,6 +80,8 @@ public class BFactions extends JavaPlugin {
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
+
+        this.dataSerializer = new DataSerializer(this);
 
         this.guildRepository = new GuildRepository(this);
         this.userRepository = new UserRepository(this);
@@ -180,5 +184,9 @@ public class BFactions extends JavaPlugin {
 
     public EventWaiter getEventWaiter() {
         return eventWaiter;
+    }
+
+    public DataSerializer getDataSerializer() {
+        return dataSerializer;
     }
 }
