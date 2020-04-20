@@ -53,7 +53,6 @@ public class ItemRepository {
 
         if (ItemUtil.isBoostItem("undamageable", name)) {
             ItemUtil.addBoostTags(itemMeta, "undamageable", name);
-            ItemUtil.replace(clone, "%time%", "some time"); // todo time
         }
 
         clone.setItemMeta(itemMeta);
