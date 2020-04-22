@@ -45,6 +45,15 @@ public class FieldBarTask implements Runnable {
                     && (now - field.getStateChangeTime()) >= settings.fieldKnockdownTimeout) {
                 field.setState(FieldState.DISABLED);
             }
+            if (field.getState() == FieldState.DISABLED
+                    && field.getCurrentEnergy() > 0) {
+                for (User user : userRepository.getUsers()) {
+                    if (region.equals(user.getCurrentRegion())) {
+                        user.setLastRegionChange(now);
+                    }
+                }
+                field.setState(FieldState.ENABLED);
+            }
 
             double progress;
             String title;
