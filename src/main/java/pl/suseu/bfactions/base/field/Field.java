@@ -26,6 +26,8 @@ public class Field {
 
     private BossBar alliedBar;
     private BossBar enemyBar;
+    private FieldState state;
+    private long stateChangeTime;
 
     private final Map<Integer, Set<Location>> border = new HashMap<>();
     private final Map<Integer, Set<Location>> dome = new HashMap<>();
@@ -194,5 +196,16 @@ public class Field {
         this.undamageableItemInventory = undamageableItemInventory;
     }
 
+    public FieldState getState() {
+        return state;
+    }
 
+    public void setState(FieldState state) {
+        this.state = state;
+        this.stateChangeTime = System.currentTimeMillis();
+    }
+
+    public long getStateChangeTime() {
+        return stateChangeTime;
+    }
 }
