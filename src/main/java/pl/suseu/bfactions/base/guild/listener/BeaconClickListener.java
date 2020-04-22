@@ -10,6 +10,7 @@ import org.bukkit.inventory.Inventory;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.guild.Guild;
 import pl.suseu.bfactions.base.guild.GuildRepository;
+import pl.suseu.bfactions.base.user.User;
 import pl.suseu.bfactions.gui.main.factory.MainGuiFactory;
 
 public class BeaconClickListener implements Listener {
@@ -47,6 +48,10 @@ public class BeaconClickListener implements Listener {
         }
 
         event.setCancelled(true);
+        User user = plugin.getUserRepository().getUser(event.getPlayer().getUniqueId());
+        if (!guild.isMember(user)) {
+            return;
+        }
 
         Inventory gui = this.mainGuiFactory.createGui(event.getPlayer(), guild);
         event.getPlayer().openInventory(gui);
