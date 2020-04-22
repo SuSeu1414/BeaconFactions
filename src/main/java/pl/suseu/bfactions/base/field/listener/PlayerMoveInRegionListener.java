@@ -6,6 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.util.Vector;
 import pl.suseu.bfactions.BFactions;
+import pl.suseu.bfactions.base.field.FieldState;
 import pl.suseu.bfactions.base.region.event.PlayerMoveInRegionEvent;
 import pl.suseu.bfactions.base.user.User;
 
@@ -26,10 +27,15 @@ public class PlayerMoveInRegionListener implements Listener {
         if (user.getCurrentRegion().getGuild().isMember(user)) {
             return;
         }
+        if (event.getPlayer().isOp() || event.getPlayer().hasPermission("bfactions.bypass-entry")) {
+            return;
+        }
+        if (event.getRegion().getGuild().getField().getState() != FieldState.ENABLED) {
+            return;
+        }
         if (System.currentTimeMillis() - user.getLastRegionChange() > 3000) {
             user.getCurrentRegion().teleportToSafety(player);
         }
-
         Location from = event.getRegion().getCenter().clone();
         Location to = event.getFrom();
         if (from.getX() == to.getX()) {

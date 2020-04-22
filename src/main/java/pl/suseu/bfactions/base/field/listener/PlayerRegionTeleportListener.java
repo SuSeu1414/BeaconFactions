@@ -5,6 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import pl.suseu.bfactions.BFactions;
+import pl.suseu.bfactions.base.field.FieldState;
 import pl.suseu.bfactions.base.region.Region;
 import pl.suseu.bfactions.base.user.User;
 
@@ -23,6 +24,9 @@ public class PlayerRegionTeleportListener implements Listener {
         Location from = event.getFrom();
         Location to = event.getTo();
 
+        if (event.getPlayer().isOp() || event.getPlayer().hasPermission("bfactions.bypass-entry")) {
+            return;
+        }
         if (to == null) {
             return;
         }
@@ -31,6 +35,9 @@ public class PlayerRegionTeleportListener implements Listener {
         Region region = plugin.getRegionRepository().nearestRegion(to);
 
         if (region == null) {
+            return;
+        }
+        if (region.getGuild().getField().getState() != FieldState.ENABLED) {
             return;
         }
         if (!region.isInBorder(to)) {

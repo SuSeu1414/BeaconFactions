@@ -4,6 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.util.Vector;
+import pl.suseu.bfactions.base.field.FieldState;
 import pl.suseu.bfactions.base.region.event.PlayerRegionChangeEvent;
 
 public class PlayerRegionChangeListener implements Listener {
@@ -13,7 +14,12 @@ public class PlayerRegionChangeListener implements Listener {
         if (event.getRegion() == null) {
             return;
         }
-
+        if (event.getPlayer().isOp() || event.getPlayer().hasPermission("bfactions.bypass-entry")) {
+            return;
+        }
+        if (event.getRegion().getGuild().getField().getState() != FieldState.ENABLED) {
+            return;
+        }
         if (event.getRegion().getGuild().getInvitedMembers().contains(event.getUser())) {
             event.getRegion().getGuild().addMember(event.getUser());
             event.getRegion().getGuild().removeInvitedMember(event.getUser());
