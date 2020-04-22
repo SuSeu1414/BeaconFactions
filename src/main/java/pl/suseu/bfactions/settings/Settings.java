@@ -39,6 +39,11 @@ public class Settings {
     public final List<RegionTier> regionTiers = new ArrayList<>();
     public final Map<String, Long> fieldBoostUndamageableItems = new HashMap<>();
     public String guiMainTitle;
+    public String timeDays;
+    public String timeHours;
+    public String timeMinutes;
+    public String timeSeconds;
+    public String timeMilliseconds;
 
     public Settings(BFactions plugin) {
         this.plugin = plugin;
@@ -115,6 +120,12 @@ public class Settings {
         }
 
         guiMainTitle = ChatColor.translateAlternateColorCodes('&', cfg.getString("gui.main-gui-title"));
+
+        timeDays = cfg.getString("time-format.days");
+        timeHours = cfg.getString("time-format.hours");
+        timeMinutes = cfg.getString("time-format.minutes");
+        timeSeconds = cfg.getString("time-format.seconds");
+        timeMilliseconds = cfg.getString("time-format.milliseconds");
 
         return true;
     }
@@ -333,6 +344,18 @@ public class Settings {
 
             if (!guiSection.isString("main-gui-title")) {
                 log.warning("Configuration (gui): Missing/Invalid 'main-gui-title' entry!");
+                success = false;
+            }
+        }
+
+        if (!cfg.isConfigurationSection("time-format")) {
+            log.warning("Configuration: Missing 'time-format' section!");
+            success = false;
+        }
+
+        for (String t : new String[]{"days", "minutes", "hours", "seconds", "milliseconds"}) {
+            if (!cfg.isString("time-format." + t)) {
+                log.warning("Configuration (time-format): Missing/Invalid '" + t + "' entry!");
                 success = false;
             }
         }

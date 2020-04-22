@@ -10,6 +10,7 @@ import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.guild.Guild;
 import pl.suseu.bfactions.item.ItemRepository;
 import pl.suseu.bfactions.util.ItemUtil;
+import pl.suseu.bfactions.util.TimeUtil;
 
 import java.util.Map;
 
@@ -93,7 +94,7 @@ public class GuildInventoriesTask implements Runnable {
                 return;
             }
             itemStack = this.itemRepository.getItem(ItemUtil.getBoostItemId(itemMeta, "undamageable"));
-            ItemUtil.replace(itemStack, "%time%", time + "");
+            ItemUtil.replace(itemStack, "%time%", TimeUtil.timePhrase(time * 1000L, false));
             itemMeta = itemStack.getItemMeta();
             guild.getField().setUndamageableTime(time);
             ItemUtil.setBoostUndamageableRemainingTime(itemMeta, time);

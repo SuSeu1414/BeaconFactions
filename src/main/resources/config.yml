@@ -65,6 +65,12 @@ field:
     test: 600
     some-id: 666
 
+time-format:
+  days: 'd'
+  hours: 'h'
+  minutes: 'm'
+  seconds: 's'
+  milliseconds: 'ms'
 
 gui:
   main-gui-title: '&2%guild%'

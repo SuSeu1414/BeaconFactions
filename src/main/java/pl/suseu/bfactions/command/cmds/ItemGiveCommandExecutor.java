@@ -11,6 +11,7 @@ import pl.suseu.bfactions.command.BCommandExecutor;
 import pl.suseu.bfactions.item.ItemRepository;
 import pl.suseu.bfactions.settings.Settings;
 import pl.suseu.bfactions.util.ItemUtil;
+import pl.suseu.bfactions.util.TimeUtil;
 
 import java.util.List;
 
@@ -53,7 +54,7 @@ public class ItemGiveCommandExecutor implements BCommandExecutor {
 
         ItemStack itemStack = this.itemRepository.getItem(id);
         Long time = this.settings.fieldBoostUndamageableItems.get(id);
-        ItemUtil.replace(itemStack, "%time%", String.valueOf(time)); // todo time
+        ItemUtil.replace(itemStack, "%time%", TimeUtil.timePhrase(time * 1000L, false));
         player.getInventory().addItem(itemStack);
         sender.sendMessage("Given " + id + " to " + player.getName());
     }
