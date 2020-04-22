@@ -8,6 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.field.Field;
+import pl.suseu.bfactions.base.field.FieldState;
 import pl.suseu.bfactions.base.guild.Guild;
 import pl.suseu.bfactions.base.region.Region;
 import pl.suseu.bfactions.base.user.User;
@@ -60,6 +61,7 @@ public class BeaconPlaceListener implements Listener {
         field.setCurrentEnergy(plugin.getSettings().fieldEnergyInitial);
         Guild guild = new Guild(uuid, player.getName() + "'s guild", user, region, field);
         field.recalculate();
+        field.setState(FieldState.ENABLED);
         this.plugin.getGuildRepository().addGuild(guild, true);
         this.plugin.getRegionRepository().addRegion(region);
         this.plugin.getFieldRepository().addField(field);
