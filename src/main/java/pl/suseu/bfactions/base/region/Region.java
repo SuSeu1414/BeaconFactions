@@ -27,11 +27,7 @@ public class Region {
     }
 
     public boolean isInBorder(Location location) {
-        Location l1 = location.clone();
-        Location l2 = this.center.clone();
-        l1.setY(0);
-        l2.setY(0);
-        return l1.distance(l2) < tier.getRadius();
+        return this.flatDistance(location) < tier.getRadius();
     }
 
     public boolean isInDome(Location location) {
