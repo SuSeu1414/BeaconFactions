@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.field.Field;
 import pl.suseu.bfactions.base.field.FieldRepository;
+import pl.suseu.bfactions.base.field.FieldState;
 import pl.suseu.bfactions.base.guild.Guild;
 import pl.suseu.bfactions.base.region.Region;
 import pl.suseu.bfactions.base.user.User;
@@ -35,9 +36,33 @@ public class FieldBarTask implements Runnable {
             Guild guild = field.getGuild();
             Region region = guild.getRegion();
             double range = region.getSize() + settings.fieldBarDistance;
+            long now = System.currentTimeMillis();
 
-            double progress = field.getCurrentEnergy() / field.getTier().getMaxEnergy();
-            String title = String.format("%.0f (%.2f%%)", field.getCurrentEnergy(), progress * 100);
+            if (field.getCurrentEnergy() == 0 && field.getState() == FieldState.ENABLED) {
+                field.setState(FieldState.PERMISSIVE);
+            }
+            if (field.getState() == FieldState.PERMISSIVE
+                    && (now - field.getStateChangeTime()) >= settings.fieldKnockdownTimeout) {
+                field.setState(FieldState.DISABLED);
+            }
+
+            double progress;
+            String title;
+
+            if (field.getState() == FieldState.PERMISSIVE) {
+                progress = ((double) settings.fieldKnockdownTimeout + field.getStateChangeTime() - now) / settings.fieldKnockdownTimeout;
+                title = "The field was knocked out, " + (settings.fieldKnockdownTimeout + field.getStateChangeTime() - now) / 1000 + " seconds left";
+            } else if (field.getState() == FieldState.ENABLED) {
+                progress = field.getCurrentEnergy() / field.getTier().getMaxEnergy();
+                title = String.format("%.0f (%.2f%%)", field.getCurrentEnergy(), progress * 100);
+            } else if (field.getState() == FieldState.DISABLED) {
+                progress = 0;
+                title = "The field is disabled";
+            } else {
+                //State is Null?
+                progress = 0;
+                title = "";
+            }
 
             BossBar alliedBar = field.getAlliedBar();
             BossBar enemyBar = field.getEnemyBar();
