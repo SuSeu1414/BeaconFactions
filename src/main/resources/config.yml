@@ -13,6 +13,8 @@ field:
   border-particle-density: 1
   #amount of blocks from which the wall is visible
   border-render-distance: 5
+  #the amount of seconds the players are allowed to mine/interact with foreign region after the field is knocked down
+  field-knockdown-timeout: 300
   #how often passive drain should trigger in ticks
   passive-drain-delay: 20
   #how much damage should be inflicted on the field by an arrow

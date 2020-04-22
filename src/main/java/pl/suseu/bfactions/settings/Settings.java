@@ -29,6 +29,7 @@ public class Settings {
     public double fieldDomeDistance;
     public double fieldBorderDensity;
     public double fieldBorderDistance;
+    public int fieldKnockdownTimeout;
     public double fieldEnergyInitial;
     public int fieldPassiveDrainDelay;
     public double fieldDamageArrow;
@@ -62,6 +63,7 @@ public class Settings {
         fieldDomeDistance = cfg.getDouble("field.dome-render-distance");
         fieldBorderDensity = cfg.getDouble("field.border-particle-density");
         fieldBorderDistance = cfg.getDouble("field.border-render-distance");
+        fieldKnockdownTimeout = cfg.getInt("field.field-knockdown-timeout") * 1000;
         fieldPassiveDrainDelay = cfg.getInt("field.passive-drain-delay");
         fieldDamageArrow = cfg.getDouble("field.arrow-damage");
         fieldDamageTNT = cfg.getDouble("field.tnt-damage");
@@ -185,6 +187,10 @@ public class Settings {
                     && !fieldSection.isInt("border-render-distance")
                     && !fieldSection.isLong("border-render-distance")) {
                 log.warning("Configuration (field): Missing/Invalid 'border-render-distance' entry!");
+                success = false;
+            }
+            if (!fieldSection.isInt("field-knockdown-timeout")) {
+                log.warning("Configuration (field): Missing/Invalid 'field-knockdown-timeout' entry!");
                 success = false;
             }
             if (!fieldSection.isInt("passive-drain-delay")) {
