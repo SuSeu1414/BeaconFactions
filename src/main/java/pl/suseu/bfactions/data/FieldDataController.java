@@ -94,7 +94,11 @@ public class FieldDataController {
         Field field = new Field(uuid, tier);
         field.setCurrentEnergy(currentEnergy);
         //TODO STATE LOADING
-        field.setState(FieldState.ENABLED);
+        if (currentEnergy != 0) {
+            field.setState(FieldState.ENABLED);
+        } else {
+            field.setState(FieldState.DISABLED);
+        }
         this.plugin.getFieldRepository().addField(field);
 
         try {
