@@ -228,7 +228,7 @@ public class Guild {
         if (plugin == null) {
             return;
         }
-        plugin.getDataSerializer().setMembersFromJson(json, this);
+        plugin.getDataSerializer().setPermissionsFromJson(json, this);
     }
 
     public Inventory getFuelInventory() {
