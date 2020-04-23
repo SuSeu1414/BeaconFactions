@@ -13,7 +13,7 @@ public class GuildPermissionSet {
 
     public GuildPermissionSet(int data) {
         for (int i = 0; i <= MAX_BITS; i++) {
-            int bit = data &= (0b1 << i);
+            int bit = data & (0b1 << i);
             GuildPermission permission = GuildPermission.getByBit(bit);
             if (permission == null) {
                 continue;
