@@ -8,6 +8,7 @@ import pl.suseu.bfactions.base.guild.permission.GuildPermission;
 import pl.suseu.bfactions.base.user.User;
 import pl.suseu.bfactions.gui.base.CustomInventoryHolder;
 import pl.suseu.bfactions.item.ItemRepository;
+import pl.suseu.bfactions.util.ItemUtil;
 
 public class ManageMemberPermissionGuiFactory {
 
@@ -34,6 +35,7 @@ public class ManageMemberPermissionGuiFactory {
 
         ItemStack memberInfoItem = this.itemRepository.getItem("member-info");
         holder.setItem(4, memberInfoItem);
+        ItemUtil.replace(memberInfoItem, "%player%", user.getName());
 
         ItemStack managePermissionInfo = this.itemRepository.getItem("permission-manage-info");
         holder.setItem(12, managePermissionInfo);
@@ -72,6 +74,7 @@ public class ManageMemberPermissionGuiFactory {
         holder.setItem(slot + 1, buttonDisable);
         holder.setAction(slot, null);
         holder.setAction(slot + 1, whoClicked -> {
+            //todo check permission
             guild.removeMemberPermission(user, permission);
             displayOffButtons(holder, permission, slot, guild, user);
 //            this.guildRepository.addModifiedGuild(this.guild);
@@ -82,6 +85,7 @@ public class ManageMemberPermissionGuiFactory {
         holder.setItem(slot, buttonEnable);
         holder.setItem(slot + 1, buttonOFF);
         holder.setAction(slot, whoClicked -> {
+            //todo check permission
             guild.addMemberPermission(user, permission);
             displayOnButtons(holder, permission, slot, guild, user);
 //            this.guildRepository.addModifiedGuild(this.guild);
