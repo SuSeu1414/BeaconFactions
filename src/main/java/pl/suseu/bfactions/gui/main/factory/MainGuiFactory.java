@@ -64,7 +64,7 @@ public class MainGuiFactory {
 
         ItemStack openUndamageableItem = this.itemRepository.getItem("field-undamageable-inventory");
         ClickAction openUndamageableAction = whoClicked -> whoClicked.openInventory(guild.getField().getUndamageableItemInventory());
-        holder.set(2, openFieldUpgradesItem, openUndamageableAction);
+        holder.set(2, openUndamageableItem, openUndamageableAction);
 
         return holder.getInventory();
     }
