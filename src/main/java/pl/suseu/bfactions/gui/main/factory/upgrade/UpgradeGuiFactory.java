@@ -8,6 +8,8 @@ import pl.suseu.bfactions.gui.base.ClickAction;
 import pl.suseu.bfactions.gui.base.CustomInventoryHolder;
 import pl.suseu.bfactions.gui.main.action.upgrade.OpenFieldUpgradeGuiAction;
 import pl.suseu.bfactions.item.ItemRepository;
+import pl.suseu.bfactions.settings.FieldTier;
+import pl.suseu.bfactions.settings.RegionTier;
 import pl.suseu.bfactions.settings.Tier;
 import pl.suseu.bfactions.util.ItemUtil;
 
@@ -28,20 +30,6 @@ public class UpgradeGuiFactory {
         this.plugin = plugin;
         this.itemRepository = plugin.getItemRepository();
         this.tierType = tierType;
-    }
-
-    // I have no idea what it does, but it somehow works so leave it pls
-    // btw it's not copied from anywhere. I did it by trial and error
-    private static int func(int x) {
-        int size = route.length;
-        if ((x + 1) % size == 0) {
-            return (x + 1) / size;
-        }
-        if (x < size) {
-            return 0;
-        }
-
-        return func(x - size) + 1;
     }
 
     public Inventory createGui(Guild guild, List<Tier> tiers, int currentTier) {
@@ -80,6 +68,20 @@ public class UpgradeGuiFactory {
         return holder.getInventory();
     }
 
+    // I have no idea what it does, but it somehow works so leave it pls
+    // btw it's not copied from anywhere. I did it by trial and error
+    private static int func(int x) {
+        int size = route.length;
+        if ((x + 1) % size == 0) {
+            return (x + 1) / size;
+        }
+        if (x < size) {
+            return 0;
+        }
+
+        return func(x - size) + 1;
+    }
+
     private void setBuyableItem(Guild guild, List<Tier> tiers, CustomInventoryHolder holder, int routeIndex, int tierIndex) {
         ItemStack itemStack;
         ClickAction action;
@@ -91,7 +93,7 @@ public class UpgradeGuiFactory {
         } else {
             itemStack = this.itemRepository.getItem("upgrade-path-to-obtain");
         }
-        replaceItem(itemStack, tier.getTier());
+        replaceItem(itemStack, tier);
 
         action = whoClicked -> {
             if (guild.getField().getCurrentEnergy() < tier.getCost()) {
@@ -121,7 +123,7 @@ public class UpgradeGuiFactory {
         } else {
             itemStack = this.itemRepository.getItem("upgrade-path-obtained");
         }
-        replaceItem(itemStack, tier.getTier());
+        replaceItem(itemStack, tier);
         holder.set(slot, itemStack, action);
     }
 
@@ -135,12 +137,20 @@ public class UpgradeGuiFactory {
         } else {
             itemStack = this.itemRepository.getItem("upgrade-path-cannot-obtain");
         }
-        replaceItem(itemStack, tier.getTier());
+        replaceItem(itemStack, tier);
         holder.set(slot, itemStack, action);
     }
 
-    private void replaceItem(ItemStack itemStack, int tier) {
-        ItemUtil.replace(itemStack, "%tier%", String.valueOf(tier));
+    private void replaceItem(ItemStack itemStack, Tier tier) {
+        ItemUtil.replace(itemStack, "%tier%", String.valueOf(tier.getTier()));
+        ItemUtil.replace(itemStack, "%cost%", String.valueOf(tier.getCost()));
+        if (tier instanceof FieldTier) {
+            ItemUtil.replace(itemStack, "%max_energy%", String.valueOf(((FieldTier) tier).getMaxEnergy()));
+        }
+        if (tier instanceof RegionTier) {
+            ItemUtil.replace(itemStack, "%radius%", String.valueOf(((RegionTier) tier).getRadius()));
+            ItemUtil.replace(itemStack, "%energy_drain%", String.valueOf(((RegionTier) tier).getDrainAmount()));
+        }
     }
 
     private int calculateFirstTierIndex(int x) {
