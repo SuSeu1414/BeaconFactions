@@ -33,7 +33,7 @@ public class InviteMemberAction implements ClickAction {
     @Override
     public void execute(Player whoClicked) {
         User user = this.userRepository.getUser(whoClicked.getUniqueId());
-        if (!this.guild.hasPermission(user, GuildPermission.MANAGE)) {
+        if (!this.guild.hasPermission(user, GuildPermission.MANAGE, true)) {
             whoClicked.playSound(whoClicked.getLocation(), Sound.ENTITY_VILLAGER_HURT, 1.0f, 1.0f);
             this.lang.sendMessage("no-guild-permissions", whoClicked);
             return;

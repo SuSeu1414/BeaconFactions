@@ -33,7 +33,7 @@ public class OpenManageMemberPermissionsGuiAction implements ClickAction {
     @Override
     public void execute(Player whoClickedPlayer) {
         User whoClickedUser = this.userRepository.getUser(whoClickedPlayer.getUniqueId());
-        if (!this.guild.hasPermission(whoClickedUser, GuildPermission.MANAGE)) {
+        if (!this.guild.hasPermission(whoClickedUser, GuildPermission.MANAGE, true)) {
             whoClickedPlayer.playSound(whoClickedPlayer.getLocation(), Sound.ENTITY_VILLAGER_HURT, 1.0f, 1.0f);
             this.lang.sendMessage("no-guild-permissions", whoClickedPlayer);
             return;
