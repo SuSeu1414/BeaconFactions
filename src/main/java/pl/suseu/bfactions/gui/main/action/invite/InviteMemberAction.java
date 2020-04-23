@@ -72,7 +72,8 @@ public class InviteMemberAction implements ClickAction {
 
         this.guild.addInvitedMember(toInviteUser);
 //        this.guildRepository.addModifiedGuild(this.guild);
-        this.lang.sendMessage("you-have-been-invited-to-guild", toInvitePlayer);
+        this.lang.sendMessage("you-have-been-invited-to-guild", toInvitePlayer,
+                "%guild%", guild.getName());
         this.lang.sendMessage("user-invited-to-guild", whoClicked);
     }
 }
