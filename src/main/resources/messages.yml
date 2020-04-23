@@ -1,17 +1,128 @@
 messages:
+  #Configuration example
   example-message:
     chat-enabled: true
     title-enabled: true
     actionbar-enabled: true
     chat:
       content:
-        - 'Chat message'
-        - 'Line 2'
+        - "Chat message"
+        - "Line 2"
     title:
-      content: 'Title message'
-      sub-content: 'Subtitle message'
+      content: "Title message"
+      sub-content: "Subtitle message"
       fade-in: 2
       stay: 5
       fade-out: 2
     actionbar:
-      content: 'Actionbar message'
+      content: "Actionbar message"
+
+  #When someone tries to create a guild too close to another one
+  too-close-to-other-guild:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fYou are too close to another guild!"
+  #When you try to make a guild while already owning one
+  you-already-own-a-guild:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fYou already own a guild!"
+  #Guild successfully created
+  guild-created:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fYour guild was successfully created"
+  #When you try to access beacon configuration without permission
+  no-guild-permissions:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fYou are not allowed to manage the guild!"
+  #When you need to type the new name of the guild in chat
+  type-new-guild-name-in-chat:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fPlease type the new name in the chat:"
+  #When guild name was changed successfully
+  guild-name-changed:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fThe name of your guild was changed successfully!"
+  #When you failed to enter new guild name in chat
+  guild-name-listener-timed-out:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fName change timed out!"
+  #When you need to type the name of the player to be invited to guild
+  type-player-name-in-chat-to-invite:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fPlease type the name of the player in chat:"
+  #When you failed to type the name of the player to be invited to guild
+  guild-invite-listener-timed-out:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fInvitation timed out!"
+  #When a player with that name does not exist
+  user-does-not-exist:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fThat player does not exist!"
+  #When a player with that name is already invited
+  user-already-invited:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fThat player is already invited!"
+  #When a player with that name is already a member
+  user-already-member:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fThat player is already a member!"
+  #When you get an invitation to a guild
+  you-have-been-invited-to-guild:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fYou have been invited to '%guild%'!"
+        - "Enter its field to accept the invitation"
+  #When you successfully invited a player
+  user-invited-to-guild:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fThe invitation was sent successfully!"
+  #When you cancel an invitation
+  invite-removed:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fThe invitation is now cancelled!"
+  #Not enough energy to upgrade
+  not-enough-energy:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fYou don't have enough energy to buy this upgrade!"
+  #Max energy successfully upgraded
+  field-upgraded:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fMaximum energy was upgraded successfully!"
+  #Field size successfully upgraded
+  region-upgraded:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fField radius was upgraded successfully!"
