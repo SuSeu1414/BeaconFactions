@@ -182,7 +182,7 @@ public class RegionInteractionsListener implements Listener {
         checkBlockEvent(event, event.getPlayer());
     }
 
-    private void checkBlockEvent(BlockEvent event, Player player) {
+    private <T extends BlockEvent & Cancellable> void checkBlockEvent(T event, Player player) {
         if (!(event instanceof BlockBreakEvent || event instanceof BlockPlaceEvent)) {
             return;
         }
@@ -199,7 +199,7 @@ public class RegionInteractionsListener implements Listener {
             return;
         }
         if (!region.isInDome(location)) {
-            ((Cancellable) event).setCancelled(true);
+            event.setCancelled(true);
             return;
         }
         if (region.getGuild().hasPermission(user, GuildPermission.MODIFY_TERRAIN)) {
@@ -208,6 +208,6 @@ public class RegionInteractionsListener implements Listener {
         if (region.getGuild().getField().getState() == FieldState.PERMISSIVE) {
             return;
         }
-        ((Cancellable) event).setCancelled(true);
+        event.setCancelled(true);
     }
 }
