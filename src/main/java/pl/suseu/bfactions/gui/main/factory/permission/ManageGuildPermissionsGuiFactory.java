@@ -59,6 +59,11 @@ public class ManageGuildPermissionsGuiFactory {
 
         PaginatorFactory paginatorFactory = new PaginatorFactory(this.plugin);
         CustomInventoryHolder paginator = paginatorFactory.createPaginator("Test %page%/%pages%", 6, 1, items);
+        ItemStack filler = this.itemRepository.getItem("permissions-filler");
+        for (int i : new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 45, 46, 48, 50, 52, 53}) {
+            paginator.setItem(i, filler);
+        }
+
 
         return paginator.getInventory();
     }
