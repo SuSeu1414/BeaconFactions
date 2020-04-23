@@ -50,7 +50,7 @@ public class ManageGuildPermissionsGuiFactory {
                 itemStack.setItemMeta(skullMeta);
             }
 
-            ItemUtil.replace(itemStack, "%name%", member.getName());
+            ItemUtil.replace(itemStack, "%player%", member.getName());
 
             OpenManageMemberPermissionsGuiAction action =
                     new OpenManageMemberPermissionsGuiAction(this.plugin, guild, member);
