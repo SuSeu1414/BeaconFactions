@@ -53,8 +53,10 @@ public class ItemGiveCommandExecutor implements BCommandExecutor {
         }
 
         ItemStack itemStack = this.itemRepository.getItem(id);
-        Long time = this.settings.fieldBoostUndamageableItems.get(id);
-        ItemUtil.replace(itemStack, "%time%", TimeUtil.timePhrase(time * 1000L, false));
+        if (this.settings.fieldBoostUndamageableItems.containsKey(id)) {
+            Long time = this.settings.fieldBoostUndamageableItems.get(id);
+            ItemUtil.replace(itemStack, "%time%", TimeUtil.timePhrase(time * 1000L, false));
+        }
         player.getInventory().addItem(itemStack);
         sender.sendMessage("Given " + id + " to " + player.getName());
     }
