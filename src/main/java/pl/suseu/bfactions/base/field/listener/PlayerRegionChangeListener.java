@@ -14,16 +14,16 @@ public class PlayerRegionChangeListener implements Listener {
         if (event.getRegion() == null) {
             return;
         }
-        if (event.getPlayer().isOp() || event.getPlayer().hasPermission("bfactions.bypass-entry")) {
-            return;
-        }
-        if (event.getRegion().getGuild().getField().getState() != FieldState.ENABLED) {
-            return;
-        }
         if (event.getRegion().getGuild().getInvitedMembers().contains(event.getUser())) {
             event.getRegion().getGuild().addMember(event.getUser());
             event.getRegion().getGuild().removeInvitedMember(event.getUser());
 //          guildRepository.addModifiedGuild(event.getRegion().getGuild());
+            return;
+        }
+        if (event.getPlayer().isOp() || event.getPlayer().hasPermission("bfactions.bypass-entry")) {
+            return;
+        }
+        if (event.getRegion().getGuild().getField().getState() != FieldState.ENABLED) {
             return;
         }
 
