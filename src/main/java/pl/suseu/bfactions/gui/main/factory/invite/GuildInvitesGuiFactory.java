@@ -50,7 +50,7 @@ public class GuildInvitesGuiFactory {
                 itemStack.setItemMeta(skullMeta);
             }
 
-            ItemUtil.replace(itemStack, "%name%", invitedUser.getName());
+            ItemUtil.replace(itemStack, "%player%", invitedUser.getName());
 
             ClickAction action = plr -> {
                 guild.removeInvitedMember(invitedUser);
