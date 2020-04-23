@@ -59,6 +59,7 @@ public class BFactions extends JavaPlugin {
         saveDefaultConfig();
         settings = new Settings(this);
         lang = new LangAPI(this, "messages.yml");
+        lang.reload();
         log = getLogger();
 
         if (!settings.loadConfig()) {
