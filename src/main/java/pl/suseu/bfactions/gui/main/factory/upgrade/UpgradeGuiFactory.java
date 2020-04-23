@@ -89,9 +89,9 @@ public class UpgradeGuiFactory {
         final int slot = route[routeIndex];
 
         if (beacons.contains(slot)) {
-            itemStack = this.itemRepository.getItem("upgrade-path-to-obtain-beacon");
+            itemStack = this.itemRepository.getItem("upgrade-path-to-obtain-beacon-" + tierType.toString().toLowerCase());
         } else {
-            itemStack = this.itemRepository.getItem("upgrade-path-to-obtain");
+            itemStack = this.itemRepository.getItem("upgrade-path-to-obtain-" + tierType.toString().toLowerCase());
         }
         replaceItem(itemStack, tier);
 
@@ -119,9 +119,9 @@ public class UpgradeGuiFactory {
         int slot = route[routeIndex];
         final Tier tier = tiers.get(tierIndex);
         if (beacons.contains(slot)) {
-            itemStack = this.itemRepository.getItem("upgrade-path-obtained-beacon");
+            itemStack = this.itemRepository.getItem("upgrade-path-obtained-beacon-" + tierType.toString().toLowerCase());
         } else {
-            itemStack = this.itemRepository.getItem("upgrade-path-obtained");
+            itemStack = this.itemRepository.getItem("upgrade-path-obtained-" + tierType.toString().toLowerCase());
         }
         replaceItem(itemStack, tier);
         holder.set(slot, itemStack, action);
@@ -133,9 +133,9 @@ public class UpgradeGuiFactory {
         int slot = route[routeIndex];
         final Tier tier = tiers.get(tierIndex);
         if (beacons.contains(slot)) {
-            itemStack = this.itemRepository.getItem("upgrade-path-cannot-obtain-beacon");
+            itemStack = this.itemRepository.getItem("upgrade-path-cannot-obtain-beacon-" + tierType.toString().toLowerCase());
         } else {
-            itemStack = this.itemRepository.getItem("upgrade-path-cannot-obtain");
+            itemStack = this.itemRepository.getItem("upgrade-path-cannot-obtain-" + tierType.toString().toLowerCase());
         }
         replaceItem(itemStack, tier);
         holder.set(slot, itemStack, action);
