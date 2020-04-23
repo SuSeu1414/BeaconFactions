@@ -124,7 +124,18 @@ public class Guild {
         permissionSet.removePermission(permission);
     }
 
-    public boolean hasPermission(User member, GuildPermission permission) {
+    public boolean hasPermission(User member, GuildPermission permission, boolean checkBypass) {
+        if (member == null || permission == null) {
+            return false;
+        }
+        if (checkBypass && bypassesPermission(member, permission)) {
+            return true;
+        }
+        GuildPermissionSet permissionSet = this.permissions.get(member);
+        return this.owner.equals(member) || (permissionSet != null && permissionSet.hasPermission(permission));
+    }
+
+    public boolean bypassesPermission(User member, GuildPermission permission) {
         if (member == null || permission == null) {
             return false;
         }
@@ -137,8 +148,7 @@ public class Guild {
                 return true;
             }
         }
-        GuildPermissionSet permissionSet = this.permissions.get(member);
-        return this.owner.equals(member) || (permissionSet != null && permissionSet.hasPermission(permission));
+        return false;
     }
 
     public String getName() {

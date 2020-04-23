@@ -1,7 +1,10 @@
 package pl.suseu.bfactions.gui.main.factory.permission;
 
+import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.guild.Guild;
 import pl.suseu.bfactions.base.guild.permission.GuildPermission;
@@ -19,6 +22,7 @@ public class ManageMemberPermissionGuiFactory {
     private final ItemStack buttonOFF;
     private final ItemStack buttonEnable;
     private final ItemStack buttonDisable;
+    private final ItemStack buttonBypasses;
 
     public ManageMemberPermissionGuiFactory(BFactions plugin) {
         this.plugin = plugin;
@@ -28,6 +32,7 @@ public class ManageMemberPermissionGuiFactory {
         this.buttonOFF = this.itemRepository.getItem("button-off");
         this.buttonEnable = this.itemRepository.getItem("button-enable");
         this.buttonDisable = this.itemRepository.getItem("button-disable");
+        this.buttonBypasses = this.itemRepository.getItem("button-bypasses");
     }
 
     public Inventory createGui(Guild guild, User user) {
@@ -36,6 +41,13 @@ public class ManageMemberPermissionGuiFactory {
         ItemStack memberInfoItem = this.itemRepository.getItem("member-info");
         holder.setItem(4, memberInfoItem);
         ItemUtil.replace(memberInfoItem, "%player%", user.getName());
+        ItemMeta itemMeta = memberInfoItem.getItemMeta();
+
+        if (itemMeta instanceof SkullMeta) {
+            SkullMeta skullMeta = ((SkullMeta) itemMeta);
+            skullMeta.setOwningPlayer(Bukkit.getOfflinePlayer(user.getUuid()));
+            memberInfoItem.setItemMeta(skullMeta);
+        }
 
         ItemStack managePermissionInfo = this.itemRepository.getItem("permission-manage-info");
         holder.setItem(12, managePermissionInfo);
@@ -62,11 +74,23 @@ public class ManageMemberPermissionGuiFactory {
     }
 
     private void displayPermissionButtons(CustomInventoryHolder holder, GuildPermission permission, int slot, Guild guild, User user) {
-        if (guild.hasPermission(user, permission)) {
+        if (guild.bypassesPermission(user, permission)) {
+            displayBypassButtons(holder, permission, slot, guild, user);
+            return;
+        }
+
+        if (guild.hasPermission(user, permission, false)) {
             displayOnButtons(holder, permission, slot, guild, user);
         } else {
             displayOffButtons(holder, permission, slot, guild, user);
         }
+    }
+
+    public void displayBypassButtons(CustomInventoryHolder holder, GuildPermission permission, int slot, Guild guild, User user) {
+        holder.setItem(slot, buttonBypasses);
+        holder.setAction(slot, null);
+        holder.setItem(slot + 1, null);
+        holder.setAction(slot + 1, null);
     }
 
     public void displayOnButtons(CustomInventoryHolder holder, GuildPermission permission, int slot, Guild guild, User user) {

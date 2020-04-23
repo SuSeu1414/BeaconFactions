@@ -55,7 +55,7 @@ public class RegionInteractionsListener implements Listener {
                 || event.getPlayer().hasPermission(GuildPermission.OPEN_CHESTS.getBypassPermission())) {
             return;
         }
-        if (region.getGuild().hasPermission(user, GuildPermission.OPEN_CHESTS)) {
+        if (region.getGuild().hasPermission(user, GuildPermission.OPEN_CHESTS, true)) {
             return;
         }
         if (region.getGuild().getField().getState() == FieldState.PERMISSIVE
@@ -106,7 +106,7 @@ public class RegionInteractionsListener implements Listener {
                 || event.getDamager().hasPermission(GuildPermission.KILL_ANIMALS.getBypassPermission())) {
             return;
         }
-        if (region.getGuild().hasPermission(user, GuildPermission.KILL_ANIMALS)) {
+        if (region.getGuild().hasPermission(user, GuildPermission.KILL_ANIMALS, true)) {
             return;
         }
         if (region.getGuild().getField().getState() == FieldState.PERMISSIVE
@@ -137,7 +137,7 @@ public class RegionInteractionsListener implements Listener {
                 return;
             }
             if (block.getState() instanceof Container
-                    && !region.getGuild().hasPermission(user, GuildPermission.OPEN_CHESTS)) {
+                    && !region.getGuild().hasPermission(user, GuildPermission.OPEN_CHESTS, true)) {
                 if (event.getPlayer().isOp()
                         || event.getPlayer().hasPermission(GuildPermission.OPEN_CHESTS.getBypassPermission())) {
                     return;
@@ -146,7 +146,7 @@ public class RegionInteractionsListener implements Listener {
                 return;
             }
             if (block.getBlockData() instanceof Openable
-                    && !region.getGuild().hasPermission(user, GuildPermission.OPEN_DOORS)) {
+                    && !region.getGuild().hasPermission(user, GuildPermission.OPEN_DOORS, true)) {
                 if (event.getPlayer().isOp()
                         || event.getPlayer().hasPermission(GuildPermission.OPEN_DOORS.getBypassPermission())) {
                     return;
@@ -164,7 +164,7 @@ public class RegionInteractionsListener implements Listener {
                     || event.getPlayer().hasPermission(GuildPermission.MODIFY_TERRAIN.getBypassPermission())) {
                 return;
             }
-            if (!region.getGuild().hasPermission(user, GuildPermission.MODIFY_TERRAIN)) {
+            if (!region.getGuild().hasPermission(user, GuildPermission.MODIFY_TERRAIN, true)) {
                 event.setCancelled(true);
                 return;
             }
@@ -202,7 +202,7 @@ public class RegionInteractionsListener implements Listener {
             event.setCancelled(true);
             return;
         }
-        if (region.getGuild().hasPermission(user, GuildPermission.MODIFY_TERRAIN)) {
+        if (region.getGuild().hasPermission(user, GuildPermission.MODIFY_TERRAIN, true)) {
             return;
         }
         if (region.getGuild().getField().getState() == FieldState.PERMISSIVE) {
