@@ -94,7 +94,7 @@ public class GuildInventoriesTask implements Runnable {
                 return;
             }
             itemStack = this.itemRepository.getItem(ItemUtil.getBoostItemId(itemMeta, "undamageable"));
-            ItemUtil.replace(itemStack, "%time%", TimeUtil.timePhrase(time * 1000L, false));
+            ItemUtil.replace(itemStack, "%time%", TimeUtil.timePhrase(time * 1000L, true));
             itemMeta = itemStack.getItemMeta();
             guild.getField().setUndamageableTime(time);
             ItemUtil.setBoostUndamageableRemainingTime(itemMeta, time);
