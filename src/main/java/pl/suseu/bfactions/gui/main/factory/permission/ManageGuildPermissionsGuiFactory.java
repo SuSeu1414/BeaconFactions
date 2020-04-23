@@ -38,7 +38,7 @@ public class ManageGuildPermissionsGuiFactory {
         List<AbstractMap.SimpleEntry<ItemStack, ClickAction>> items = new ArrayList<>();
 
         for (User member : members) {
-            ItemStack itemStack = this.itemRepository.getItem("member-info");
+            ItemStack itemStack = this.itemRepository.getItem("member-info-list");
             ItemMeta itemMeta = itemStack.getItemMeta();
             if (itemMeta == null) {
                 return null;
