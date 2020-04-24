@@ -152,7 +152,7 @@ public class UpgradeGuiFactory {
         ItemUtil.replace(itemStack, "%tier%", String.valueOf(tier.getTier()));
         ItemUtil.replace(itemStack, "%cost%", String.valueOf(tier.getCost()));
         if (tier instanceof FieldTier) {
-            ItemUtil.replace(itemStack, "%max_energy%", String.valueOf(((FieldTier) tier).getMaxEnergy()));
+            ItemUtil.replace(itemStack, "%max_energy%", String.format("%.0f", ((FieldTier) tier).getMaxEnergy()));
         }
         if (tier instanceof RegionTier) {
             ItemUtil.replace(itemStack, "%radius%", String.valueOf(((RegionTier) tier).getRadius()));
