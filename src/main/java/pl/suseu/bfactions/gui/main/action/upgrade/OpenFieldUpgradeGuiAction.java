@@ -59,7 +59,7 @@ public class OpenFieldUpgradeGuiAction implements ClickAction {
             return;
         }
 
-        Inventory inv = this.upgradeGuiFactory.createGui(this.guild, tiers, this.guild.getTier(tierType).getTier());
+        Inventory inv = this.upgradeGuiFactory.createGui(whoClicked, this.guild, tiers, this.guild.getTier(tierType).getTier());
         whoClicked.openInventory(inv);
     }
 }

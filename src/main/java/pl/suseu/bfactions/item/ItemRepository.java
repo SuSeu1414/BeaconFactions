@@ -39,16 +39,19 @@ public class ItemRepository {
         }
     }
 
-    public ItemStack getItem(String name) {
+    public ItemStack getItem(String name, boolean defaultItem) {
+        if (defaultItem) {
+            return getDefaultItem(name, false);
+        }
         ItemStack itemStack = items.get(name);
         if (itemStack == null) {
-            return getDefaultItem(name);
+            return getDefaultItem(name, true);
         }
 
         ItemStack clone = itemStack.clone();
         ItemMeta itemMeta = clone.getItemMeta();
         if (itemMeta == null) {
-            return getDefaultItem("error"); // should never happen
+            return getDefaultItem("error", true); // should never happen
         }
 
         if (ItemUtil.isBoostItem("undamageable", name)) {
@@ -60,7 +63,7 @@ public class ItemRepository {
         return clone;
     }
 
-    private ItemStack getDefaultItem(String name) {
+    private ItemStack getDefaultItem(String name, boolean add) {
         ItemStack result = new ItemStack(Material.COMMAND_BLOCK);
         ItemMeta meta = result.getItemMeta();
         if (meta == null) {

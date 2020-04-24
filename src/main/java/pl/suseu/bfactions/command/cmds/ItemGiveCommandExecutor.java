@@ -52,7 +52,7 @@ public class ItemGiveCommandExecutor implements BCommandExecutor {
             return;
         }
 
-        ItemStack itemStack = this.itemRepository.getItem(id);
+        ItemStack itemStack = this.itemRepository.getItem(id, false);
         if (this.settings.fieldBoostUndamageableItems.containsKey(id)) {
             Long time = this.settings.fieldBoostUndamageableItems.get(id);
             ItemUtil.replace(itemStack, "%time%", TimeUtil.timePhrase(time * 1000L, false));

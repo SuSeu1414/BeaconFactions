@@ -37,7 +37,7 @@ public class OpenGuildInvitesGuiAction implements ClickAction {
             return;
         }
 
-        Inventory inventory = this.guildInvitesGuiFactory.createGui(this.guild);
+        Inventory inventory = this.guildInvitesGuiFactory.createGui(whoClicked, this.guild);
         whoClicked.openInventory(inventory);
     }
 }

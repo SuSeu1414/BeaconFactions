@@ -17,6 +17,7 @@ public class ManageMemberPermissionGuiFactory {
 
     private final BFactions plugin;
     private final ItemRepository itemRepository;
+    private final boolean defaultItems;
 
     private final ItemStack buttonON;
     private final ItemStack buttonOFF;
@@ -24,21 +25,23 @@ public class ManageMemberPermissionGuiFactory {
     private final ItemStack buttonDisable;
     private final ItemStack buttonBypasses;
 
-    public ManageMemberPermissionGuiFactory(BFactions plugin) {
+
+    public ManageMemberPermissionGuiFactory(BFactions plugin, boolean defaultItems) {
         this.plugin = plugin;
         this.itemRepository = plugin.getItemRepository();
+        this.defaultItems = defaultItems;
 
-        this.buttonON = this.itemRepository.getItem("button-on");
-        this.buttonOFF = this.itemRepository.getItem("button-off");
-        this.buttonEnable = this.itemRepository.getItem("button-enable");
-        this.buttonDisable = this.itemRepository.getItem("button-disable");
-        this.buttonBypasses = this.itemRepository.getItem("button-bypasses");
+        this.buttonON = this.itemRepository.getItem("button-on", defaultItems);
+        this.buttonOFF = this.itemRepository.getItem("button-off", defaultItems);
+        this.buttonEnable = this.itemRepository.getItem("button-enable", defaultItems);
+        this.buttonDisable = this.itemRepository.getItem("button-disable", defaultItems);
+        this.buttonBypasses = this.itemRepository.getItem("button-bypasses", defaultItems);
     }
 
     public Inventory createGui(Guild guild, User user) {
         CustomInventoryHolder holder = new CustomInventoryHolder(user.getName(), 6 * 9);
 
-        ItemStack memberInfoItem = this.itemRepository.getItem("member-info");
+        ItemStack memberInfoItem = this.itemRepository.getItem("member-info", defaultItems);
         holder.setItem(4, memberInfoItem);
         ItemUtil.replace(memberInfoItem, "%player%", user.getName());
         ItemMeta itemMeta = memberInfoItem.getItemMeta();
@@ -49,19 +52,19 @@ public class ManageMemberPermissionGuiFactory {
             memberInfoItem.setItemMeta(skullMeta);
         }
 
-        ItemStack managePermissionInfo = this.itemRepository.getItem("permission-manage-info");
+        ItemStack managePermissionInfo = this.itemRepository.getItem("permission-manage-info", defaultItems);
         holder.setItem(12, managePermissionInfo);
 
-        ItemStack openChestsPermissionInfo = this.itemRepository.getItem("permission-chests-info");
+        ItemStack openChestsPermissionInfo = this.itemRepository.getItem("permission-chests-info", defaultItems);
         holder.setItem(12 + 9, openChestsPermissionInfo);
 
-        ItemStack openDoorPermissionInfo = this.itemRepository.getItem("permission-door-info");
+        ItemStack openDoorPermissionInfo = this.itemRepository.getItem("permission-door-info", defaultItems);
         holder.setItem(12 + 18, openDoorPermissionInfo);
 
-        ItemStack minePermissionInfo = this.itemRepository.getItem("permission-mine-info");
+        ItemStack minePermissionInfo = this.itemRepository.getItem("permission-mine-info", defaultItems);
         holder.setItem(12 + 27, minePermissionInfo);
 
-        ItemStack killPermissionInfo = this.itemRepository.getItem("permission-kill-info");
+        ItemStack killPermissionInfo = this.itemRepository.getItem("permission-kill-info", defaultItems);
         holder.setItem(12 + 36, killPermissionInfo);
 
         displayPermissionButtons(holder, GuildPermission.MANAGE, 13, guild, user);
