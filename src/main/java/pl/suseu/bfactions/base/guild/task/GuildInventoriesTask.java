@@ -98,14 +98,13 @@ public class GuildInventoriesTask implements Runnable {
             itemMeta = itemStack.getItemMeta();
             guild.getField().setUndamageableTime(time);
             ItemUtil.setBoostUndamageableRemainingTime(itemMeta, time);
+            itemStack.setItemMeta(itemMeta);
+            inv.setItem(13, itemStack);
         } else {
             guild.getField().setUndamageableTime(0);
             dropItem(center, itemStack);
             inv.setItem(13, null);
         }
-
-        itemStack.setItemMeta(itemMeta);
-        inv.setItem(13, itemStack);
     }
 
     private void dropItem(Location center, ItemStack itemStack) {
