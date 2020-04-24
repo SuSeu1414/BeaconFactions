@@ -4,6 +4,7 @@ import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.command.cmds.ItemGiveCommandExecutor;
 import pl.suseu.bfactions.command.cmds.ItemSetCommandExecutor;
 import pl.suseu.bfactions.command.cmds.TestCommandExecutor;
+import pl.suseu.bfactions.command.cmds.ToggleGuiDebugCommandExecutor;
 import pl.suseu.bfactions.util.StringArrayUtil;
 
 import java.util.HashSet;
@@ -17,6 +18,7 @@ public class BCommandMap {
     private final TestCommandExecutor testCommandExecutor;
     private final ItemSetCommandExecutor itemSetCommandExecutor;
     private final ItemGiveCommandExecutor itemGiveCommandExecutor;
+    private final ToggleGuiDebugCommandExecutor toggleGuiDebugCommandExecutor;
 
     public BCommandMap(BFactions plugin) {
         this.plugin = plugin;
@@ -24,6 +26,7 @@ public class BCommandMap {
         this.testCommandExecutor = new TestCommandExecutor();
         this.itemSetCommandExecutor = new ItemSetCommandExecutor(this.plugin);
         this.itemGiveCommandExecutor = new ItemGiveCommandExecutor(this.plugin);
+        this.toggleGuiDebugCommandExecutor = new ToggleGuiDebugCommandExecutor(this.plugin);
     }
 
     public void addCommand(BCommand command) {
@@ -58,6 +61,11 @@ public class BCommandMap {
         new BCommandBuilder("giveitem")
                 .setPermission("bfactions.giveitem")
                 .setExecutor(itemGiveCommandExecutor)
+                .build(this.commands);
+
+        new BCommandBuilder("debuggui")
+                .setPermission("bfactions.debuggui")
+                .setExecutor(toggleGuiDebugCommandExecutor)
                 .build(this.commands);
     }
 }
