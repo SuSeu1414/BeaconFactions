@@ -29,7 +29,7 @@ public class TimeUtil {
             phrase += (minutes + settings.timeMinutes + " ");
         }
         if (separateMilliseconds) {
-            phrase += (seconds + settings.timeSeconds + " " + milliseconds + settings.timeMilliseconds);
+            phrase += (seconds + settings.timeSeconds);
         } else {
             phrase += (seconds + "," + milliseconds / 100 + settings.timeSeconds);
         }
