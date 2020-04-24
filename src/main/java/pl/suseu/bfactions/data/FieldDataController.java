@@ -103,7 +103,7 @@ public class FieldDataController {
 
         try {
             if (boostUndamageableItemId != null && !boostUndamageableItemId.isEmpty() && !boostUndamageableItemId.equals("null")) {
-                ItemStack itemStack = this.plugin.getItemRepository().getItem(boostUndamageableItemId);
+                ItemStack itemStack = this.plugin.getItemRepository().getItem(boostUndamageableItemId, false);
                 ItemUtil.replace(itemStack, "%time%", boostUndamageableTime + "");
                 ItemMeta itemMeta = itemStack.getItemMeta();
                 field.setUndamageableTime(boostUndamageableTime);

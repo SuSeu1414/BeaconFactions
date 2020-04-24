@@ -27,7 +27,7 @@ public class BeaconPlaceListener implements Listener {
     public void onBlockPlace(BlockPlaceEvent event) {
         Block blockPlaced = event.getBlockPlaced();
 
-        if (!event.getItemInHand().isSimilar(this.plugin.getItemRepository().getItem("beacon"))) {
+        if (!event.getItemInHand().isSimilar(this.plugin.getItemRepository().getItem("beacon", false))) {
             return;
         }
 

@@ -24,6 +24,8 @@ public class User {
     private Location currentLocation;
     private long lastRegionChange;
 
+    private boolean defaultItems;
+
     public User(UUID uuid) {
         this.uuid = uuid;
     }
@@ -96,6 +98,14 @@ public class User {
 
     public void setLastRegionChange(long lastRegionChange) {
         this.lastRegionChange = lastRegionChange;
+    }
+
+    public boolean isDefaultItems() {
+        return defaultItems;
+    }
+
+    public void setDefaultItems(boolean defaultItems) {
+        this.defaultItems = defaultItems;
     }
 
     @Override

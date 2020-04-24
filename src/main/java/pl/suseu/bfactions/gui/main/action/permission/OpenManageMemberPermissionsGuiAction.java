@@ -21,13 +21,13 @@ public class OpenManageMemberPermissionsGuiAction implements ClickAction {
     private final LangAPI lang;
     private final ManageMemberPermissionGuiFactory manageMemberPermissionGuiFactory;
 
-    public OpenManageMemberPermissionsGuiAction(BFactions plugin, Guild guild, User user) {
+    public OpenManageMemberPermissionsGuiAction(BFactions plugin, Guild guild, User user, boolean defaultItems) {
         this.plugin = plugin;
         this.userRepository = plugin.getUserRepository();
         this.guild = guild;
         this.user = user;
         this.lang = plugin.getLang();
-        this.manageMemberPermissionGuiFactory = new ManageMemberPermissionGuiFactory(plugin);
+        this.manageMemberPermissionGuiFactory = new ManageMemberPermissionGuiFactory(plugin, defaultItems);
     }
 
     @Override

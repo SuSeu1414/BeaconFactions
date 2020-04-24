@@ -21,7 +21,7 @@ public class UndamageableFieldInventoryHolder implements InventoryHolder {
     public Inventory getInventory() {
         Inventory inv = Bukkit.createInventory(this, 27); // todo title
 
-        ItemStack item = this.itemRepository.getItem("blank-item-boost-undamageable-gui");
+        ItemStack item = this.itemRepository.getItem("blank-item-boost-undamageable-gui", false);
         for (int i = 0; i < 27; i++) {
             inv.setItem(i, item);
         }

@@ -1,6 +1,7 @@
 package pl.suseu.bfactions.gui.main.factory.permission;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -9,6 +10,7 @@ import pl.rynbou.langapi3.LangAPI;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.guild.Guild;
 import pl.suseu.bfactions.base.user.User;
+import pl.suseu.bfactions.base.user.UserRepository;
 import pl.suseu.bfactions.gui.base.ClickAction;
 import pl.suseu.bfactions.gui.base.CustomInventoryHolder;
 import pl.suseu.bfactions.gui.main.action.permission.OpenManageMemberPermissionsGuiAction;
@@ -26,19 +28,23 @@ public class ManageGuildPermissionsGuiFactory {
     private final BFactions plugin;
     private final LangAPI lang;
     private final ItemRepository itemRepository;
+    private final UserRepository userRepository;
 
     public ManageGuildPermissionsGuiFactory(BFactions plugin) {
         this.plugin = plugin;
         this.lang = plugin.getLang();
         this.itemRepository = plugin.getItemRepository();
+        this.userRepository = plugin.getUserRepository();
     }
 
-    public Inventory createGui(Guild guild) {
+    public Inventory createGui(Player player, Guild guild) {
         Set<User> members = guild.getMembers();
         List<AbstractMap.SimpleEntry<ItemStack, ClickAction>> items = new ArrayList<>();
 
+        User opener = this.userRepository.getUser(player.getUniqueId());
+
         for (User member : members) {
-            ItemStack itemStack = this.itemRepository.getItem("member-info-list");
+            ItemStack itemStack = this.itemRepository.getItem("member-info-list", opener.isDefaultItems());
             ItemMeta itemMeta = itemStack.getItemMeta();
             if (itemMeta == null) {
                 return null;
@@ -53,13 +59,13 @@ public class ManageGuildPermissionsGuiFactory {
             ItemUtil.replace(itemStack, "%player%", member.getName());
 
             OpenManageMemberPermissionsGuiAction action =
-                    new OpenManageMemberPermissionsGuiAction(this.plugin, guild, member);
+                    new OpenManageMemberPermissionsGuiAction(this.plugin, guild, member, opener.isDefaultItems());
             items.add(new AbstractMap.SimpleEntry<>(itemStack, action));
         }
 
         PaginatorFactory paginatorFactory = new PaginatorFactory(this.plugin);
-        CustomInventoryHolder paginator = paginatorFactory.createPaginator("Test %page%/%pages%", 6, 1, items);
-        ItemStack filler = this.itemRepository.getItem("permissions-filler");
+        CustomInventoryHolder paginator = paginatorFactory.createPaginator(player, "Test %page%/%pages%", 6, 1, items);
+        ItemStack filler = this.itemRepository.getItem("permissions-filler", opener.isDefaultItems());
         for (int i : new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 45, 46, 48, 50, 52, 53}) {
             paginator.setItem(i, filler);
         }

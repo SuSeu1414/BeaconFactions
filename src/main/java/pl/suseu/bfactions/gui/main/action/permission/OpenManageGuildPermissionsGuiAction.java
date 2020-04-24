@@ -38,7 +38,7 @@ public class OpenManageGuildPermissionsGuiAction implements ClickAction {
         }
 
 
-        Inventory inv = this.manageGuildPermissionsGuiFactory.createGui(this.guild);
+        Inventory inv = this.manageGuildPermissionsGuiFactory.createGui(whoClicked, this.guild);
         if (inv == null) {
             return;
         }

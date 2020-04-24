@@ -3,8 +3,11 @@ package pl.suseu.bfactions.gui.main.factory.paginator;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Sound;
 import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import pl.suseu.bfactions.BFactions;
+import pl.suseu.bfactions.base.user.User;
+import pl.suseu.bfactions.base.user.UserRepository;
 import pl.suseu.bfactions.gui.base.ClickAction;
 import pl.suseu.bfactions.gui.base.CustomInventoryHolder;
 import pl.suseu.bfactions.gui.main.action.paginator.ChangePageAction;
@@ -19,15 +22,20 @@ public class PaginatorFactory {
     private final BFactions plugin;
     private final Logger logger;
     private final ItemRepository itemRepository;
+    private final UserRepository userRepository;
 
     public PaginatorFactory(BFactions plugin) {
         this.plugin = plugin;
         this.logger = plugin.getLogger();
         this.itemRepository = plugin.getItemRepository();
+        this.userRepository = plugin.getUserRepository();
     }
 
-    public CustomInventoryHolder createPaginator(String rawTitle, int rows, int page,
+    public CustomInventoryHolder createPaginator(Player player, String rawTitle, int rows, int page,
                                                  List<AbstractMap.SimpleEntry<ItemStack, ClickAction>> items) {
+
+        User opener = this.userRepository.getUser(player.getUniqueId());
+
         if (rows < 3) {
             logger.warning("Cannot create paginator with less than 3 rows!");
             return null;
@@ -73,9 +81,9 @@ public class PaginatorFactory {
             prevPageAction = new ChangePageAction(plugin, this, rawTitle, rows, page - 1, items);
         }
 
-        holder.set(size - 3, this.itemRepository.getItem("next-page"), nextPageAction);
-        holder.set(size - 5, this.itemRepository.getItem("close-gui"), closeAction);
-        holder.set(size - 7, this.itemRepository.getItem("previous-page"), prevPageAction);
+        holder.set(size - 3, this.itemRepository.getItem("next-page", opener.isDefaultItems()), nextPageAction);
+        holder.set(size - 5, this.itemRepository.getItem("close-gui", opener.isDefaultItems()), closeAction);
+        holder.set(size - 7, this.itemRepository.getItem("previous-page", opener.isDefaultItems()), prevPageAction);
 
         return holder;
     }

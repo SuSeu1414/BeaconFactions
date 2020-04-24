@@ -1,9 +1,12 @@
 package pl.suseu.bfactions.gui.main.factory.upgrade;
 
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.guild.Guild;
+import pl.suseu.bfactions.base.user.User;
+import pl.suseu.bfactions.base.user.UserRepository;
 import pl.suseu.bfactions.gui.base.ClickAction;
 import pl.suseu.bfactions.gui.base.CustomInventoryHolder;
 import pl.suseu.bfactions.gui.main.action.upgrade.OpenFieldUpgradeGuiAction;
@@ -24,15 +27,19 @@ public class UpgradeGuiFactory {
 
     private final BFactions plugin;
     private final ItemRepository itemRepository;
+    private final UserRepository userRepository;
     private final Tier.TierType tierType;
 
     public UpgradeGuiFactory(BFactions plugin, Tier.TierType tierType) {
         this.plugin = plugin;
         this.itemRepository = plugin.getItemRepository();
+        this.userRepository = plugin.getUserRepository();
         this.tierType = tierType;
     }
 
-    public Inventory createGui(Guild guild, List<Tier> tiers, int currentTier) {
+    public Inventory createGui(Player player, Guild guild, List<Tier> tiers, int currentTier) {
+        User opener = this.userRepository.getUser(player.getUniqueId());
+
         CustomInventoryHolder holder = new CustomInventoryHolder("Upgrades", 6 * 9); // todo title config
 
         int routeIndex = 0;
@@ -44,21 +51,21 @@ public class UpgradeGuiFactory {
             }
 
             if (tierIndex <= currentTier) {
-                setObtainedItem(holder, tiers, routeIndex, tierIndex);
+                setObtainedItem(opener, holder, tiers, routeIndex, tierIndex);
             }
 
             if (tierIndex == currentTier + 1) {
-                setBuyableItem(guild, tiers, holder, routeIndex, tierIndex);
+                setBuyableItem(opener, guild, tiers, holder, routeIndex, tierIndex);
             }
 
             if (tierIndex > currentTier + 1) {
-                setNotObtainedItem(holder, tiers, routeIndex, tierIndex);
+                setNotObtainedItem(opener, holder, tiers, routeIndex, tierIndex);
             }
 
             tierIndex++;
         }
 
-        ItemStack fillerItem = this.itemRepository.getItem("upgrade-filler");
+        ItemStack fillerItem = this.itemRepository.getItem("upgrade-filler", opener.isDefaultItems());
         for (int slot = 0; slot < 6 * 9; slot++) {
             if (!holder.isSet(slot)) {
                 holder.setItem(slot, fillerItem);
@@ -82,16 +89,16 @@ public class UpgradeGuiFactory {
         return func(x - size) + 1;
     }
 
-    private void setBuyableItem(Guild guild, List<Tier> tiers, CustomInventoryHolder holder, int routeIndex, int tierIndex) {
+    private void setBuyableItem(User opener, Guild guild, List<Tier> tiers, CustomInventoryHolder holder, int routeIndex, int tierIndex) {
         ItemStack itemStack;
         ClickAction action;
         final Tier tier = tiers.get(tierIndex);
         final int slot = route[routeIndex];
 
         if (beacons.contains(slot)) {
-            itemStack = this.itemRepository.getItem("upgrade-path-to-obtain-beacon-" + tierType.toString().toLowerCase());
+            itemStack = this.itemRepository.getItem("upgrade-path-to-obtain-beacon-" + tierType.toString().toLowerCase(), opener.isDefaultItems());
         } else {
-            itemStack = this.itemRepository.getItem("upgrade-path-to-obtain-" + tierType.toString().toLowerCase());
+            itemStack = this.itemRepository.getItem("upgrade-path-to-obtain-" + tierType.toString().toLowerCase(), opener.isDefaultItems());
         }
         replaceItem(itemStack, tier);
 
@@ -113,29 +120,29 @@ public class UpgradeGuiFactory {
         holder.set(slot, itemStack, action);
     }
 
-    private void setObtainedItem(CustomInventoryHolder holder, List<Tier> tiers, int routeIndex, int tierIndex) {
+    private void setObtainedItem(User opener, CustomInventoryHolder holder, List<Tier> tiers, int routeIndex, int tierIndex) {
         ItemStack itemStack;
         ClickAction action = null;
         int slot = route[routeIndex];
         final Tier tier = tiers.get(tierIndex);
         if (beacons.contains(slot)) {
-            itemStack = this.itemRepository.getItem("upgrade-path-obtained-beacon-" + tierType.toString().toLowerCase());
+            itemStack = this.itemRepository.getItem("upgrade-path-obtained-beacon-" + tierType.toString().toLowerCase(), opener.isDefaultItems());
         } else {
-            itemStack = this.itemRepository.getItem("upgrade-path-obtained-" + tierType.toString().toLowerCase());
+            itemStack = this.itemRepository.getItem("upgrade-path-obtained-" + tierType.toString().toLowerCase(), opener.isDefaultItems());
         }
         replaceItem(itemStack, tier);
         holder.set(slot, itemStack, action);
     }
 
-    private void setNotObtainedItem(CustomInventoryHolder holder, List<Tier> tiers, int routeIndex, int tierIndex) {
+    private void setNotObtainedItem(User opener, CustomInventoryHolder holder, List<Tier> tiers, int routeIndex, int tierIndex) {
         ItemStack itemStack;
         ClickAction action = null;
         int slot = route[routeIndex];
         final Tier tier = tiers.get(tierIndex);
         if (beacons.contains(slot)) {
-            itemStack = this.itemRepository.getItem("upgrade-path-cannot-obtain-beacon-" + tierType.toString().toLowerCase());
+            itemStack = this.itemRepository.getItem("upgrade-path-cannot-obtain-beacon-" + tierType.toString().toLowerCase(), opener.isDefaultItems());
         } else {
-            itemStack = this.itemRepository.getItem("upgrade-path-cannot-obtain-" + tierType.toString().toLowerCase());
+            itemStack = this.itemRepository.getItem("upgrade-path-cannot-obtain-" + tierType.toString().toLowerCase(), opener.isDefaultItems());
         }
         replaceItem(itemStack, tier);
         holder.set(slot, itemStack, action);

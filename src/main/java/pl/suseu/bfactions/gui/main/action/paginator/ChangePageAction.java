@@ -36,7 +36,7 @@ public class ChangePageAction implements ClickAction {
     @Override
     public void execute(Player whoClicked) {
 //        whoClicked.closeInventory();
-        InventoryHolder holder = this.paginatorFactory.createPaginator(this.title, this.rows, this.page, this.items);
+        InventoryHolder holder = this.paginatorFactory.createPaginator(whoClicked, this.title, this.rows, this.page, this.items);
         if (holder == null) {
             return;
         }
