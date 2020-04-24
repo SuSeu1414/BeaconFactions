@@ -72,7 +72,9 @@ public class ItemRepository {
         meta.setDisplayName("Default (" + name + ")");
         meta.setLore(Arrays.asList("To set this item use", "/bfactions setitem " + name));
         result.setItemMeta(meta);
-        addItem(name, result);
+        if (add) {
+            addItem(name, result);
+        }
         return result.clone();
     }
 
