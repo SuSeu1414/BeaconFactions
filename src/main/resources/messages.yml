@@ -126,3 +126,9 @@ messages:
     chat:
       content:
         - "&l&9[&bBFactions&9] &o&fField radius was upgraded successfully!"
+  #Administrative command output, used when looking up id's of gui items
+  gui-debug-toggled:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fGUI item debug mode is now &c&l%status%&o&f!"
