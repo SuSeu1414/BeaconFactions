@@ -9,7 +9,9 @@ import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.guild.Guild;
 import pl.suseu.bfactions.base.guild.permission.GuildPermission;
 import pl.suseu.bfactions.base.user.User;
+import pl.suseu.bfactions.gui.base.ClickAction;
 import pl.suseu.bfactions.gui.base.CustomInventoryHolder;
+import pl.suseu.bfactions.gui.main.action.KickMemberAction;
 import pl.suseu.bfactions.item.ItemRepository;
 import pl.suseu.bfactions.util.ItemUtil;
 
@@ -72,6 +74,10 @@ public class ManageMemberPermissionGuiFactory {
         displayPermissionButtons(holder, GuildPermission.OPEN_DOORS, 13 + 18, guild, user);
         displayPermissionButtons(holder, GuildPermission.MODIFY_TERRAIN, 13 + 27, guild, user);
         displayPermissionButtons(holder, GuildPermission.KILL_ANIMALS, 13 + 36, guild, user);
+
+        ItemStack kickMemberItem = this.itemRepository.getItem("kick-member", defaultItems);
+        ClickAction kickMemberAction = new KickMemberAction(this.plugin, guild, user);
+        holder.set(53, kickMemberItem, kickMemberAction);
 
         return holder.getInventory();
     }
