@@ -1,6 +1,7 @@
 package pl.suseu.bfactions.base.field.listener;
 
 import org.bukkit.Location;
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityExplodeEvent;
@@ -20,6 +21,9 @@ public class EntityExplodeListener implements Listener {
         Location location = event.getLocation();
         Region region = plugin.getRegionRepository().nearestRegion(location);
         if (region == null) {
+            return;
+        }
+        if (event.getEntityType() == EntityType.CREEPER) {
             return;
         }
         if (region.isInDome(location)) {
