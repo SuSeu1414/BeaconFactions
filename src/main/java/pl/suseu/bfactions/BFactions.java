@@ -118,6 +118,7 @@ public class BFactions extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new EntityDamageListener(this), this);
         getServer().getPluginManager().registerEvents(new OpenableOpenListener(this), this);
         getServer().getPluginManager().registerEvents(new TerrainModificationsListener(this), this);
+        getServer().getPluginManager().registerEvents(new LiquidSpreadListener(this), this);
 
         getServer().getScheduler().runTaskTimerAsynchronously(this,
                 new FieldParticleTask(this), 5, 5);
