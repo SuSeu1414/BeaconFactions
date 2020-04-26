@@ -73,7 +73,7 @@ public class MainGuiFactory {
         ClickAction openUndamageableAction = whoClicked -> whoClicked.openInventory(guild.getField().getUndamageableItemInventory());
         holder.set(2, openUndamageableItem, openUndamageableAction);
 
-        if (guild.isMember(user)) {
+        if (guild.isMember(user) && !guild.isOwner(user)) {
             ItemStack leaveItem = this.itemRepository.getItem("quit-guild", user.isDefaultItems());
             ClickAction leaveAction = new LeaveGuildAction(this.plugin, user, guild);
             holder.setItem(53, leaveItem);
