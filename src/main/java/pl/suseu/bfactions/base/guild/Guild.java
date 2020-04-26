@@ -66,7 +66,7 @@ public class Guild {
             return;
         }
         this.members.add(user);
-        this.permissions.put(user, GuildPermissionSet.DEFAULT_PERMISSIONS);
+        this.permissions.put(user, GuildPermissionSet.getDefaultPermissionSet());
         user.addGuild(this);
         Player player = Bukkit.getPlayer(user.getUuid());
         if (player != null) {
