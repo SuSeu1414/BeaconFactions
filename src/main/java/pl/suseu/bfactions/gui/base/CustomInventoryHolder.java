@@ -4,6 +4,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import pl.suseu.bfactions.BFactions;
+import pl.suseu.bfactions.gui.main.factory.confirmation.ConfirmationGuiFactory;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +38,16 @@ public class CustomInventoryHolder implements InventoryHolder {
 
     public void setAction(int slot, ClickAction action) {
         this.actions.put(slot, action);
+    }
+
+    public void setActionWithConfirmation(int slot, ClickAction action) {
+        BFactions plugin = ((BFactions) Bukkit.getPluginManager().getPlugin(BFactions.PLUGIN_NAME));
+        if (plugin == null) {
+            return;
+        }
+        ConfirmationGuiFactory factory = new ConfirmationGuiFactory(plugin);
+        Inventory inv = factory.createGui(action);
+        this.setAction(slot, whoClicked -> whoClicked.openInventory(inv));
     }
 
     public ClickAction getAction(int slot) {
