@@ -1,5 +1,6 @@
 package pl.suseu.bfactions.base.region;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -67,6 +68,16 @@ public class Region {
         if (location == null) {
             return Double.NaN;
         }
+        try {
+            //noinspection ConstantConditions
+            if (!location.getWorld().equals(this.getWorld())) {
+                return Double.NaN;
+            }
+        } catch (NullPointerException nullPointerException) {
+            //should never happen
+            Bukkit.getLogger().severe("World of region " + this.uuid.toString() + " is Null!");
+            return Double.NaN;
+        }
         Location l1 = this.getCenter().clone();
         Location l2 = location.clone();
         l1.setY(0);
@@ -104,5 +115,9 @@ public class Region {
 
     public void setTier(RegionTier tier) {
         this.tier = tier;
+    }
+
+    public World getWorld() {
+        return this.getCenter().getWorld();
     }
 }

@@ -34,7 +34,10 @@ public class UserLocationTask implements Runnable {
                 newRegion = null;
             }
 
-            if (oldLocation == null || newLocation.distance(oldLocation) != 0) {
+            if (oldLocation == null
+                    || oldLocation.getWorld() == null
+                    || !oldLocation.getWorld().equals(newLocation.getWorld())
+                    || newLocation.distance(oldLocation) != 0) {
                 oldLocation = newLocation;
                 user.setCurrentLocation(newLocation);
             }
