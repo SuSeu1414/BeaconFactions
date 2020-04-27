@@ -54,7 +54,7 @@ public class Region {
     }
 
     public boolean isInDome(Location location) {
-        if (location.getBlockY() < center.getBlockY()) {
+        if (location.getBlockY() < center.getBlockY() - 1) {
             return false;
         }
         if (location.distance(center) > tier.getRadius()) {
