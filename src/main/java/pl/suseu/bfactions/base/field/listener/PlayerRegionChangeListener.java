@@ -34,6 +34,9 @@ public class PlayerRegionChangeListener implements Listener {
         event.setCancelled(true);
         Location from = event.getRegion().getCenter().clone();
         Location to = event.getFrom();
+        if (from.getBlockY() <= to.getBlockY()) {
+            from.add(0, event.getRegion().getSize(), 0);
+        }
 //        from.setY(to.getY());
         Vector vector = from.toVector().subtract(to.toVector()).multiply(-1).normalize();
         event.getPlayer().setVelocity(vector);

@@ -1,5 +1,6 @@
 package pl.suseu.bfactions.base.region;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -54,7 +55,7 @@ public class Region {
     }
 
     public boolean isInDome(Location location) {
-        if (location.getBlockY() < center.getBlockY()) {
+        if (location.getBlockY() < center.getBlockY() - 1) {
             return false;
         }
         if (location.distance(center) > tier.getRadius()) {
@@ -71,7 +72,11 @@ public class Region {
         Location l2 = location.clone();
         l1.setY(0);
         l2.setY(0);
-        return l2.distance(l1);
+        try {
+            return l2.distance(l1);
+        } catch (IllegalStateException exception) {
+            return Double.NaN;
+        }
     }
 
     public UUID getUuid() {
@@ -104,5 +109,9 @@ public class Region {
 
     public void setTier(RegionTier tier) {
         this.tier = tier;
+    }
+
+    public World getWorld() {
+        return this.getCenter().getWorld();
     }
 }
