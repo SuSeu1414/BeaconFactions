@@ -1,6 +1,5 @@
 package pl.suseu.bfactions.base.region;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -68,14 +67,10 @@ public class Region {
         if (location == null) {
             return Double.NaN;
         }
-        try {
-            //noinspection ConstantConditions
-            if (!location.getWorld().equals(this.getWorld())) {
-                return Double.NaN;
-            }
-        } catch (NullPointerException nullPointerException) {
-            //should never happen
-            Bukkit.getLogger().severe("World of region " + this.uuid.toString() + " is Null!");
+        if (location.getWorld() == null) {
+            return Double.NaN;
+        }
+        if (!location.getWorld().equals(this.getWorld())) {
             return Double.NaN;
         }
         Location l1 = this.getCenter().clone();
