@@ -22,7 +22,9 @@ import pl.suseu.bfactions.base.region.task.EntityLocationTask;
 import pl.suseu.bfactions.base.region.task.UserLocationTask;
 import pl.suseu.bfactions.base.user.UserRepository;
 import pl.suseu.bfactions.base.user.listener.PlayerJoinListener;
-import pl.suseu.bfactions.command.MainCommand;
+import pl.suseu.bfactions.command.BCommandMap;
+import pl.suseu.bfactions.command.MainCommandExecutor;
+import pl.suseu.bfactions.command.MainCommandTabCompleter;
 import pl.suseu.bfactions.data.DataIntegrator;
 import pl.suseu.bfactions.data.GuildDataController;
 import pl.suseu.bfactions.data.UserDataController;
@@ -100,7 +102,10 @@ public class BFactions extends JavaPlugin {
         int autoSave = getConfig().getInt("mysql.autoSave") * 20;
         getServer().getScheduler().runTaskTimerAsynchronously(this, this::saveData, autoSave, autoSave);
 
-        getCommand("beaconfactions").setExecutor(new MainCommand(this));
+        BCommandMap commandMap = new BCommandMap(this);
+        commandMap.initCommands();
+        getCommand("beaconfactions").setExecutor(new MainCommandExecutor(this, commandMap));
+        getCommand("beaconfactions").setTabCompleter(new MainCommandTabCompleter(this, commandMap));
 
         this.eventWaiter = new EventWaiter(this);
         this.eventWaiter.addEvents(AsyncPlayerChatEvent.class);

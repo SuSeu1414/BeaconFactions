@@ -8,17 +8,16 @@ import pl.suseu.bfactions.BFactions;
 
 import java.util.Arrays;
 
-public class MainCommand implements CommandExecutor {
+public class MainCommandExecutor implements CommandExecutor {
 
     private final BFactions plugin;
     private final LangAPI lang;
     private final BCommandMap commandMap;
 
-    public MainCommand(BFactions plugin) {
+    public MainCommandExecutor(BFactions plugin, BCommandMap commandMap) {
         this.plugin = plugin;
         this.lang = plugin.getLang();
-        this.commandMap = new BCommandMap(plugin);
-        this.commandMap.initCommands();
+        this.commandMap = commandMap;
     }
 
     @Override

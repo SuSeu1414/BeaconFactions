@@ -82,4 +82,8 @@ public class BCommandMap {
                 .setExecutor(this.leaveCommandExecutor)
                 .build(this.commands);
     }
+
+    public Set<BCommand> getCommands() {
+        return new HashSet<>(this.commands);
+    }
 }
