@@ -17,6 +17,7 @@ public class BCommandMap {
     private final ItemGiveCommandExecutor itemGiveCommandExecutor;
     private final ToggleGuiDebugCommandExecutor toggleGuiDebugCommandExecutor;
     private final InviteMemberCommandExecutor inviteMemberCommandExecutor;
+    private final LeaveCommandExecutor leaveCommandExecutor;
 
     public BCommandMap(BFactions plugin) {
         this.plugin = plugin;
@@ -26,6 +27,7 @@ public class BCommandMap {
         this.itemGiveCommandExecutor = new ItemGiveCommandExecutor(this.plugin);
         this.toggleGuiDebugCommandExecutor = new ToggleGuiDebugCommandExecutor(this.plugin);
         this.inviteMemberCommandExecutor = new InviteMemberCommandExecutor(this.plugin);
+        this.leaveCommandExecutor = new LeaveCommandExecutor(this.plugin);
     }
 
     public void addCommand(BCommand command) {
@@ -72,6 +74,12 @@ public class BCommandMap {
                 .setExecutor(this.inviteMemberCommandExecutor)
                 .setNeedsArguments(true)
                 .setUsage("invite <player>")
+                .build(this.commands);
+
+        new BCommandBuilder("leave")
+                .addAlias("quit")
+                .setPermission("bfactions.quit")
+                .setExecutor(this.leaveCommandExecutor)
                 .build(this.commands);
     }
 }
