@@ -13,6 +13,7 @@ import pl.suseu.bfactions.base.field.task.FieldBarTask;
 import pl.suseu.bfactions.base.field.task.FieldParticleTask;
 import pl.suseu.bfactions.base.field.task.FieldPassiveDrainTask;
 import pl.suseu.bfactions.base.guild.GuildRepository;
+import pl.suseu.bfactions.base.guild.listener.BeaconBreakListener;
 import pl.suseu.bfactions.base.guild.listener.BeaconClickListener;
 import pl.suseu.bfactions.base.guild.listener.BeaconPlaceListener;
 import pl.suseu.bfactions.base.guild.task.GuildInventoriesTask;
@@ -127,6 +128,7 @@ public class BFactions extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PistonModificationListener(this), this);
         getServer().getPluginManager().registerEvents(new PotionSplashListener(this), this);
         getServer().getPluginManager().registerEvents(new LiquidPlaceListener(this), this);
+        getServer().getPluginManager().registerEvents(new BeaconBreakListener(this), this);
 
         getServer().getScheduler().runTaskTimerAsynchronously(this,
                 new FieldParticleTask(this), 5, 5);

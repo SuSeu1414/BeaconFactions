@@ -35,6 +35,7 @@ public class Guild {
     private User owner;
 
     private Inventory fuelInventory;
+    private int deleteCode = -1;
 
     public Guild(UUID uuid, String name, User owner, Region region, Field field) {
         this.uuid = uuid;
@@ -244,6 +245,14 @@ public class Guild {
 
     public Inventory getFuelInventory() {
         return fuelInventory;
+    }
+
+    public int getDeleteCode() {
+        return deleteCode;
+    }
+
+    public void setDeleteCode(int deleteCode) {
+        this.deleteCode = deleteCode;
     }
 
     public void delete() {
