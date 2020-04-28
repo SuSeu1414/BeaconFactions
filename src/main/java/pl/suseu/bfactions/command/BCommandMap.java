@@ -24,6 +24,7 @@ public class BCommandMap {
     private final AResetCommandExecutor aResetCommandExecutor;
     private final AKickCommandExecutor aKickCommandExecutor;
     private final BCommandExecutor aDeleteCommandExecutor;
+    private final RenameCommandExecutor renameCommandExecutor;
 
     public BCommandMap(BFactions plugin) {
         this.plugin = plugin;
@@ -37,6 +38,7 @@ public class BCommandMap {
         this.aResetCommandExecutor = new AResetCommandExecutor(this.plugin);
         this.aKickCommandExecutor = new AKickCommandExecutor(this.plugin);
         this.aDeleteCommandExecutor = new ADeleteCommandExecutor(this.plugin);
+        this.renameCommandExecutor = new RenameCommandExecutor(this.plugin);
     }
 
     public void addCommand(BCommand command) {
@@ -104,6 +106,11 @@ public class BCommandMap {
         new BCommandBuilder("kick")
                 .setPermission("bfactions.kick")
                 .setExecutor(this.aKickCommandExecutor)
+                .build(this.commands);
+
+        new BCommandBuilder("rename")
+                .setPermission("bfactions.rename")
+                .setExecutor(this.renameCommandExecutor)
                 .build(this.commands);
     }
 
