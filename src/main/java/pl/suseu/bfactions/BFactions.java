@@ -121,6 +121,7 @@ public class BFactions extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new LiquidSpreadListener(this), this);
         getServer().getPluginManager().registerEvents(new PistonModificationListener(this), this);
         getServer().getPluginManager().registerEvents(new PotionSplashListener(this), this);
+        getServer().getPluginManager().registerEvents(new LiquidPlaceListener(this), this);
 
         getServer().getScheduler().runTaskTimerAsynchronously(this,
                 new FieldParticleTask(this), 5, 5);
