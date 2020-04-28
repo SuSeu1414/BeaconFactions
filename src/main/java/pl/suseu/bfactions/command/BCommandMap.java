@@ -2,6 +2,7 @@ package pl.suseu.bfactions.command;
 
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.command.cmds.*;
+import pl.suseu.bfactions.command.cmds.admin.AResetCommandExecutor;
 import pl.suseu.bfactions.util.StringArrayUtil;
 
 import java.util.HashSet;
@@ -18,6 +19,7 @@ public class BCommandMap {
     private final ToggleGuiDebugCommandExecutor toggleGuiDebugCommandExecutor;
     private final InviteMemberCommandExecutor inviteMemberCommandExecutor;
     private final LeaveCommandExecutor leaveCommandExecutor;
+    private final AResetCommandExecutor aResetCommandExecutor;
 
     public BCommandMap(BFactions plugin) {
         this.plugin = plugin;
@@ -28,6 +30,7 @@ public class BCommandMap {
         this.toggleGuiDebugCommandExecutor = new ToggleGuiDebugCommandExecutor(this.plugin);
         this.inviteMemberCommandExecutor = new InviteMemberCommandExecutor(this.plugin);
         this.leaveCommandExecutor = new LeaveCommandExecutor(this.plugin);
+        this.aResetCommandExecutor = new AResetCommandExecutor(this.plugin);
     }
 
     public void addCommand(BCommand command) {
@@ -80,6 +83,11 @@ public class BCommandMap {
                 .addAlias("quit")
                 .setPermission("bfactions.quit")
                 .setExecutor(this.leaveCommandExecutor)
+                .build(this.commands);
+
+        new BCommandBuilder("reset")
+                .setPermission("bfactions.reset")
+                .setExecutor(this.aResetCommandExecutor)
                 .build(this.commands);
     }
 
