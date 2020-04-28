@@ -2,6 +2,7 @@ package pl.suseu.bfactions.command;
 
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.command.cmds.*;
+import pl.suseu.bfactions.command.cmds.admin.AKickCommandExecutor;
 import pl.suseu.bfactions.command.cmds.admin.AResetCommandExecutor;
 import pl.suseu.bfactions.util.StringArrayUtil;
 
@@ -20,6 +21,7 @@ public class BCommandMap {
     private final InviteMemberCommandExecutor inviteMemberCommandExecutor;
     private final LeaveCommandExecutor leaveCommandExecutor;
     private final AResetCommandExecutor aResetCommandExecutor;
+    private final AKickCommandExecutor aKickCommandExecutor;
 
     public BCommandMap(BFactions plugin) {
         this.plugin = plugin;
@@ -31,6 +33,7 @@ public class BCommandMap {
         this.inviteMemberCommandExecutor = new InviteMemberCommandExecutor(this.plugin);
         this.leaveCommandExecutor = new LeaveCommandExecutor(this.plugin);
         this.aResetCommandExecutor = new AResetCommandExecutor(this.plugin);
+        this.aKickCommandExecutor = new AKickCommandExecutor(this.plugin);
     }
 
     public void addCommand(BCommand command) {
@@ -88,6 +91,11 @@ public class BCommandMap {
         new BCommandBuilder("reset")
                 .setPermission("bfactions.reset")
                 .setExecutor(this.aResetCommandExecutor)
+                .build(this.commands);
+
+        new BCommandBuilder("kick")
+                .setPermission("bfactions.kick")
+                .setExecutor(this.aKickCommandExecutor)
                 .build(this.commands);
     }
 
