@@ -24,6 +24,7 @@ public class MainCommandTabCompleter implements TabCompleter {
         if (args.length == 1) {
             return this.commandMap.getCommands().stream()
                     .filter(cmd -> commandSender.hasPermission(cmd.getPermission()))
+                    .filter(cmd -> cmd.getName().startsWith(args[0]))
                     .map(BCommand::getName)
                     .collect(Collectors.toList());
         }
