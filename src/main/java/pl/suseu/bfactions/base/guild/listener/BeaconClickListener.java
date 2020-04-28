@@ -49,7 +49,7 @@ public class BeaconClickListener implements Listener {
 
         event.setCancelled(true);
         User user = plugin.getUserRepository().getUser(event.getPlayer().getUniqueId());
-        if (!guild.isMember(user)) {
+        if (!guild.isMember(user) && !event.getPlayer().hasPermission("bfactions.bypass-all")) {
             return;
         }
 
