@@ -41,12 +41,11 @@ public class MainCommand implements CommandExecutor {
         }
 
         if (bCommand.isNeedsArguments() && args.length == 1) {
-            String usage = "/" + label + " " + bCommand.getUsage();
-            lang.sendMessage("command-usage", sender, "%usage%", usage);
+            bCommand.sendUsage(sender, label);
             return true;
         }
 
-        bCommand.getExecutor().execute(sender, bCommand, Arrays.asList(args).subList(1, args.length));
+        bCommand.getExecutor().execute(sender, bCommand, label, Arrays.asList(args).subList(1, args.length));
 
         return true;
     }

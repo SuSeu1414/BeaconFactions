@@ -1,12 +1,14 @@
 package pl.suseu.bfactions.command;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
+import pl.suseu.bfactions.BFactions;
 
 import java.util.List;
 
 public class BCommand {
 
-//    private final BFactions plugin = ((BFactions) Bukkit.getPluginManager().getPlugin(BFactions.PLUGIN_NAME));
+    private final BFactions plugin = ((BFactions) Bukkit.getPluginManager().getPlugin(BFactions.PLUGIN_NAME));
 
     private final String name;
     private final List<String> aliases;
@@ -25,9 +27,19 @@ public class BCommand {
         this.executor = executor;
     }
 
-    public void sendUsage(CommandSender sender) {
-        //todo
-        sender.sendMessage("Correct usage: " + this.usage);
+    public void sendUsage(CommandSender sender, String label) {
+        if (this.plugin == null) {
+            return;
+        }
+        this.sendUsage(sender, label, this.getUsage());
+    }
+
+    public void sendUsage(CommandSender sender, String label, String usage) {
+        if (this.plugin == null) {
+            return;
+        }
+        usage = "/" + label + usage;
+        this.plugin.getLang().sendMessage("command-usage", sender, "%usage%", usage);
     }
 
     public String getName() {

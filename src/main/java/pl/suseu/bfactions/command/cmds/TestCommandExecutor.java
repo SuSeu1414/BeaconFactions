@@ -9,7 +9,7 @@ import java.util.List;
 public class TestCommandExecutor implements BCommandExecutor {
 
     @Override
-    public void execute(CommandSender sender, BCommand command, List<String> args) {
+    public void execute(CommandSender sender, BCommand command, String label, List<String> args) {
         sender.sendMessage("uwu");
     }
 }

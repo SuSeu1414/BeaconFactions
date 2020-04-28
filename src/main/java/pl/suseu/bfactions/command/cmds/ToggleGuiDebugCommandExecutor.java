@@ -24,7 +24,7 @@ public class ToggleGuiDebugCommandExecutor implements BCommandExecutor {
     }
 
     @Override
-    public void execute(CommandSender sender, BCommand command, List<String> args) {
+    public void execute(CommandSender sender, BCommand command, String label, List<String> args) {
         if (!(sender instanceof Player)) {
             this.lang.sendMessage("player-only", sender);
             return;

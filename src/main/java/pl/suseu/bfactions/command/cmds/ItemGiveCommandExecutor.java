@@ -30,7 +30,7 @@ public class ItemGiveCommandExecutor implements BCommandExecutor {
     }
 
     @Override
-    public void execute(CommandSender sender, BCommand command, List<String> args) {
+    public void execute(CommandSender sender, BCommand command, String label, List<String> args) {
         Player player = null;
         String id = args.get(0);
 
