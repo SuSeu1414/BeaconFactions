@@ -1,6 +1,5 @@
 package pl.suseu.bfactions.base.region;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -74,7 +73,7 @@ public class Region {
         l2.setY(0);
         try {
             return l2.distance(l1);
-        } catch (IllegalStateException exception) {
+        } catch (IllegalArgumentException exception) {
             return Double.NaN;
         }
     }
