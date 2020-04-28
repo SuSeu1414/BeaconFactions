@@ -1,6 +1,5 @@
 package pl.suseu.bfactions.command.cmds.admin;
 
-import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import pl.rynbou.langapi3.LangAPI;
@@ -10,7 +9,6 @@ import pl.suseu.bfactions.base.guild.Guild;
 import pl.suseu.bfactions.base.guild.GuildRepository;
 import pl.suseu.bfactions.base.region.Region;
 import pl.suseu.bfactions.base.region.RegionRepository;
-import pl.suseu.bfactions.base.user.User;
 import pl.suseu.bfactions.base.user.UserRepository;
 import pl.suseu.bfactions.command.BCommand;
 import pl.suseu.bfactions.command.BCommandExecutor;
@@ -69,19 +67,7 @@ public class ADeleteCommandExecutor implements BCommandExecutor {
             return;
         }
 
-        for (User member : guild.getMembers()) {
-            guild.removeMember(member);
-        }
-        guild.removeMember(guild.getOwner());
-        guild.getField().getAlliedBar().removeAll();
-        guild.getField().getEnemyBar().removeAll();
-        guild.getField().getEnemyBar().setVisible(false);
-        guild.getField().getAlliedBar().setVisible(false);
-        guild.getRegion().getCenter().getBlock().setType(Material.AIR);
-        this.regionRepository.removeRegion(guild.getRegion());
-        this.fieldRepository.removeField(guild.getField());
-        this.guildRepository.removeGuild(guild.getUuid());
-        this.guildRepository.addDeletedGuild(guild.getUuid());
+        guild.delete();
         sender.sendMessage("Guild deleted!");
     }
 }
