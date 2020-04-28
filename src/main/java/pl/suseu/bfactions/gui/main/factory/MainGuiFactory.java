@@ -11,6 +11,7 @@ import pl.suseu.bfactions.base.user.UserRepository;
 import pl.suseu.bfactions.gui.base.ClickAction;
 import pl.suseu.bfactions.gui.base.CustomInventoryHolder;
 import pl.suseu.bfactions.gui.main.action.ChangeGuildNameAction;
+import pl.suseu.bfactions.gui.main.action.LeaveGuildAction;
 import pl.suseu.bfactions.gui.main.action.invite.OpenGuildInvitesGuiAction;
 import pl.suseu.bfactions.gui.main.action.permission.OpenManageGuildPermissionsGuiAction;
 import pl.suseu.bfactions.gui.main.action.upgrade.OpenFieldUpgradeGuiAction;
@@ -71,6 +72,13 @@ public class MainGuiFactory {
         ItemStack openUndamageableItem = this.itemRepository.getItem("field-undamageable-inventory", user.isDefaultItems());
         ClickAction openUndamageableAction = whoClicked -> whoClicked.openInventory(guild.getField().getUndamageableItemInventory());
         holder.set(2, openUndamageableItem, openUndamageableAction);
+
+        if (guild.isMember(user) && !guild.isOwner(user)) {
+            ItemStack leaveItem = this.itemRepository.getItem("quit-guild", user.isDefaultItems());
+            ClickAction leaveAction = new LeaveGuildAction(this.plugin, user, guild);
+            holder.setItem(53, leaveItem);
+            holder.setActionWithConfirmation(53, leaveAction);
+        }
 
         return holder.getInventory();
     }
