@@ -37,7 +37,7 @@
         <dependency>
             <groupId>com.github.VeryLongNicknameSuchWow</groupId>
             <artifactId>LangAPI</artifactId>
-            <version>2bbab7261c57b5e4fccdacb35096d34c6581ad01</version>
+            <version>a25e093005cc90b935669de4be72ab14a279d0c1</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
