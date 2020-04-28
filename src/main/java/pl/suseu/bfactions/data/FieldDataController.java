@@ -76,6 +76,21 @@ public class FieldDataController {
         return true;
     }
 
+    public boolean deleteField(UUID uuid) {
+        String update = getDeleteQuery(uuid);
+        for (String query : update.split(";")) {
+            try {
+                database.executeUpdate(query);
+            } catch (Exception e) {
+                plugin.getLogger().warning("[MySQL] Update: " + query);
+                plugin.getLogger().warning("Could not remove field from database");
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return true;
+    }
+
     private boolean loadField(ResultSet result) throws SQLException {
         String uuidString = result.getString("uuid");
         int tierIndex = result.getInt("tier");
@@ -146,6 +161,17 @@ public class FieldDataController {
         sb.append("`currentEnergy` = '" + field.getCurrentEnergy() + "',");
         sb.append("`boost-undamageable-item` = '" + boostUndamageableItem + "',");
         sb.append("`boost-undamageable-time` = '" + boostUndamageableTime + "'");
+
+        return sb.toString();
+    }
+
+
+    private String getDeleteQuery(UUID uuid) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("delete from `" + database.getFieldsTableName() + "` ");
+        sb.append("where ");
+        sb.append("`uuid` = '" + uuid.toString() + "'");
 
         return sb.toString();
     }

@@ -15,6 +15,7 @@ public class GuildRepository {
 
     private final Map<UUID, Guild> guilds = new ConcurrentHashMap<>();
     private final Set<UUID> modifiedGuilds = ConcurrentHashMap.newKeySet();
+    private final Set<UUID> deletedGuilds = ConcurrentHashMap.newKeySet();
 
     public GuildRepository(BFactions plugin) {
         this.plugin = plugin;
@@ -50,7 +51,19 @@ public class GuildRepository {
         this.guilds.remove(uuid);
     }
 
-//    public void addModifiedGuild(Guild guild) {
+    public void addDeletedGuild(UUID uuid) {
+        this.deletedGuilds.add(uuid);
+    }
+
+    public void clearDeletedGuilds() {
+        this.deletedGuilds.clear();
+    }
+
+    public Set<UUID> getDeletedGuilds() {
+        return new HashSet<>(this.deletedGuilds);
+    }
+
+    //    public void addModifiedGuild(Guild guild) {
 //        this.addModifiedGuild(guild.getUuid());
 //    }
 //
