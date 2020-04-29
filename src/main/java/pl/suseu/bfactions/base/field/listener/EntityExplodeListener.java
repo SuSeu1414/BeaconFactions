@@ -24,6 +24,13 @@ public class EntityExplodeListener implements Listener {
             return;
         }
         if (event.getEntityType() == EntityType.CREEPER) {
+            event.blockList().removeIf(block -> {
+                Location blockLocation = block.getLocation();
+                Location centerLocation = region.getCenter();
+                return blockLocation.getBlockX() == centerLocation.getBlockX()
+                        && blockLocation.getBlockY() == centerLocation.getBlockY()
+                        && blockLocation.getBlockZ() == centerLocation.getBlockZ();
+            });
             return;
         }
         if (region.isInDome(location)) {
