@@ -56,7 +56,7 @@ public class BCommandMap {
 
     public void initCommands() {
         new BCommandBuilder("test")
-                .setPermission("bfactions.false")
+                .setPermission("bfactions.command.false")
                 .setExecutor(this.testCommandExecutor)
                 .addAlias("t")
                 .addAlias("tst")
@@ -64,24 +64,24 @@ public class BCommandMap {
                 .build(this.commands);
 
         new BCommandBuilder("setitem")
-                .setPermission("bfactions.setitem")
+                .setPermission("bfactions.command.setitem")
                 .setNeedsArguments(true)
                 .setUsage("setitem item-id")
                 .setExecutor(this.itemSetCommandExecutor)
                 .build(this.commands);
 
         new BCommandBuilder("giveitem")
-                .setPermission("bfactions.giveitem")
+                .setPermission("bfactions.command.giveitem")
                 .setExecutor(itemGiveCommandExecutor)
                 .build(this.commands);
 
         new BCommandBuilder("debuggui")
-                .setPermission("bfactions.debuggui")
+                .setPermission("bfactions.command.debuggui")
                 .setExecutor(toggleGuiDebugCommandExecutor)
                 .build(this.commands);
 
         new BCommandBuilder("invite")
-                .setPermission("bfactions.invite")
+                .setPermission("bfactions.command.invite")
                 .setExecutor(this.inviteMemberCommandExecutor)
                 .setNeedsArguments(true)
                 .setUsage("invite <player>")
@@ -89,27 +89,27 @@ public class BCommandMap {
 
         new BCommandBuilder("leave")
                 .addAlias("quit")
-                .setPermission("bfactions.quit")
+                .setPermission("bfactions.command.quit")
                 .setExecutor(this.leaveCommandExecutor)
                 .build(this.commands);
 
         new BCommandBuilder("reset")
-                .setPermission("bfactions.reset")
+                .setPermission("bfactions.command.reset")
                 .setExecutor(this.aResetCommandExecutor)
                 .build(this.commands);
 
         new BCommandBuilder("delete")
-                .setPermission("bfactions.delete")
+                .setPermission("bfactions.command.delete")
                 .setExecutor(this.aDeleteCommandExecutor)
                 .build(this.commands);
 
         new BCommandBuilder("kick")
-                .setPermission("bfactions.kick")
+                .setPermission("bfactions.command.kick")
                 .setExecutor(this.aKickCommandExecutor)
                 .build(this.commands);
 
         new BCommandBuilder("rename")
-                .setPermission("bfactions.rename")
+                .setPermission("bfactions.command.rename")
                 .setExecutor(this.renameCommandExecutor)
                 .build(this.commands);
     }
