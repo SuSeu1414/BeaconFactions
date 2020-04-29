@@ -1,6 +1,7 @@
 package pl.suseu.bfactions.base.field.listener;
 
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -20,21 +21,21 @@ public class PlayerMoveInRegionListener implements Listener {
 
     @EventHandler
     public void onPlayerMove(PlayerMoveInRegionEvent event) {
-
         Player player = event.getPlayer();
+        Entity toTeleport = player.isInsideVehicle() ? player.getVehicle() : player;
         User user = plugin.getUserRepository().getUser(player.getUniqueId());
 
         if (user.getCurrentRegion().getGuild().isMember(user)) {
             return;
         }
-        if (event.getPlayer().isOp() || event.getPlayer().hasPermission("bfactions.bypass-entry")) {
+        if (player.isOp() || player.hasPermission("bfactions.bypass-entry")) {
             return;
         }
         if (event.getRegion().getGuild().getField().getState() != FieldState.ENABLED) {
             return;
         }
         if (System.currentTimeMillis() - user.getLastRegionChange() > 3000) {
-            user.getCurrentRegion().teleportToSafety(player);
+            user.getCurrentRegion().teleportToSafety(toTeleport);
         }
         Location from = event.getRegion().getCenter().clone();
         Location to = event.getFrom();
@@ -49,6 +50,6 @@ public class PlayerMoveInRegionListener implements Listener {
         }
         from.setY(to.getY());
         Vector vector = from.toVector().subtract(to.toVector()).multiply(-1).normalize();
-        event.getPlayer().setVelocity(vector);
+        toTeleport.setVelocity(vector);
     }
 }
