@@ -2,7 +2,7 @@ package pl.suseu.bfactions.base.region;
 
 import org.bukkit.Location;
 import org.bukkit.World;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.Entity;
 import pl.suseu.bfactions.base.guild.Guild;
 import pl.suseu.bfactions.settings.RegionTier;
 
@@ -22,8 +22,8 @@ public class Region {
         this.tier = tier;
     }
 
-    public void teleportToSafety(Player player) {
-        Location playerLocation = player.getLocation();
+    public void teleportToSafety(Entity entity) {
+        Location playerLocation = entity.getLocation();
         Location center = this.getCenter().clone();
         double r1 = this.flatDistance(playerLocation);
         double r2 = this.getSize() + 1;
@@ -31,7 +31,7 @@ public class Region {
         double z1 = playerLocation.getZ() - center.getZ();
         double x2 = center.getX() + (x1 * r2) / r1;
         double z2 = center.getZ() + (z1 * r2) / r1;
-        World world = player.getWorld();
+        World world = entity.getWorld();
         Location tpTarget = new Location(world, x2, 0, z2);
         double y;
         int i = 0;
@@ -39,11 +39,11 @@ public class Region {
             y = world.getHighestBlockYAt(tpTarget);
             if (y != 0) {
                 tpTarget.setY(y + 1);
-                player.teleport(tpTarget);
+                entity.teleport(tpTarget);
                 return;
             }
             if (i++ > 3) {
-                player.teleport(world.getSpawnLocation());
+                entity.teleport(world.getSpawnLocation());
                 return;
             }
         }
