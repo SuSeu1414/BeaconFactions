@@ -71,6 +71,23 @@ public class RegionDataController {
         return true;
     }
 
+
+    public boolean deleteRegion(UUID uuid) {
+        String update = getDeleteQuery(uuid);
+        for (String query : update.split(";")) {
+            try {
+                database.executeUpdate(query);
+            } catch (Exception e) {
+                plugin.getLogger().warning("[MySQL] Update: " + query);
+                plugin.getLogger().warning("Could not remove region from database");
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return true;
+    }
+
+
     private boolean loadRegion(ResultSet result) throws SQLException {
         String uuidString = result.getString("uuid");
         int tierIndex = result.getInt("tier");
@@ -117,6 +134,17 @@ public class RegionDataController {
         sb.append("`x` = '" + region.getCenter().getBlockX() + "',");
         sb.append("`y` = '" + region.getCenter().getBlockY() + "',");
         sb.append("`z` = '" + region.getCenter().getBlockZ() + "'");
+
+        return sb.toString();
+    }
+
+
+    private String getDeleteQuery(UUID uuid) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("delete from `" + database.getRegionsTableName() + "` ");
+        sb.append("where ");
+        sb.append("`uuid` = '" + uuid.toString() + "'");
 
         return sb.toString();
     }

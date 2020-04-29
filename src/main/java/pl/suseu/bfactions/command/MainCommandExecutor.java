@@ -8,17 +8,16 @@ import pl.suseu.bfactions.BFactions;
 
 import java.util.Arrays;
 
-public class MainCommand implements CommandExecutor {
+public class MainCommandExecutor implements CommandExecutor {
 
     private final BFactions plugin;
     private final LangAPI lang;
     private final BCommandMap commandMap;
 
-    public MainCommand(BFactions plugin) {
+    public MainCommandExecutor(BFactions plugin, BCommandMap commandMap) {
         this.plugin = plugin;
         this.lang = plugin.getLang();
-        this.commandMap = new BCommandMap(plugin);
-        this.commandMap.initCommands();
+        this.commandMap = commandMap;
     }
 
     @Override
@@ -41,12 +40,11 @@ public class MainCommand implements CommandExecutor {
         }
 
         if (bCommand.isNeedsArguments() && args.length == 1) {
-            String usage = "/" + label + " " + bCommand.getUsage();
-            lang.sendMessage("command-usage", sender, "%usage%", usage);
+            bCommand.sendUsage(sender, label);
             return true;
         }
 
-        bCommand.getExecutor().execute(sender, bCommand, Arrays.asList(args).subList(1, args.length));
+        bCommand.getExecutor().execute(sender, bCommand, label, Arrays.asList(args).subList(1, args.length));
 
         return true;
     }

@@ -47,6 +47,16 @@ public class GuildDataController {
             }
         }
 
+        for (UUID uuid : this.plugin.getGuildRepository().getDeletedGuilds()) {
+            this.regionDataController.deleteRegion(uuid);
+            this.fieldDataController.deleteField(uuid);
+            if (this.deleteGuild(uuid)) {
+                plugin.getLogger().info("Removed guild from database (" + uuid.toString() + ")");
+            } else {
+                plugin.getLogger().info("Failed to remove guild from database (" + uuid.toString() + ")");
+            }
+        }
+
 //        this.plugin.getGuildRepository().clearModifiedGuilds();
         plugin.getLogger().info("Saved " + success + " guilds successfully.");
         if (failure.get() != 0) {
@@ -99,6 +109,21 @@ public class GuildDataController {
             } catch (Exception e) {
                 plugin.getLogger().warning("[MySQL] Update: " + query);
                 plugin.getLogger().warning("Could not save guild to database");
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean deleteGuild(UUID uuid) {
+        String update = getDeleteQuery(uuid);
+        for (String query : update.split(";")) {
+            try {
+                database.executeUpdate(query);
+            } catch (Exception e) {
+                plugin.getLogger().warning("[MySQL] Update: " + query);
+                plugin.getLogger().warning("Could not remove guild from database");
                 e.printStackTrace();
                 return false;
             }
@@ -160,6 +185,16 @@ public class GuildDataController {
         sb.append("`name` = '" + guild.getName().replace("'", "''") + "',");
         sb.append("`members` = '" + guild.getMembersSerialized() + "',");
         sb.append("`permissions` = '" + guild.getPermissionsSerialized() + "'");
+
+        return sb.toString();
+    }
+
+    private String getDeleteQuery(UUID uuid) {
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("delete from `" + database.getGuildsTableName() + "` ");
+        sb.append("where ");
+        sb.append("`uuid` = '" + uuid.toString() + "'");
 
         return sb.toString();
     }

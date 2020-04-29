@@ -1,6 +1,7 @@
 package pl.suseu.bfactions.base.guild;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import pl.suseu.bfactions.BFactions;
@@ -34,6 +35,7 @@ public class Guild {
     private User owner;
 
     private Inventory fuelInventory;
+    private int deleteCode = -1;
 
     public Guild(UUID uuid, String name, User owner, Region region, Field field) {
         this.uuid = uuid;
@@ -243,5 +245,33 @@ public class Guild {
 
     public Inventory getFuelInventory() {
         return fuelInventory;
+    }
+
+    public int getDeleteCode() {
+        return deleteCode;
+    }
+
+    public void setDeleteCode(int deleteCode) {
+        this.deleteCode = deleteCode;
+    }
+
+    public void delete() {
+        if (this.plugin == null) {
+            return;
+        }
+
+        for (User member : this.getMembers()) {
+            this.removeMember(member);
+        }
+        this.removeMember(this.getOwner());
+        this.getField().getAlliedBar().removeAll();
+        this.getField().getEnemyBar().removeAll();
+        this.getField().getEnemyBar().setVisible(false);
+        this.getField().getAlliedBar().setVisible(false);
+        this.getRegion().getCenter().getBlock().setType(Material.AIR);
+        this.plugin.getRegionRepository().removeRegion(this.getRegion());
+        this.plugin.getFieldRepository().removeField(this.getField());
+        this.plugin.getGuildRepository().removeGuild(this.getUuid());
+        this.plugin.getGuildRepository().addDeletedGuild(this.getUuid());
     }
 }

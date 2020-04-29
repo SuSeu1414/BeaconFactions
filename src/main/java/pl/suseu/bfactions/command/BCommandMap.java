@@ -1,10 +1,10 @@
 package pl.suseu.bfactions.command;
 
 import pl.suseu.bfactions.BFactions;
-import pl.suseu.bfactions.command.cmds.ItemGiveCommandExecutor;
-import pl.suseu.bfactions.command.cmds.ItemSetCommandExecutor;
-import pl.suseu.bfactions.command.cmds.TestCommandExecutor;
-import pl.suseu.bfactions.command.cmds.ToggleGuiDebugCommandExecutor;
+import pl.suseu.bfactions.command.cmds.*;
+import pl.suseu.bfactions.command.cmds.admin.ADeleteCommandExecutor;
+import pl.suseu.bfactions.command.cmds.admin.AKickCommandExecutor;
+import pl.suseu.bfactions.command.cmds.admin.AResetCommandExecutor;
 import pl.suseu.bfactions.util.StringArrayUtil;
 
 import java.util.HashSet;
@@ -19,6 +19,12 @@ public class BCommandMap {
     private final ItemSetCommandExecutor itemSetCommandExecutor;
     private final ItemGiveCommandExecutor itemGiveCommandExecutor;
     private final ToggleGuiDebugCommandExecutor toggleGuiDebugCommandExecutor;
+    private final InviteMemberCommandExecutor inviteMemberCommandExecutor;
+    private final LeaveCommandExecutor leaveCommandExecutor;
+    private final AResetCommandExecutor aResetCommandExecutor;
+    private final AKickCommandExecutor aKickCommandExecutor;
+    private final BCommandExecutor aDeleteCommandExecutor;
+    private final RenameCommandExecutor renameCommandExecutor;
 
     public BCommandMap(BFactions plugin) {
         this.plugin = plugin;
@@ -27,6 +33,12 @@ public class BCommandMap {
         this.itemSetCommandExecutor = new ItemSetCommandExecutor(this.plugin);
         this.itemGiveCommandExecutor = new ItemGiveCommandExecutor(this.plugin);
         this.toggleGuiDebugCommandExecutor = new ToggleGuiDebugCommandExecutor(this.plugin);
+        this.inviteMemberCommandExecutor = new InviteMemberCommandExecutor(this.plugin);
+        this.leaveCommandExecutor = new LeaveCommandExecutor(this.plugin);
+        this.aResetCommandExecutor = new AResetCommandExecutor(this.plugin);
+        this.aKickCommandExecutor = new AKickCommandExecutor(this.plugin);
+        this.aDeleteCommandExecutor = new ADeleteCommandExecutor(this.plugin);
+        this.renameCommandExecutor = new RenameCommandExecutor(this.plugin);
     }
 
     public void addCommand(BCommand command) {
@@ -67,5 +79,42 @@ public class BCommandMap {
                 .setPermission("bfactions.debuggui")
                 .setExecutor(toggleGuiDebugCommandExecutor)
                 .build(this.commands);
+
+        new BCommandBuilder("invite")
+                .setPermission("bfactions.invite")
+                .setExecutor(this.inviteMemberCommandExecutor)
+                .setNeedsArguments(true)
+                .setUsage("invite <player>")
+                .build(this.commands);
+
+        new BCommandBuilder("leave")
+                .addAlias("quit")
+                .setPermission("bfactions.quit")
+                .setExecutor(this.leaveCommandExecutor)
+                .build(this.commands);
+
+        new BCommandBuilder("reset")
+                .setPermission("bfactions.reset")
+                .setExecutor(this.aResetCommandExecutor)
+                .build(this.commands);
+
+        new BCommandBuilder("delete")
+                .setPermission("bfactions.delete")
+                .setExecutor(this.aDeleteCommandExecutor)
+                .build(this.commands);
+
+        new BCommandBuilder("kick")
+                .setPermission("bfactions.kick")
+                .setExecutor(this.aKickCommandExecutor)
+                .build(this.commands);
+
+        new BCommandBuilder("rename")
+                .setPermission("bfactions.rename")
+                .setExecutor(this.renameCommandExecutor)
+                .build(this.commands);
+    }
+
+    public Set<BCommand> getCommands() {
+        return new HashSet<>(this.commands);
     }
 }
