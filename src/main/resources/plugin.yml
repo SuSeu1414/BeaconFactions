@@ -27,8 +27,8 @@ permissions:
     description: "will give you all of the above, you will also be able to open every beacon"
     default: op
     children:
-      - 'bfactions.bypass-manage'
-      - 'bfactions.bypass-chests'
-      - 'bfactions.bypass-doors'
-      - 'bfactions.bypass-terrain'
-      - 'bfactions.bypass-entry'
+      bfactions.bypass-manage: true
+      bfactions.bypass-chests: true
+      bfactions.bypass-doors: true
+      bfactions.bypass-terrain: true
+      bfactions.bypass-entry: true
