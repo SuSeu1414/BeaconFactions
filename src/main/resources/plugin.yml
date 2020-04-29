@@ -7,3 +7,28 @@ commands:
     aliases:
       - bf
       - bfactions
+permissions:
+  bfactions.bypass-manage:
+    description: "gives you the management permission in every guild"
+    default: op
+  bfactions.bypass-chests:
+    description: "gives you the chests permission in every guild"
+    default: op
+  bfactions.bypass-doors:
+    description: "gives you the doors permission in every guild"
+    default: op
+  bfactions.bypass-terrain:
+    description: "gives you the terrain modification permission in every guild"
+    default: op
+  bfactions.bypass-entry:
+    description: "allows you to enter all cuboids"
+    default: op
+  bfactions.bypass-all:
+    description: "will give you all of the above, you will also be able to open every beacon"
+    default: op
+    children:
+      bfactions.bypass-manage: true
+      bfactions.bypass-chests: true
+      bfactions.bypass-doors: true
+      bfactions.bypass-terrain: true
+      bfactions.bypass-entry: true
