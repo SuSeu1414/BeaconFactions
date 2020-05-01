@@ -39,8 +39,9 @@ public class BCommandBuilder {
         return this;
     }
 
-    public void setAsync(boolean async) {
+    public BCommandBuilder setAsync(boolean async) {
         this.async = async;
+        return this;
     }
 
     public BCommandBuilder setExecutor(BCommandExecutor executor) {

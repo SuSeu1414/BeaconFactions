@@ -4,6 +4,7 @@ import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.command.cmds.*;
 import pl.suseu.bfactions.command.cmds.admin.ADeleteCommandExecutor;
 import pl.suseu.bfactions.command.cmds.admin.AKickCommandExecutor;
+import pl.suseu.bfactions.command.cmds.admin.AManageCommandExecutor;
 import pl.suseu.bfactions.command.cmds.admin.AResetCommandExecutor;
 import pl.suseu.bfactions.util.StringArrayUtil;
 
@@ -23,6 +24,7 @@ public class BCommandMap {
     private final LeaveCommandExecutor leaveCommandExecutor;
     private final AResetCommandExecutor aResetCommandExecutor;
     private final AKickCommandExecutor aKickCommandExecutor;
+    private final AManageCommandExecutor aManageCommandExecutor;
     private final BCommandExecutor aDeleteCommandExecutor;
     private final RenameCommandExecutor renameCommandExecutor;
 
@@ -38,6 +40,7 @@ public class BCommandMap {
         this.aResetCommandExecutor = new AResetCommandExecutor(this.plugin);
         this.aKickCommandExecutor = new AKickCommandExecutor(this.plugin);
         this.aDeleteCommandExecutor = new ADeleteCommandExecutor(this.plugin);
+        this.aManageCommandExecutor = new AManageCommandExecutor(this.plugin);
         this.renameCommandExecutor = new RenameCommandExecutor(this.plugin);
     }
 
@@ -111,6 +114,14 @@ public class BCommandMap {
         new BCommandBuilder("rename")
                 .setPermission("bfactions.command.rename")
                 .setExecutor(this.renameCommandExecutor)
+                .build(this.commands);
+
+        new BCommandBuilder("manage")
+                .setPermission("bfactions.command.manage")
+                .setAsync(true)
+                .setNeedsArguments(true)
+                .setUsage("manage <player>")
+                .setExecutor(this.aManageCommandExecutor)
                 .build(this.commands);
     }
 
