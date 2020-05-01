@@ -21,7 +21,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class Guild {
+public class Guild implements Comparable<Guild> {
 
     private final BFactions plugin = ((BFactions) Bukkit.getPluginManager().getPlugin(BFactions.PLUGIN_NAME));
 
@@ -181,6 +181,12 @@ public class Guild {
         return new HashSet<>(this.members);
     }
 
+    public Set<User> getMembersAndOwner() {
+        Set<User> members = new HashSet<>(this.members);
+        members.add(this.owner);
+        return members;
+    }
+
     public Field getField() {
         return field;
     }
@@ -273,5 +279,13 @@ public class Guild {
         this.plugin.getFieldRepository().removeField(this.getField());
         this.plugin.getGuildRepository().removeGuild(this.getUuid());
         this.plugin.getGuildRepository().addDeletedGuild(this.getUuid());
+    }
+
+    @Override
+    public int compareTo(Guild o) {
+        if (o == null) {
+            return 0;
+        }
+        return this.name.compareTo(o.getName());
     }
 }
