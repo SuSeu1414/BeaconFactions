@@ -8,18 +8,39 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
+import org.bukkit.event.vehicle.VehicleEnterEvent;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.field.FieldState;
 import pl.suseu.bfactions.base.guild.permission.GuildPermission;
 import pl.suseu.bfactions.base.region.Region;
 import pl.suseu.bfactions.base.user.User;
 
-public class EntityDamageListener implements Listener {
+public class EntityInteractionListener implements Listener {
 
     private final BFactions plugin;
 
-    public EntityDamageListener(BFactions plugin) {
+    public EntityInteractionListener(BFactions plugin) {
         this.plugin = plugin;
+    }
+
+    @EventHandler
+    public void onVehicleEnter(VehicleEnterEvent event) {
+        if (!(event.getEntered() instanceof Player)) {
+            return;
+        }
+        Player player = (Player) event.getEntered();
+        Location location = event.getVehicle().getLocation();
+        Region region = this.plugin.getRegionRepository().nearestRegion(location);
+        User user = this.plugin.getUserRepository().getUser(player.getUniqueId());
+        if (region == null) {
+            return;
+        }
+        if (!region.isInBorder(location)) {
+            return;
+        }
+        if (!region.getGuild().isMember(user)) {
+            event.setCancelled(true);
+        }
     }
 
     @EventHandler

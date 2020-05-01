@@ -72,6 +72,8 @@ public class Field {
     public void addEnergy(double energy) {
         if (currentEnergy + energy < 0) {
             this.currentEnergy = 0;
+        } else if (currentEnergy + energy > tier.getMaxEnergy()) {
+            this.currentEnergy = tier.getMaxEnergy();
         } else {
             this.currentEnergy += energy;
         }
@@ -163,6 +165,8 @@ public class Field {
 
     public void setCurrentEnergy(double currentEnergy) {
         if (currentEnergy < 0) {
+            return;
+        } else if (currentEnergy > tier.getMaxEnergy()) {
             return;
         }
         this.currentEnergy = currentEnergy;

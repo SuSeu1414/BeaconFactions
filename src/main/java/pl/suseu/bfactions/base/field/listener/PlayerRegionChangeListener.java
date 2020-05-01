@@ -1,6 +1,7 @@
 package pl.suseu.bfactions.base.field.listener;
 
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.util.Vector;
@@ -11,6 +12,7 @@ public class PlayerRegionChangeListener implements Listener {
 
     @EventHandler
     public void onPlayerRegionChange(PlayerRegionChangeEvent event) {
+        Player player = event.getPlayer();
         if (event.getRegion() == null) {
             return;
         }
@@ -20,7 +22,7 @@ public class PlayerRegionChangeListener implements Listener {
 //          guildRepository.addModifiedGuild(event.getRegion().getGuild());
             return;
         }
-        if (event.getPlayer().isOp() || event.getPlayer().hasPermission("bfactions.bypass-entry")) {
+        if (player.isOp() || player.hasPermission("bfactions.bypass-entry")) {
             return;
         }
         if (event.getRegion().getGuild().getField().getState() != FieldState.ENABLED) {
@@ -39,6 +41,6 @@ public class PlayerRegionChangeListener implements Listener {
         }
 //        from.setY(to.getY());
         Vector vector = from.toVector().subtract(to.toVector()).multiply(-1).normalize();
-        event.getPlayer().setVelocity(vector);
+        player.setVelocity(vector);
     }
 }
