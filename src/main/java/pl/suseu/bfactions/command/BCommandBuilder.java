@@ -12,6 +12,7 @@ public class BCommandBuilder {
     private String permission = "bfactions.default";
     private String usage = null;
     private boolean needsArguments = false;
+    private boolean async = false;
     private BCommandExecutor executor;
 
     public BCommandBuilder(String name) {
@@ -38,6 +39,10 @@ public class BCommandBuilder {
         return this;
     }
 
+    public void setAsync(boolean async) {
+        this.async = async;
+    }
+
     public BCommandBuilder setExecutor(BCommandExecutor executor) {
         this.executor = executor;
         return this;
@@ -48,6 +53,6 @@ public class BCommandBuilder {
             Bukkit.getLogger().warning("Cannot create command with no executor");
             return;
         }
-        commands.add(new BCommand(name, aliases, permission, usage, needsArguments, executor));
+        commands.add(new BCommand(name, aliases, permission, usage, needsArguments, async, executor));
     }
 }

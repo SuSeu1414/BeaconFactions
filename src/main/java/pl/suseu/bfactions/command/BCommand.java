@@ -15,15 +15,17 @@ public class BCommand {
     private final String permission;
     private final String usage;
     private final boolean needsArguments;
+    private final boolean async;
 
     private final BCommandExecutor executor;
 
-    public BCommand(String name, List<String> aliases, String permission, String usage, boolean needsArguments, BCommandExecutor executor) {
+    public BCommand(String name, List<String> aliases, String permission, String usage, boolean needsArguments, boolean async, BCommandExecutor executor) {
         this.name = name;
         this.aliases = aliases;
         this.permission = permission;
         this.usage = usage;
         this.needsArguments = needsArguments;
+        this.async = async;
         this.executor = executor;
     }
 
@@ -60,6 +62,10 @@ public class BCommand {
 
     public boolean isNeedsArguments() {
         return needsArguments;
+    }
+
+    public boolean isAsync() {
+        return async;
     }
 
     public BCommandExecutor getExecutor() {

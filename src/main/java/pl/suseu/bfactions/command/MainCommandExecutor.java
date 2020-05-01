@@ -44,7 +44,13 @@ public class MainCommandExecutor implements CommandExecutor {
             return true;
         }
 
-        bCommand.getExecutor().execute(sender, bCommand, label, Arrays.asList(args).subList(1, args.length));
+        if (bCommand.isAsync()) {
+            this.plugin.getServer().getScheduler().runTaskAsynchronously(this.plugin, () -> {
+                bCommand.getExecutor().execute(sender, bCommand, label, Arrays.asList(args).subList(1, args.length));
+            });
+        } else {
+            bCommand.getExecutor().execute(sender, bCommand, label, Arrays.asList(args).subList(1, args.length));
+        }
 
         return true;
     }
