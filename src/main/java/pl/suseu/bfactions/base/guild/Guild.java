@@ -36,6 +36,7 @@ public class Guild implements Comparable<Guild> {
 
     private Inventory fuelInventory;
     private int deleteCode = -1;
+    private boolean pvpEnabled;
 
     public Guild(UUID uuid, String name, User owner, Region region, Field field) {
         this.uuid = uuid;
@@ -259,6 +260,14 @@ public class Guild implements Comparable<Guild> {
 
     public void setDeleteCode(int deleteCode) {
         this.deleteCode = deleteCode;
+    }
+
+    public boolean isPvpEnabled() {
+        return pvpEnabled;
+    }
+
+    public void setPvpEnabled(boolean pvpEnabled) {
+        this.pvpEnabled = pvpEnabled;
     }
 
     public void delete() {
