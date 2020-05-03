@@ -40,7 +40,13 @@ public class UpgradeGuiFactory {
     public Inventory createGui(Player player, Guild guild, List<Tier> tiers, int currentTier) {
         User opener = this.userRepository.getUser(player.getUniqueId());
 
-        CustomInventoryHolder holder = new CustomInventoryHolder("Upgrades", 6 * 9); // todo title config
+        String title = "";
+        if (tierType == Tier.TierType.FIELD) {
+            title = plugin.getSettings().guiFieldUpgradesTitle;
+        } else if (tierType == Tier.TierType.REGION) {
+            title = plugin.getSettings().guiRegionUpgradeTitle;
+        }
+        CustomInventoryHolder holder = new CustomInventoryHolder(title, 6 * 9);
 
         int routeIndex = 0;
         int tierIndex = calculateFirstTierIndex(currentTier);

@@ -21,7 +21,7 @@ public class ConfirmationGuiFactory {
     }
 
     public Inventory createGui(ClickAction action) {
-        CustomInventoryHolder holder = new CustomInventoryHolder("Confirm action", 9 * 3);
+        CustomInventoryHolder holder = new CustomInventoryHolder(plugin.getSettings().guiConfirmationTitle, 9 * 3);
 
         ItemStack confirmItem = this.itemRepository.getItem("confirm", false);
         holder.set(13, confirmItem, action);

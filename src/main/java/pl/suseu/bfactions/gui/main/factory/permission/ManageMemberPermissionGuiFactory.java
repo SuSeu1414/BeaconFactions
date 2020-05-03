@@ -41,7 +41,8 @@ public class ManageMemberPermissionGuiFactory {
     }
 
     public Inventory createGui(Guild guild, User user) {
-        CustomInventoryHolder holder = new CustomInventoryHolder(user.getName(), 6 * 9);
+        String title = plugin.getSettings().guiManageMemberTitle.replace("%player%", user.getName());
+        CustomInventoryHolder holder = new CustomInventoryHolder(title, 6 * 9);
 
         ItemStack memberInfoItem = this.itemRepository.getItem("member-info", defaultItems);
         holder.setItem(4, memberInfoItem);

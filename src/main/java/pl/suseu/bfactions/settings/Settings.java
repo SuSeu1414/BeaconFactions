@@ -39,6 +39,13 @@ public class Settings {
     public final List<RegionTier> regionTiers = new ArrayList<>();
     public final Map<String, Long> fieldBoostUndamageableItems = new HashMap<>();
     public String guiMainTitle;
+    public String guiInvitesTitle;
+    public String guiManageMembersTitle;
+    public String guiManageMemberTitle;
+    public String guiFieldUpgradesTitle;
+    public String guiRegionUpgradeTitle;
+    public String guiBoostUndamageableTitle;
+    public String guiConfirmationTitle;
     public String timeDays;
     public String timeHours;
     public String timeMinutes;
@@ -120,6 +127,13 @@ public class Settings {
         }
 
         guiMainTitle = ChatColor.translateAlternateColorCodes('&', cfg.getString("gui.main-gui-title"));
+        guiInvitesTitle = ChatColor.translateAlternateColorCodes('&', cfg.getString("gui.invites-gui-title"));
+        guiManageMembersTitle = ChatColor.translateAlternateColorCodes('&', cfg.getString("gui.manage-members-gui-title"));
+        guiManageMemberTitle = ChatColor.translateAlternateColorCodes('&', cfg.getString("gui.manage-member-gui-title"));
+        guiFieldUpgradesTitle = ChatColor.translateAlternateColorCodes('&', cfg.getString("gui.field-upgrade-gui-title"));
+        guiRegionUpgradeTitle = ChatColor.translateAlternateColorCodes('&', cfg.getString("gui.region-upgrade-gui-title"));
+        guiBoostUndamageableTitle = ChatColor.translateAlternateColorCodes('&', cfg.getString("gui.boost-undamageable-gui-title"));
+        guiConfirmationTitle = ChatColor.translateAlternateColorCodes('&', cfg.getString("gui.confirmation-gui-title"));
 
         timeDays = cfg.getString("time-format.days");
         timeHours = cfg.getString("time-format.hours");
@@ -344,6 +358,41 @@ public class Settings {
 
             if (!guiSection.isString("main-gui-title")) {
                 log.warning("Configuration (gui): Missing/Invalid 'main-gui-title' entry!");
+                success = false;
+            }
+
+            if (!guiSection.isString("invites-gui-title")) {
+                log.warning("Configuration (gui): Missing/Invalid 'invites-gui-title' entry!");
+                success = false;
+            }
+
+            if (!guiSection.isString("manage-members-gui-title")) {
+                log.warning("Configuration (gui): Missing/Invalid 'manage-members-gui-title' entry!");
+                success = false;
+            }
+
+            if (!guiSection.isString("manage-member-gui-title")) {
+                log.warning("Configuration (gui): Missing/Invalid 'manage-member-gui-title' entry!");
+                success = false;
+            }
+
+            if (!guiSection.isString("field-upgrade-gui-title")) {
+                log.warning("Configuration (gui): Missing/Invalid 'field-upgrade-gui-title' entry!");
+                success = false;
+            }
+
+            if (!guiSection.isString("region-upgrade-gui-title")) {
+                log.warning("Configuration (gui): Missing/Invalid 'region-upgrade-gui-title' entry!");
+                success = false;
+            }
+
+            if (!guiSection.isString("boost-undamageable-gui-title")) {
+                log.warning("Configuration (gui): Missing/Invalid 'boost-undamageable-gui-title' entry!");
+                success = false;
+            }
+
+            if (!guiSection.isString("confirmation-gui-title")) {
+                log.warning("Configuration (gui): Missing/Invalid 'confirmation-gui-title' entry!");
                 success = false;
             }
         }

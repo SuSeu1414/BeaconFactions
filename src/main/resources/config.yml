@@ -73,7 +73,15 @@ time-format:
   milliseconds: 'ms'
 
 gui:
-  main-gui-title: '&2%guild%'
+  main-gui-title: '&a%guild%'
+  invites-gui-title: 'Invites %page%/%pages%'
+  manage-members-gui-title: 'Members %page%/%pages%'
+  manage-member-gui-title: '%player%'
+  field-upgrade-gui-title: 'Energy upgrades'
+  region-upgrade-gui-title: 'Size upgrades'
+  boost-undamageable-gui-title: 'Undamageable boosts'
+  confirmation-gui-title: 'Confirm action'
+
 
 # Information for the MYSQL data storage:
 #  > hostname - host of the database
