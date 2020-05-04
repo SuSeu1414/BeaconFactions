@@ -1,6 +1,7 @@
 package pl.suseu.bfactions.gui.main.factory;
 
 import org.apache.commons.lang.StringUtils;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -78,6 +79,21 @@ public class MainGuiFactory {
             ClickAction leaveAction = new LeaveGuildAction(this.plugin, user, guild);
             holder.setItem(53, leaveItem);
             holder.setActionWithConfirmation(53, leaveAction);
+        }
+
+        if (guild.isOwner(user)) {
+            ItemStack pvpItem;
+            if (guild.isPvpEnabled()) {
+                pvpItem = this.itemRepository.getItem("enable-pvp", user.isDefaultItems());
+            } else {
+                pvpItem = this.itemRepository.getItem("disable-pvp", user.isDefaultItems());
+            }
+            ClickAction pvpAction = whoClicked -> {
+                guild.setPvpEnabled(!guild.isPvpEnabled());
+                whoClicked.openInventory(createGui(player, guild));
+                whoClicked.playSound(whoClicked.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
+            };
+            holder.set(5, pvpItem, pvpAction);
         }
 
         return holder.getInventory();
