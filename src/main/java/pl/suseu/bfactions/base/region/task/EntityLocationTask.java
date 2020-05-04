@@ -8,7 +8,6 @@ import org.bukkit.entity.Player;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.region.Region;
 import pl.suseu.bfactions.base.region.event.EntityRegionChangeEvent;
-import pl.suseu.bfactions.util.EntityUtil;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -31,13 +30,13 @@ public class EntityLocationTask implements Runnable {
     public void run() {
         Set<UUID> toRemove = new HashSet<>();
         for (UUID uuid : locationMap.keySet()) {
-            if (EntityUtil.getByUUID(uuid) == null) {
+            if (this.plugin.getServer().getEntity(uuid) == null) {
                 toRemove.add(uuid);
             }
         }
 
         for (UUID uuid : regionMap.keySet()) {
-            if (EntityUtil.getByUUID(uuid) == null) {
+            if (this.plugin.getServer().getEntity(uuid) == null) {
                 toRemove.add(uuid);
             }
         }
