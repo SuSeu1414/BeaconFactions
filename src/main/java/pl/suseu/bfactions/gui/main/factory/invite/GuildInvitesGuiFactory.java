@@ -14,6 +14,7 @@ import pl.suseu.bfactions.base.user.UserRepository;
 import pl.suseu.bfactions.gui.base.ClickAction;
 import pl.suseu.bfactions.gui.base.CustomInventoryHolder;
 import pl.suseu.bfactions.gui.main.action.invite.InviteMemberAction;
+import pl.suseu.bfactions.gui.main.factory.MainGuiFactory;
 import pl.suseu.bfactions.gui.main.factory.paginator.PaginatorFactory;
 import pl.suseu.bfactions.item.ItemRepository;
 import pl.suseu.bfactions.util.ItemUtil;
@@ -29,12 +30,14 @@ public class GuildInvitesGuiFactory {
     private final LangAPI lang;
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;
+    private final MainGuiFactory mainGuiFactory;
 
     public GuildInvitesGuiFactory(BFactions plugin) {
         this.plugin = plugin;
         this.lang = plugin.getLang();
         this.itemRepository = plugin.getItemRepository();
         this.userRepository = plugin.getUserRepository();
+        this.mainGuiFactory = new MainGuiFactory(plugin);
     }
 
     public Inventory createGui(Player player, Guild guild) {
@@ -73,8 +76,17 @@ public class GuildInvitesGuiFactory {
         String title = plugin.getSettings().guiInvitesTitle;
         CustomInventoryHolder holder = paginatorFactory.createPaginator(player, title, 6, 1, items);
         holder.set(4, this.itemRepository.getItem("invite-player", opener.isDefaultItems()), new InviteMemberAction(this.plugin, guild));
+
+        ItemStack backToMainItem = this.itemRepository.getItem("back-to-main", opener.isDefaultItems());
+        ClickAction backToMainAction = whoClicked -> {
+            Inventory gui = this.mainGuiFactory.createGui(whoClicked, guild);
+            whoClicked.openInventory(gui);
+        };
+
+        holder.set(53, backToMainItem, backToMainAction);
+
         ItemStack filler = this.itemRepository.getItem("invites-filler", opener.isDefaultItems());
-        for (int i : new int[]{0, 1, 2, 3, 5, 6, 7, 8, 45, 46, 48, 50, 52, 53}) {
+        for (int i : new int[]{0, 1, 2, 3, 5, 6, 7, 8, 45, 46, 48, 50, 52}) {
             holder.setItem(i, filler);
         }
 
