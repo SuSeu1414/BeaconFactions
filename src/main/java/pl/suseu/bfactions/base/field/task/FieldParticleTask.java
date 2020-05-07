@@ -58,7 +58,7 @@ public class FieldParticleTask implements Runnable {
                 }
             });
 
-            if (closest.isInDome(location)) {
+            if (closest.isInside(location)) {
                 continue;
             }
 

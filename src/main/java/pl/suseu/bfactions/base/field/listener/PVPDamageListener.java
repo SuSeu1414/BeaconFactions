@@ -34,7 +34,7 @@ public class PVPDamageListener implements Listener {
         Guild guild = region.getGuild();
         User damagedUser = this.plugin.getUserRepository().getUser(damaged.getUniqueId());
         User damagerUser = this.plugin.getUserRepository().getUser(damager.getUniqueId());
-        if (!region.isInDome(location)) {
+        if (!region.isInside(location)) {
             return;
         }
         if (!guild.isMember(damagedUser) || !guild.isMember(damagerUser)) {

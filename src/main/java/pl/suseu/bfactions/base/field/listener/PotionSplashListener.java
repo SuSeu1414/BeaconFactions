@@ -39,7 +39,7 @@ public class PotionSplashListener implements Listener {
             return;
         }
         Set<LivingEntity> inRegion = event.getAffectedEntities().stream()
-                .filter(entity -> region.isInDome(entity.getLocation()))
+                .filter(entity -> region.isInside(entity.getLocation()))
                 .collect(Collectors.toSet());
 
         ProjectileSource source = potion.getShooter();
@@ -79,7 +79,7 @@ public class PotionSplashListener implements Listener {
         Location location = event.getAreaEffectCloud().getLocation();
 
         Region region = this.plugin.getRegionRepository().nearestRegion(location);
-        if (region == null || !region.isInDome(location)) {
+        if (region == null || !region.isInside(location)) {
             return;
         }
 

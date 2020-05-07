@@ -30,7 +30,7 @@ public class UserLocationTask implements Runnable {
                 user.setNearestRegion(nearestRegion);
             }
 
-            if (newRegion != null && !newRegion.isInDome(newLocation)) {
+            if (newRegion != null && !newRegion.isInside(newLocation)) {
                 newRegion = null;
             }
 
