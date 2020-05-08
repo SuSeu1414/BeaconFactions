@@ -35,7 +35,7 @@ public class ContainerOpenListener implements Listener {
         if (region == null) {
             return;
         }
-        if (!region.isInBorder(location)) {
+        if (!region.inInPerimeter(location)) {
             return;
         }
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
@@ -62,10 +62,10 @@ public class ContainerOpenListener implements Listener {
         if (region == null) {
             return;
         }
-        if (!region.isInBorder(location)) {
+        if (!region.inInPerimeter(location)) {
             return;
         }
-        if (!region.isInDome(location)) {
+        if (!region.isInside(location)) {
             event.setCancelled(true);
             return;
         }

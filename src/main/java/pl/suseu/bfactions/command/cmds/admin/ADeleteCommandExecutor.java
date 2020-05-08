@@ -46,7 +46,7 @@ public class ADeleteCommandExecutor implements BCommandExecutor {
             Player player = ((Player) sender);
             Region region = this.regionRepository.nearestRegion(player.getLocation());
 
-            if (region == null || !region.isInDome(player.getLocation())) {
+            if (region == null || !region.isInside(player.getLocation())) {
                 this.lang.sendMessage("not-in-region", player);
                 return;
             }

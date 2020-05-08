@@ -58,7 +58,7 @@ public class EntityLocationTask implements Runnable {
                 Location oldLocation = locationMap.get(uuid);
                 Location newLocation = entity.getLocation();
 
-                if (newRegion != null && !newRegion.isInDome(newLocation)) {
+                if (newRegion != null && !newRegion.isInside(newLocation)) {
                     newRegion = null;
                 }
 

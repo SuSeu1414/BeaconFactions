@@ -37,10 +37,10 @@ public class LiquidPlaceListener implements Listener {
         if (region == null) {
             return;
         }
-        if (!region.isInBorder(location)) {
+        if (!region.inInPerimeter(location)) {
             return;
         }
-        if (!region.isInDome(location)) {
+        if (!region.isInside(location)) {
             event.setCancelled(true);
             return;
         }

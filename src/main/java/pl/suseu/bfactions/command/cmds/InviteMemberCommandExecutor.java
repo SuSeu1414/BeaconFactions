@@ -44,7 +44,7 @@ public class InviteMemberCommandExecutor implements BCommandExecutor {
         User user = this.userRepository.getUser(player.getUniqueId());
         Region region = this.regionRepository.nearestRegion(player.getLocation());
 
-        if (region == null || !region.isInDome(player.getLocation())) {
+        if (region == null || !region.isInside(player.getLocation())) {
             this.lang.sendMessage("not-in-region", player);
             return;
         }

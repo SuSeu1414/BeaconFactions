@@ -46,7 +46,7 @@ public class EntityExplodeListener implements Listener {
         }
 
         //check if need to apply field damage
-        if (event.blockList().stream().anyMatch(block -> region.isInDome(block.getLocation()))) {
+        if (event.blockList().stream().anyMatch(block -> region.isInside(block.getLocation()))) {
             region.getGuild().getField().addEnergy(-1 * plugin.getSettings().fieldDamageTNT);
         }
 
@@ -62,16 +62,16 @@ public class EntityExplodeListener implements Listener {
         }
 
         //check if need to apply field damage
-        if (event.blockList().stream().anyMatch(block -> region.isInDome(block.getLocation()))) {
+        if (event.blockList().stream().anyMatch(block -> region.isInside(block.getLocation()))) {
             region.getGuild().getField().addEnergy(-1 * plugin.getSettings().fieldDamageTNT);
         }
 
         //remove damage in border, not in field
-        event.blockList().removeIf(block -> region.isInBorder(block.getLocation()) && !region.isInDome(block.getLocation()));
+        event.blockList().removeIf(block -> region.inInPerimeter(block.getLocation()) && !region.isInside(block.getLocation()));
 
         //if field enabled remove damage in field
         if (region.getGuild().getField().getState() == FieldState.ENABLED) {
-            event.blockList().removeIf(block -> region.isInDome(block.getLocation()));
+            event.blockList().removeIf(block -> region.isInside(block.getLocation()));
         }
 
     }

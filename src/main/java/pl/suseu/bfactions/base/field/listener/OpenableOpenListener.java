@@ -34,7 +34,7 @@ public class OpenableOpenListener implements Listener {
         if (region == null) {
             return;
         }
-        if (!region.isInBorder(location)) {
+        if (!region.inInPerimeter(location)) {
             return;
         }
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.PHYSICAL) {
