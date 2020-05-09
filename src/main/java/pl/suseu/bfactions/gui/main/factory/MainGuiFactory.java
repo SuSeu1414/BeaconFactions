@@ -47,7 +47,7 @@ public class MainGuiFactory {
         holder.set(14, manageInvitesItem, new OpenGuildInvitesGuiAction(this.plugin, guild));
 
         ItemStack managePermissionsItem = this.itemRepository.getItem("manage-permissions", user.isDefaultItems());
-        holder.set(23, managePermissionsItem, new OpenManageGuildPermissionsGuiAction(this.plugin, guild));
+        holder.set(23, managePermissionsItem, new OpenManageGuildPermissionsGuiAction(this.plugin, guild, null));
 
         ItemStack changeNameItem = this.itemRepository.getItem("change-name", user.isDefaultItems());
         holder.set(32, changeNameItem, new ChangeGuildNameAction(plugin, guild));

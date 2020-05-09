@@ -19,13 +19,15 @@ public class OpenManageGuildPermissionsGuiAction implements ClickAction {
     private final Guild guild;
     private final LangAPI lang;
     private final ManageGuildPermissionsGuiFactory manageGuildPermissionsGuiFactory;
+    private final String filter;
 
-    public OpenManageGuildPermissionsGuiAction(BFactions plugin, Guild guild) {
+    public OpenManageGuildPermissionsGuiAction(BFactions plugin, Guild guild, String filter) {
         this.plugin = plugin;
         this.userRepository = plugin.getUserRepository();
         this.guild = guild;
         this.lang = plugin.getLang();
         this.manageGuildPermissionsGuiFactory = new ManageGuildPermissionsGuiFactory(plugin);
+        this.filter = filter;
     }
 
     @Override
