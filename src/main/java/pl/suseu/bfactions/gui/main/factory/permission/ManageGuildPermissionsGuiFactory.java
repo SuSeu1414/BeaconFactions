@@ -14,6 +14,7 @@ import pl.suseu.bfactions.base.user.UserRepository;
 import pl.suseu.bfactions.gui.base.ClickAction;
 import pl.suseu.bfactions.gui.base.CustomInventoryHolder;
 import pl.suseu.bfactions.gui.main.action.permission.OpenManageMemberPermissionsGuiAction;
+import pl.suseu.bfactions.gui.main.factory.MainGuiFactory;
 import pl.suseu.bfactions.gui.main.factory.paginator.PaginatorFactory;
 import pl.suseu.bfactions.item.ItemRepository;
 import pl.suseu.bfactions.util.ItemUtil;
@@ -29,12 +30,14 @@ public class ManageGuildPermissionsGuiFactory {
     private final LangAPI lang;
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;
+    private final MainGuiFactory mainGuiFactory;
 
     public ManageGuildPermissionsGuiFactory(BFactions plugin) {
         this.plugin = plugin;
         this.lang = plugin.getLang();
         this.itemRepository = plugin.getItemRepository();
         this.userRepository = plugin.getUserRepository();
+        this.mainGuiFactory = new MainGuiFactory(plugin);
     }
 
     public Inventory createGui(Player player, Guild guild) {
@@ -66,8 +69,17 @@ public class ManageGuildPermissionsGuiFactory {
         PaginatorFactory paginatorFactory = new PaginatorFactory(this.plugin);
         String title = plugin.getSettings().guiManageMembersTitle;
         CustomInventoryHolder paginator = paginatorFactory.createPaginator(player, title, 6, 1, items);
+
+        ItemStack backToMainItem = this.itemRepository.getItem("back-to-main", opener.isDefaultItems());
+        ClickAction backToMainAction = whoClicked -> {
+            Inventory gui = this.mainGuiFactory.createGui(whoClicked, guild);
+            whoClicked.openInventory(gui);
+        };
+
+        paginator.set(53, backToMainItem, backToMainAction);
+
         ItemStack filler = this.itemRepository.getItem("permissions-filler", opener.isDefaultItems());
-        for (int i : new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 45, 46, 48, 50, 52, 53}) {
+        for (int i : new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 45, 46, 48, 50, 52}) {
             paginator.setItem(i, filler);
         }
 
