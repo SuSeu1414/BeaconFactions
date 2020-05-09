@@ -77,6 +77,9 @@ public class EntityExplodeListener implements Listener {
                 for (int z = -3; z < 3; z++) {
                     Location l = location.clone().add(x, y, z);
                     Block block = world.getBlockAt(l);
+                    if (location.distance(l) > 3) {
+                        continue;
+                    }
                     if (block.getType() != Material.OBSIDIAN) {
                         continue;
                     }
@@ -84,9 +87,7 @@ public class EntityExplodeListener implements Listener {
                             && region.isInside(l)) {
                         continue;
                     }
-                    if (Math.random() < 0.2) {
-                        block.breakNaturally();
-                    }
+                    block.breakNaturally();
                 }
             }
         }
