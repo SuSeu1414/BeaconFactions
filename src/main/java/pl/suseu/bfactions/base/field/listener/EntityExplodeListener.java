@@ -80,6 +80,10 @@ public class EntityExplodeListener implements Listener {
                     if (block.getType() != Material.OBSIDIAN) {
                         continue;
                     }
+                    if (region.getGuild().getField().getState() == FieldState.ENABLED
+                            && region.isInside(l)) {
+                        continue;
+                    }
                     if (Math.random() < 0.2) {
                         block.breakNaturally();
                     }
