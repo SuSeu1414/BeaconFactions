@@ -2,8 +2,10 @@ package pl.suseu.bfactions;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.rynbou.langapi3.LangAPI;
 import pl.suseu.bfactions.base.field.Field;
@@ -42,6 +44,7 @@ public class BFactions extends JavaPlugin {
 
     public static final String PLUGIN_NAME = "BeaconFactions";
     private final Gson gson = new GsonBuilder().create();
+    private Economy economy = null;
     private Settings settings;
     private Database database;
     private Logger log;
@@ -100,6 +103,18 @@ public class BFactions extends JavaPlugin {
         this.dataIntegrator = new DataIntegrator(this);
         this.dataIntegrator.checkIntegrity();
 
+        if (!setupEconomy()) {
+            log.severe("Disabled due to no Vault dependency found!");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
+        if (!Bukkit.getPluginManager().isPluginEnabled("HolographicDisplays")) {
+            log.severe("Disabled due to no HolographicDisplays dependency found!");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
         int autoSave = getConfig().getInt("mysql.autoSave") * 20;
         getServer().getScheduler().runTaskTimerAsynchronously(this, this::saveData, autoSave, autoSave);
 
@@ -143,6 +158,18 @@ public class BFactions extends JavaPlugin {
                 new FieldPassiveDrainTask(this), 1, 1);
         getServer().getScheduler().runTaskTimerAsynchronously(this,
                 new GuildInventoriesTask(this), 1, 1);
+    }
+
+    private boolean setupEconomy() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            return false;
+        }
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            return false;
+        }
+        economy = rsp.getProvider();
+        return economy != null;
     }
 
     @Override
