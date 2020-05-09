@@ -1,6 +1,9 @@
 name: BeaconFactions
 main: pl.suseu.bfactions.BFactions
 version: ${project.version}
+depend:
+  - Vault
+  - HolographicDisplays
 api-version: 1.15
 commands:
   beaconfactions:
