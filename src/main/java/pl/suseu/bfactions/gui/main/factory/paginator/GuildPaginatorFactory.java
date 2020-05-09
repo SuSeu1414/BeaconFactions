@@ -1,8 +1,11 @@
 package pl.suseu.bfactions.gui.main.factory.paginator;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.guild.GuildRepository;
 import pl.suseu.bfactions.base.user.User;
@@ -41,6 +44,12 @@ public class GuildPaginatorFactory {
                         .sorted()
                         .map(guild -> {
                             ItemStack itemStack = this.itemRepository.getItem("choose-guild", opener.isDefaultItems());
+                            ItemMeta itemMeta = itemStack.getItemMeta();
+                            if (itemMeta instanceof SkullMeta) {
+                                SkullMeta skullMeta = ((SkullMeta) itemMeta);
+                                skullMeta.setOwningPlayer(Bukkit.getOfflinePlayer(guild.getOwner().getUuid()));
+                                itemStack.setItemMeta(skullMeta);
+                            }
                             ItemUtil.replace(itemStack, "%name%", guild.getName());
                             ItemUtil.replace(itemStack, "%owner%", guild.getOwner().getName());
                             ClickAction action = whoClicked -> guildClickAction.execute(guild);
