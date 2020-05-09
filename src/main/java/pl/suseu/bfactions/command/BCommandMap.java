@@ -124,14 +124,14 @@ public class BCommandMap {
                 .setPermission("bfactions.command.manage")
                 .setAsync(true)
                 .setNeedsArguments(true)
-                .setUsage("manage <player>")
+                .setUsage("manage <member>")
                 .setExecutor(this.aManageCommandExecutor)
                 .build(this.commands);
 
         new BCommandBuilder("who")
                 .setPermission("bfactions.command.who")
                 .setAsync(true)
-                .setUsage("who <player>")
+                .setUsage("who <member>")
                 .setExecutor(this.whoOnlineCommandExecutor)
                 .build(this.commands);
 
