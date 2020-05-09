@@ -232,4 +232,8 @@ public class BFactions extends JavaPlugin {
     public DataSerializer getDataSerializer() {
         return dataSerializer;
     }
+
+    public Economy getEconomy() {
+        return economy;
+    }
 }
