@@ -27,6 +27,7 @@ public class BCommandMap {
     private final AManageCommandExecutor aManageCommandExecutor;
     private final BCommandExecutor aDeleteCommandExecutor;
     private final RenameCommandExecutor renameCommandExecutor;
+    private final WhoOnlineCommandExecutor whoOnlineCommandExecutor;
 
     public BCommandMap(BFactions plugin) {
         this.plugin = plugin;
@@ -42,6 +43,7 @@ public class BCommandMap {
         this.aDeleteCommandExecutor = new ADeleteCommandExecutor(this.plugin);
         this.aManageCommandExecutor = new AManageCommandExecutor(this.plugin);
         this.renameCommandExecutor = new RenameCommandExecutor(this.plugin);
+        this.whoOnlineCommandExecutor = new WhoOnlineCommandExecutor(this.plugin);
     }
 
     public void addCommand(BCommand command) {
@@ -122,6 +124,13 @@ public class BCommandMap {
                 .setNeedsArguments(true)
                 .setUsage("manage <player>")
                 .setExecutor(this.aManageCommandExecutor)
+                .build(this.commands);
+
+        new BCommandBuilder("who")
+                .setPermission("bfactions.command.who")
+                .setAsync(true)
+                .setUsage("who <player>")
+                .setExecutor(this.whoOnlineCommandExecutor)
                 .build(this.commands);
     }
 
