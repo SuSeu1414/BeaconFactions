@@ -55,9 +55,7 @@ public class WhoOnlineCommandExecutor implements BCommandExecutor {
                             if (!players.isEmpty()) {
                                 pSender.sendMessage("MEMBERS: ");
                             }
-                            players.forEach(player -> {
-                                pSender.sendMessage(player + " ");
-                            });
+                            players.forEach(player -> pSender.sendMessage(player + " "));
                             pSender.closeInventory();
                         });
     }
