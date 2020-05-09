@@ -1,6 +1,9 @@
 package pl.suseu.bfactions.base.field.listener;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -34,26 +37,6 @@ public class EntityExplodeListener implements Listener {
     }
 
     @EventHandler
-    public void onTNTExplosion(EntityExplodeEvent event) {
-        Location location = event.getLocation();
-        Region region = plugin.getRegionRepository().nearestRegion(location);
-        if (region == null) {
-            return;
-        }
-        if (event.getEntityType() != EntityType.PRIMED_TNT
-                && event.getEntityType() != EntityType.MINECART_TNT) {
-            return;
-        }
-
-        //check if need to apply field damage
-        if (event.blockList().stream().anyMatch(block -> region.isInside(block.getLocation()))) {
-            region.getGuild().getField().addEnergy(-1 * plugin.getSettings().fieldDamageTNT);
-        }
-
-        event.blockList().clear();
-    }
-
-    @EventHandler
     public void onEntityExplode(EntityExplodeEvent event) {
         Location location = event.getLocation();
         Region region = plugin.getRegionRepository().nearestRegion(location);
@@ -73,6 +56,35 @@ public class EntityExplodeListener implements Listener {
         if (region.getGuild().getField().getState() == FieldState.ENABLED) {
             event.blockList().removeIf(block -> region.isInside(block.getLocation()));
         }
+    }
 
+    @EventHandler(ignoreCancelled = true)
+    public void onTNTExplode(EntityExplodeEvent event) {
+        Location location = event.getLocation();
+        Region region = plugin.getRegionRepository().nearestRegion(location);
+        if (region == null) {
+            return;
+        }
+        if (event.getEntityType() != EntityType.PRIMED_TNT) {
+            return;
+        }
+        World world = location.getWorld();
+        if (world == null) {
+            return;
+        }
+        for (int x = -3; x < 3; x++) {
+            for (int y = -3; y < 3; y++) {
+                for (int z = -3; z < 3; z++) {
+                    Location l = location.clone().add(x, y, z);
+                    Block block = world.getBlockAt(l);
+                    if (block.getType() != Material.OBSIDIAN) {
+                        continue;
+                    }
+                    if (Math.random() < 0.2) {
+                        block.breakNaturally();
+                    }
+                }
+            }
+        }
     }
 }
