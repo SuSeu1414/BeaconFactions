@@ -108,12 +108,6 @@ messages:
     chat:
       content:
         - "&l&9[&bBFactions&9] &o&fThe invitation is now cancelled!"
-  #Not enough energy to upgrade
-  not-enough-energy:
-    chat-enabled: true
-    chat:
-      content:
-        - "&l&9[&bBFactions&9] &o&fYou don't have enough energy to buy this upgrade!"
   #Max energy successfully upgraded
   field-upgraded:
     chat-enabled: true
@@ -132,3 +126,84 @@ messages:
     chat:
       content:
         - "&l&9[&bBFactions&9] &o&fGUI item debug mode is now &c&l%status%&o&f!"
+  #Output of /bf without arguments
+  cannot-afford:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fYou cannot afford this!"
+  command-usage:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fCorrect usage: &l%usage%"
+  confirm-guild-deletion:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fPlease type &c&l%number% &o&fin chat to confirm guild deletion..."
+  confirm-guild-deletion-listener-timeout:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fGuild deletion captcha timed out!"
+  guild-deleted:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fYour guild was successfully deleted"
+  guild-members-list:
+    chat-enabled: true
+    chat:
+      content:
+  guild-quit:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fYou have quit \"%guild%\"!"
+  kicked-member:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&f%player% was kicked!"
+  you-have-been-kicked-from-guild:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fYou have been kicked from \"%guild%\"!"
+  no-permission:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fYou don't have permission to do this!"
+  player-only:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fYou must be a player to run this command!"
+  player-offline:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fThat player is offline!"
+  owner-cannot-leave:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fOwner cannot leave!"
+  not-in-region:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fYou must be inside the guild area to run this command!"
+        - "&l&9[&bBFactions&9] &o&fMembers of \"%guild%\":"
+  list-command-header:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fAll guilds, page %requestedPage%/%maxPage%"
+  unknown-command:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fThere is no such command"
