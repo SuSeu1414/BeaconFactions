@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import pl.suseu.bfactions.BFactions;
+import pl.suseu.bfactions.base.guild.Guild;
 import pl.suseu.bfactions.base.guild.GuildRepository;
 import pl.suseu.bfactions.base.user.User;
 import pl.suseu.bfactions.base.user.UserRepository;
@@ -16,6 +17,7 @@ import pl.suseu.bfactions.item.ItemRepository;
 import pl.suseu.bfactions.util.ItemUtil;
 
 import java.util.AbstractMap;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class GuildPaginatorFactory {
@@ -33,13 +35,18 @@ public class GuildPaginatorFactory {
     }
 
     public void openGuildsGui(Player playerToOpen, String memberNickname, GuildClickAction guildClickAction) {
+        openGuildsGui(playerToOpen, user -> user.getName().equalsIgnoreCase(memberNickname), guild -> true, guildClickAction);
+    }
+
+    public void openGuildsGui(Player playerToOpen, Predicate<User> userPredicate, Predicate<Guild> guildPredicate, GuildClickAction guildClickAction) {
         User opener = this.userRepository.getUser(playerToOpen.getUniqueId());
         Inventory inv = new PaginatorFactory(this.plugin).createPaginator(playerToOpen, "Choose guild", 6, 1,
                 this.guildRepository.getGuilds().stream()
                         .flatMap(guild -> guild.getMembersAndOwner().stream())
                         .distinct()
-                        .filter(member -> member.getName().equalsIgnoreCase(memberNickname))
+                        .filter(userPredicate)
                         .flatMap(member -> member.getGuilds().stream())
+                        .filter(guildPredicate)
                         .distinct()
                         .sorted()
                         .map(guild -> {
