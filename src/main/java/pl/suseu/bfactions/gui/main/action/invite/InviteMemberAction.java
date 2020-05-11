@@ -55,7 +55,13 @@ public class InviteMemberAction implements ClickAction {
         String name = nameTypedEvent.getMessage();
         User toInviteUser = this.userRepository.getUserByName(name);
         Player toInvitePlayer = Bukkit.getPlayer(name);
+
         if (toInvitePlayer == null) {
+            this.lang.sendMessage("player-offline", nameTypedEvent.getPlayer());
+            return;
+        }
+
+        if (toInviteUser == null) {
             this.lang.sendMessage("user-does-not-exist", nameTypedEvent.getPlayer());
             return;
         }
