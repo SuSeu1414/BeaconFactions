@@ -26,10 +26,10 @@ public class LiquidSpreadListener implements Listener {
         if (region == null) {
             return;
         }
-        if (region.inInPerimeter(from)) {
+        if (region.isInPerimeter(from)) {
             return;
         }
-        if (!region.inInPerimeter(to)) {
+        if (!region.isInPerimeter(to)) {
             return;
         }
         event.setCancelled(true);

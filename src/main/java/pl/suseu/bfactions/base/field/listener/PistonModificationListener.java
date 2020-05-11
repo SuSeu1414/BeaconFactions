@@ -33,7 +33,7 @@ public class PistonModificationListener implements Listener {
         if (region == null) {
             return;
         }
-        if (locations.stream().anyMatch(region::inInPerimeter)) {
+        if (locations.stream().anyMatch(region::isInPerimeter)) {
             event.setCancelled(true);
         }
     }
@@ -50,7 +50,7 @@ public class PistonModificationListener implements Listener {
         if (region == null) {
             return;
         }
-        if (locations.stream().anyMatch(region::inInPerimeter)) {
+        if (locations.stream().anyMatch(region::isInPerimeter)) {
             event.setCancelled(true);
         }
     }

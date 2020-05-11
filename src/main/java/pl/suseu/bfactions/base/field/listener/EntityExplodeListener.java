@@ -50,7 +50,7 @@ public class EntityExplodeListener implements Listener {
         }
 
         //remove damage in border, not in field
-        event.blockList().removeIf(block -> region.inInPerimeter(block.getLocation()) && !region.isInside(block.getLocation()));
+        event.blockList().removeIf(block -> region.isInPerimeter(block.getLocation()) && !region.isInside(block.getLocation()));
 
         //if field enabled remove damage in field
         if (region.getGuild().getField().getState() == FieldState.ENABLED) {

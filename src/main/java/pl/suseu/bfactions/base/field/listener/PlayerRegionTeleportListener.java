@@ -40,7 +40,7 @@ public class PlayerRegionTeleportListener implements Listener {
         if (region.getGuild().getField().getState() != FieldState.ENABLED) {
             return;
         }
-        if (!region.inInPerimeter(to)) {
+        if (!region.isInPerimeter(to)) {
             return;
         }
 

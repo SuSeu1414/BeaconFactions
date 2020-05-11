@@ -49,11 +49,14 @@ public class Region {
         }
     }
 
-    public boolean inInPerimeter(Location location) {
+    public boolean isInPerimeter(Location location) {
         return this.flatDistance(location) < tier.getRadius();
     }
 
     public boolean isInside(Location location) {
+        if (tier.getRegionType() == RegionType.ROLLER) {
+            return isInPerimeter(location);
+        }
         if (location.getBlockY() < center.getBlockY() - 1) {
             return false;
         }

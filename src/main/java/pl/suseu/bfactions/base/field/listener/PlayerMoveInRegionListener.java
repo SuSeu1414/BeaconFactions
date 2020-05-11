@@ -45,7 +45,7 @@ public class PlayerMoveInRegionListener implements Listener {
         if (from.getZ() == to.getZ()) {
             to.add(0, 0, 1);
         }
-        if (!user.getCurrentRegion().inInPerimeter(from)) {
+        if (!user.getCurrentRegion().isInPerimeter(from)) {
             return;
         }
         from.setY(to.getY());

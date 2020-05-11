@@ -69,7 +69,7 @@ public class BeaconPlaceListener implements Listener {
         this.plugin.getLang().sendMessage("guild-created", player);
 
         for (Player p : event.getBlockPlaced().getWorld().getPlayers()) {
-            if (!p.equals(event.getPlayer()) && region.inInPerimeter(p.getLocation())) {
+            if (!p.equals(event.getPlayer()) && region.isInPerimeter(p.getLocation())) {
                 region.teleportToSafety(p);
             }
         }

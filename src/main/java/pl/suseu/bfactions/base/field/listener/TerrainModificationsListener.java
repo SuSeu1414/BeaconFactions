@@ -37,7 +37,7 @@ public class TerrainModificationsListener implements Listener {
         if (region == null) {
             return;
         }
-        if (!region.inInPerimeter(location)) {
+        if (!region.isInPerimeter(location)) {
             return;
         }
         if (event.getAction() == Action.LEFT_CLICK_BLOCK) {
@@ -72,7 +72,7 @@ public class TerrainModificationsListener implements Listener {
         if (region == null) {
             return;
         }
-        if (!region.inInPerimeter(location)) {
+        if (!region.isInPerimeter(location)) {
             return;
         }
         if (!region.isInside(location)) {
