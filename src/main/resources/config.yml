@@ -27,32 +27,9 @@ field:
     #MATERIAL_NAME: ENERGY_AMOUNT
     DIAMOND: 100000
     EMERALD: 200000
-  #upgrades of the field
-  #the first tier is the initial configuration and should contain "initial-energy" field
-  #the tiers are read in order as is in this file, the key of each tier should be unique
+  #the energy the field starts with
   initial-configuration:
     max-energy: 10000000
-    initial-energy: 1000000
-    radius: 20
-    passive-drain-amount: 20
-
-  energy-upgrades:
-    1:
-      max-energy: 15000000
-      cost: 5000000
-    2:
-      max-energy: 20000000
-      cost: 5000000
-
-  size-upgrades:
-    1:
-      radius: 25
-      passive-drain-amount: 30
-      cost: 5000000
-    2:
-      radius: 30
-      passive-drain-amount: 40
-      cost: 10000000
 
   # In this section you can specify items which make the field undamageable
   # in this example "test" is the item id
