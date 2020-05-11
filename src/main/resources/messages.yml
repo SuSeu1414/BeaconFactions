@@ -156,6 +156,7 @@ messages:
     chat-enabled: true
     chat:
       content:
+        - "&l&9[&bBFactions&9] &o&fMembers of \"%guild%\":"
   guild-quit:
     chat-enabled: true
     chat:
@@ -196,7 +197,6 @@ messages:
     chat:
       content:
         - "&l&9[&bBFactions&9] &o&fYou must be inside the guild area to run this command!"
-        - "&l&9[&bBFactions&9] &o&fMembers of \"%guild%\":"
   list-command-header:
     chat-enabled: true
     chat:
