@@ -110,7 +110,7 @@ public class UpgradeGuiFactory {
         replaceItem(itemStack, tier);
 
         action = whoClicked -> {
-            if (tier.canAfford(player, guild)) {
+            if (!tier.canAfford(player, guild)) {
                 this.plugin.getLang().sendMessage("cannot-afford", whoClicked);
                 return;
             }

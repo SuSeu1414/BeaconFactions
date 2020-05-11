@@ -167,7 +167,7 @@ public class Settings {
             String guiItem = tierSection.getString("gui-item");
             String guiItemBuy = tierSection.getString("gui-item-buy");
             String guiItemOwned = tierSection.getString("gui-item-owned");
-            List<String> sCost = tierSection.getStringList("cost");
+            List<String> sCost = tierSection.getStringList("price");
             List<TierCost> cost = new ArrayList<>();
             for (String c : sCost) {
                 String[] split = c.split(":");
@@ -192,7 +192,7 @@ public class Settings {
             String guiItem = tierSection.getString("gui-item");
             String guiItemBuy = tierSection.getString("gui-item-buy");
             String guiItemOwned = tierSection.getString("gui-item-owned");
-            List<String> sCost = tierSection.getStringList("cost");
+            List<String> sCost = tierSection.getStringList("price");
             List<TierCost> cost = new ArrayList<>();
             for (String c : sCost) {
                 String[] split = c.split(":");
