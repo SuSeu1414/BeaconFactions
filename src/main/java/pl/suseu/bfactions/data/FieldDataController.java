@@ -6,8 +6,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.field.Field;
 import pl.suseu.bfactions.base.field.FieldState;
+import pl.suseu.bfactions.base.tier.FieldTier;
 import pl.suseu.bfactions.data.database.Database;
-import pl.suseu.bfactions.settings.FieldTier;
 import pl.suseu.bfactions.settings.Settings;
 import pl.suseu.bfactions.util.ItemUtil;
 
@@ -105,7 +105,7 @@ public class FieldDataController {
 
         UUID uuid = UUID.fromString(uuidString);
 
-        FieldTier tier = this.settings.fieldTiers.get(tierIndex);
+        FieldTier tier = this.settings.tierRepository.getFieldTiers().get(tierIndex);
         Field field = new Field(uuid, tier);
         field.setCurrentEnergy(currentEnergy);
         //TODO STATE LOADING

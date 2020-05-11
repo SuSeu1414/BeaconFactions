@@ -5,15 +5,15 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.guild.Guild;
+import pl.suseu.bfactions.base.tier.FieldTier;
+import pl.suseu.bfactions.base.tier.RegionTier;
+import pl.suseu.bfactions.base.tier.Tier;
 import pl.suseu.bfactions.base.user.User;
 import pl.suseu.bfactions.base.user.UserRepository;
 import pl.suseu.bfactions.gui.base.ClickAction;
 import pl.suseu.bfactions.gui.base.CustomInventoryHolder;
 import pl.suseu.bfactions.gui.main.action.upgrade.OpenFieldUpgradeGuiAction;
 import pl.suseu.bfactions.item.ItemRepository;
-import pl.suseu.bfactions.settings.FieldTier;
-import pl.suseu.bfactions.settings.RegionTier;
-import pl.suseu.bfactions.settings.Tier;
 import pl.suseu.bfactions.util.ItemUtil;
 
 import java.util.Arrays;
@@ -35,6 +35,20 @@ public class UpgradeGuiFactory {
         this.itemRepository = plugin.getItemRepository();
         this.userRepository = plugin.getUserRepository();
         this.tierType = tierType;
+    }
+
+    // I have no idea what it does, but it somehow works so leave it pls
+    // btw it's not copied from anywhere. I did it by trial and error
+    private static int func(int x) {
+        int size = route.length;
+        if ((x + 1) % size == 0) {
+            return (x + 1) / size;
+        }
+        if (x < size) {
+            return 0;
+        }
+
+        return func(x - size) + 1;
     }
 
     public Inventory createGui(Player player, Guild guild, List<Tier> tiers, int currentTier) {
@@ -61,7 +75,7 @@ public class UpgradeGuiFactory {
             }
 
             if (tierIndex == currentTier + 1) {
-                setBuyableItem(opener, guild, tiers, holder, routeIndex, tierIndex);
+                setBuyableItem(player, opener, guild, tiers, holder, routeIndex, tierIndex);
             }
 
             if (tierIndex > currentTier + 1) {
@@ -81,39 +95,26 @@ public class UpgradeGuiFactory {
         return holder.getInventory();
     }
 
-    // I have no idea what it does, but it somehow works so leave it pls
-    // btw it's not copied from anywhere. I did it by trial and error
-    private static int func(int x) {
-        int size = route.length;
-        if ((x + 1) % size == 0) {
-            return (x + 1) / size;
-        }
-        if (x < size) {
-            return 0;
-        }
-
-        return func(x - size) + 1;
-    }
-
-    private void setBuyableItem(User opener, Guild guild, List<Tier> tiers, CustomInventoryHolder holder, int routeIndex, int tierIndex) {
+    private void setBuyableItem(Player player, User opener, Guild guild, List<Tier> tiers, CustomInventoryHolder holder, int routeIndex, int tierIndex) {
         ItemStack itemStack;
         ClickAction action;
         final Tier tier = tiers.get(tierIndex);
         final int slot = route[routeIndex];
 
-        if (beacons.contains(slot)) {
-            itemStack = this.itemRepository.getItem("upgrade-path-to-obtain-beacon-" + tierType.toString().toLowerCase(), opener.isDefaultItems());
-        } else {
-            itemStack = this.itemRepository.getItem("upgrade-path-to-obtain-" + tierType.toString().toLowerCase(), opener.isDefaultItems());
-        }
+//        if (beacons.contains(slot)) {
+//            itemStack = this.itemRepository.getItem(tier.getPathItem(), opener.isDefaultItems());
+//        } else {
+//            itemStack = this.itemRepository.getItem(tier.getPathItem(), opener.isDefaultItems());
+//        }
+        itemStack = this.itemRepository.getItem(tier.getPathItemBuy(), opener.isDefaultItems());
         replaceItem(itemStack, tier);
 
         action = whoClicked -> {
-            if (guild.getField().getCurrentEnergy() < tier.getCost()) {
-                this.plugin.getLang().sendMessage("not-enough-energy", whoClicked);
+            if (tier.canAfford(player, guild)) {
+                this.plugin.getLang().sendMessage("cannot-afford", whoClicked);
                 return;
             }
-            guild.getField().addEnergy(-tier.getCost());
+            tier.buy(player, guild);
             guild.setTier(tier);
             if (tierType == Tier.TierType.FIELD) {
                 this.plugin.getLang().sendMessage("field-upgraded", whoClicked);
@@ -131,11 +132,12 @@ public class UpgradeGuiFactory {
         ClickAction action = null;
         int slot = route[routeIndex];
         final Tier tier = tiers.get(tierIndex);
-        if (beacons.contains(slot)) {
-            itemStack = this.itemRepository.getItem("upgrade-path-obtained-beacon-" + tierType.toString().toLowerCase(), opener.isDefaultItems());
-        } else {
-            itemStack = this.itemRepository.getItem("upgrade-path-obtained-" + tierType.toString().toLowerCase(), opener.isDefaultItems());
-        }
+//        if (beacons.contains(slot)) {
+//            itemStack = this.itemRepository.getItem(tier.getPathItem(), opener.isDefaultItems());
+//        } else {
+//            itemStack = this.itemRepository.getItem(tier.getPathItem(), opener.isDefaultItems());
+//        }
+        itemStack = this.itemRepository.getItem(tier.getPathItemOwned(), opener.isDefaultItems());
         replaceItem(itemStack, tier);
         holder.set(slot, itemStack, action);
     }
@@ -145,18 +147,20 @@ public class UpgradeGuiFactory {
         ClickAction action = null;
         int slot = route[routeIndex];
         final Tier tier = tiers.get(tierIndex);
-        if (beacons.contains(slot)) {
-            itemStack = this.itemRepository.getItem("upgrade-path-cannot-obtain-beacon-" + tierType.toString().toLowerCase(), opener.isDefaultItems());
-        } else {
-            itemStack = this.itemRepository.getItem("upgrade-path-cannot-obtain-" + tierType.toString().toLowerCase(), opener.isDefaultItems());
-        }
+//        if (beacons.contains(slot)) {
+//            itemStack = this.itemRepository.getItem(tier.getPathItem(), opener.isDefaultItems());
+//        } else {
+//            itemStack = this.itemRepository.getItem(tier.getPathItem(), opener.isDefaultItems());
+//        }
+        itemStack = this.itemRepository.getItem(tier.getPathItem(), opener.isDefaultItems());
         replaceItem(itemStack, tier);
         holder.set(slot, itemStack, action);
     }
 
     private void replaceItem(ItemStack itemStack, Tier tier) {
         ItemUtil.replace(itemStack, "%tier%", String.valueOf(tier.getTier()));
-        ItemUtil.replace(itemStack, "%cost%", String.valueOf(tier.getCost()));
+        //todo placeholders
+//        ItemUtil.replace(itemStack, "%cost%", String.valueOf(tier.getCost()));
         if (tier instanceof FieldTier) {
             ItemUtil.replace(itemStack, "%max_energy%", String.format("%.0f", ((FieldTier) tier).getMaxEnergy()));
         }

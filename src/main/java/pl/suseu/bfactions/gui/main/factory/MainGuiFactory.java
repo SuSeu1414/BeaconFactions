@@ -7,6 +7,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.guild.Guild;
+import pl.suseu.bfactions.base.tier.Tier;
 import pl.suseu.bfactions.base.user.User;
 import pl.suseu.bfactions.base.user.UserRepository;
 import pl.suseu.bfactions.gui.base.ClickAction;
@@ -18,7 +19,6 @@ import pl.suseu.bfactions.gui.main.action.permission.OpenManageGuildPermissionsG
 import pl.suseu.bfactions.gui.main.action.upgrade.OpenFieldUpgradeGuiAction;
 import pl.suseu.bfactions.item.ItemRepository;
 import pl.suseu.bfactions.settings.Settings;
-import pl.suseu.bfactions.settings.Tier;
 
 public class MainGuiFactory {
 

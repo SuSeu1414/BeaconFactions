@@ -8,8 +8,8 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.inventory.Inventory;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.guild.Guild;
+import pl.suseu.bfactions.base.tier.FieldTier;
 import pl.suseu.bfactions.gui.base.UndamageableFieldInventoryHolder;
-import pl.suseu.bfactions.settings.FieldTier;
 import pl.suseu.bfactions.settings.Settings;
 import pl.suseu.bfactions.util.GeometryUtil;
 
@@ -20,18 +20,15 @@ public class Field {
     private final BFactions plugin = ((BFactions) Bukkit.getPluginManager().getPlugin(BFactions.PLUGIN_NAME));
 
     private final UUID uuid;
+    private final Map<Integer, Set<Location>> border = new HashMap<>();
+    private final Map<Integer, Set<Location>> dome = new HashMap<>();
     private Guild guild;
     private FieldTier tier;
     private double currentEnergy;
-
     private BossBar alliedBar;
     private BossBar enemyBar;
     private FieldState state;
     private long stateChangeTime;
-
-    private final Map<Integer, Set<Location>> border = new HashMap<>();
-    private final Map<Integer, Set<Location>> dome = new HashMap<>();
-
     private long undamageableTime;
     private Inventory undamageableItemInventory;
 

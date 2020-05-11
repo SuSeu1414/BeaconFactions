@@ -4,7 +4,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import pl.suseu.bfactions.base.guild.Guild;
-import pl.suseu.bfactions.settings.RegionTier;
+import pl.suseu.bfactions.base.tier.RegionTier;
 
 import java.util.UUID;
 

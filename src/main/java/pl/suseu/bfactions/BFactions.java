@@ -63,6 +63,7 @@ public class BFactions extends JavaPlugin {
     @Override
     public void onEnable() {
         saveDefaultConfig();
+        this.saveResource("upgrades.yml", false);
         settings = new Settings(this);
         lang = new LangAPI(this, "messages.yml");
         lang.reload();

@@ -63,8 +63,8 @@ public class AResetCommandExecutor implements BCommandExecutor {
             sender.sendMessage("Guild does not exist!");
             return;
         }
-        guild.getRegion().setTier(this.plugin.getSettings().regionTiers.get(0));
-        guild.getField().setTier(this.plugin.getSettings().fieldTiers.get(0));
+        guild.getRegion().setTier(this.plugin.getSettings().tierRepository.getRegionTiers().get(0));
+        guild.getField().setTier(this.plugin.getSettings().tierRepository.getFieldTiers().get(0));
         guild.getField().recalculate();
         sender.sendMessage("Progress reset!");
     }

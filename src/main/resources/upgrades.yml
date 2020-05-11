@@ -1,0 +1,25 @@
+size:
+  1:
+    type: DOME
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-dome-normal'
+    gui-item-buy: 'size-upgrade-dome-normal'
+    gui-item-owned: 'size-upgrade-dome-normal'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+      - 'item:another-one:16'
+
+energy:
+  1:
+    max-energy: 15000000
+    gui-item: 'energy-upgrade-normal'
+    gui-item-buy: 'energy-upgrade-normal'
+    gui-item-owned: 'energy-upgrade-normal'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+      - 'item:another-one:16'

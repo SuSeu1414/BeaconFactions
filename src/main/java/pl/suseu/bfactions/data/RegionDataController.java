@@ -5,8 +5,8 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.region.Region;
+import pl.suseu.bfactions.base.tier.RegionTier;
 import pl.suseu.bfactions.data.database.Database;
-import pl.suseu.bfactions.settings.RegionTier;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -109,7 +109,7 @@ public class RegionDataController {
             return false;
         }
 
-        RegionTier tier = this.plugin.getSettings().regionTiers.get(tierIndex);
+        RegionTier tier = this.plugin.getSettings().tierRepository.getRegionTiers().get(tierIndex);
         Region region = new Region(uuid, new Location(world, x + .5, y, z + .5), tier);
         plugin.getRegionRepository().addRegion(region);
 

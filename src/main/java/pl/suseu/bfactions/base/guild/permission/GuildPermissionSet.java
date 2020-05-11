@@ -21,6 +21,11 @@ public class GuildPermissionSet {
         }
     }
 
+    public static GuildPermissionSet getDefaultPermissionSet() {
+        // can only walk in regions
+        return new GuildPermissionSet(0);
+    }
+
     public void addPermission(GuildPermission permission) {
         permissions.add(permission);
     }
@@ -39,11 +44,6 @@ public class GuildPermissionSet {
             data |= perm.getBit();
         }
         return data;
-    }
-
-    public static GuildPermissionSet getDefaultPermissionSet() {
-        // can only walk in regions
-        return new GuildPermissionSet(0);
     }
 
 

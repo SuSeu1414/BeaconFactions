@@ -6,11 +6,11 @@ import org.bukkit.inventory.Inventory;
 import pl.rynbou.langapi3.LangAPI;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.guild.Guild;
+import pl.suseu.bfactions.base.tier.Tier;
 import pl.suseu.bfactions.base.user.User;
 import pl.suseu.bfactions.base.user.UserRepository;
 import pl.suseu.bfactions.gui.base.ClickAction;
 import pl.suseu.bfactions.gui.main.factory.upgrade.UpgradeGuiFactory;
-import pl.suseu.bfactions.settings.Tier;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,11 +46,11 @@ public class OpenFieldUpgradeGuiAction implements ClickAction {
         List<Tier> tiers = null;
 
         if (tierType == Tier.TierType.FIELD) {
-            tiers = this.plugin.getSettings().fieldTiers.stream()
+            tiers = this.plugin.getSettings().tierRepository.getFieldTiers().stream()
                     .map(fieldTier -> (Tier) fieldTier)
                     .collect(Collectors.toList());
         } else if (tierType == Tier.TierType.REGION) {
-            tiers = this.plugin.getSettings().regionTiers.stream()
+            tiers = this.plugin.getSettings().tierRepository.getRegionTiers().stream()
                     .map(fieldTier -> (Tier) fieldTier)
                     .collect(Collectors.toList());
         }

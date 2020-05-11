@@ -9,11 +9,11 @@ import pl.suseu.bfactions.base.field.Field;
 import pl.suseu.bfactions.base.guild.permission.GuildPermission;
 import pl.suseu.bfactions.base.guild.permission.GuildPermissionSet;
 import pl.suseu.bfactions.base.region.Region;
+import pl.suseu.bfactions.base.tier.FieldTier;
+import pl.suseu.bfactions.base.tier.RegionTier;
+import pl.suseu.bfactions.base.tier.Tier;
 import pl.suseu.bfactions.base.user.User;
 import pl.suseu.bfactions.gui.base.FuelInventoryHolder;
-import pl.suseu.bfactions.settings.FieldTier;
-import pl.suseu.bfactions.settings.RegionTier;
-import pl.suseu.bfactions.settings.Tier;
 
 import java.util.HashSet;
 import java.util.Map;
