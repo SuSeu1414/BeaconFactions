@@ -187,7 +187,7 @@ public class Settings {
         i = 0;
         ConfigurationSection energyTiersSection = tiersCfg.getConfigurationSection("energy");
         for (String s : energyTiersSection.getKeys(false)) {
-            ConfigurationSection tierSection = sizeTiersSection.getConfigurationSection(s);
+            ConfigurationSection tierSection = energyTiersSection.getConfigurationSection(s);
             double maxEnergy = tierSection.getDouble("max-energy");
             String guiItem = tierSection.getString("gui-item");
             String guiItemBuy = tierSection.getString("gui-item-buy");
