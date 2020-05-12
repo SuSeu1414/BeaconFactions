@@ -71,12 +71,14 @@ public class BCommandMap {
         new BCommandBuilder("setitem")
                 .setPermission("bfactions.command.setitem")
                 .setNeedsArguments(true)
-                .setUsage("setitem item-id")
+                .setUsage("setitem <item-id>")
                 .setExecutor(this.itemSetCommandExecutor)
                 .build(this.commands);
 
         new BCommandBuilder("giveitem")
                 .setPermission("bfactions.command.giveitem")
+                .setNeedsArguments(true)
+                .setUsage("giveitem <item-id> <optional player>")
                 .setExecutor(itemGiveCommandExecutor)
                 .build(this.commands);
 
@@ -110,11 +112,15 @@ public class BCommandMap {
 
         new BCommandBuilder("kick")
                 .setPermission("bfactions.command.kick")
+                .setUsage("kick <player>")
+                .setNeedsArguments(true)
                 .setExecutor(this.kickCommandExecutor)
                 .build(this.commands);
 
         new BCommandBuilder("rename")
                 .setPermission("bfactions.command.rename")
+                .setUsage("rename <new name>")
+                .setNeedsArguments(true)
                 .setExecutor(this.renameCommandExecutor)
                 .build(this.commands);
 
