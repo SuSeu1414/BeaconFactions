@@ -1,6 +1,7 @@
 package pl.suseu.bfactions.base.guild;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -28,6 +29,7 @@ public class Guild implements Comparable<Guild> {
     private final UUID uuid;
     private final Region region;
     private final Field field;
+    private Location home;
     private final Set<User> members = ConcurrentHashMap.newKeySet();
     private final Set<User> invitedMembers = ConcurrentHashMap.newKeySet();
     private final Map<User, GuildPermissionSet> permissions = new ConcurrentHashMap<>();
@@ -50,6 +52,7 @@ public class Guild implements Comparable<Guild> {
         this.region = region;
         if (this.region != null) {
             this.region.setGuild(this);
+            this.home = region.getCenter().clone().add(0, 1, 0);
         }
 
         this.field = field;
@@ -248,6 +251,31 @@ public class Guild implements Comparable<Guild> {
             return;
         }
         plugin.getDataSerializer().setPermissionsFromJson(json, this);
+    }
+
+    public Location getHome() {
+        return home;
+    }
+
+    public void setHome(Location home) {
+        this.home = home;
+    }
+
+    public String getHomeSerialized() {
+        if (plugin == null) {
+            return "{}";
+        }
+        return plugin.getDataSerializer().serializeLocation(this.home);
+    }
+
+    public void setHomeSerialized(String json) {
+        if (plugin == null) {
+            return;
+        }
+        if (json == null) {
+            return;
+        }
+        this.home = this.plugin.getDataSerializer().deserializeLocation(json);
     }
 
     public Inventory getFuelInventory() {
