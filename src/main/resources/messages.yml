@@ -227,3 +227,18 @@ messages:
     chat:
       content:
         - "&l&9[&bBFactions&9] &o&fHome of this guild is not set!"
+  teleportation-started:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fTeleportation started, stand still for %delay% seconds!"
+  teleportation-cancelled:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fTeleportation cancelled!"
+  teleportation-success:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fYou've been teleported!"
