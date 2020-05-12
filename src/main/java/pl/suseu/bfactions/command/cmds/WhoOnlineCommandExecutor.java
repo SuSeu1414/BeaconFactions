@@ -6,6 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import pl.rynbou.langapi3.LangAPI;
 import pl.suseu.bfactions.BFactions;
+import pl.suseu.bfactions.base.guild.Guild;
 import pl.suseu.bfactions.command.BCommand;
 import pl.suseu.bfactions.command.BCommandExecutor;
 import pl.suseu.bfactions.gui.main.factory.paginator.GuildPaginatorFactory;
@@ -36,27 +37,31 @@ public class WhoOnlineCommandExecutor implements BCommandExecutor {
         new GuildPaginatorFactory(this.plugin)
                 .openGuildsGui(pSender, args.size() == 0 ? pSender.getName() : args.get(0),
                         clickedGuild -> {
-                            Set<OfflinePlayer> members = clickedGuild.getMembers().stream()
-                                    .map(user -> this.plugin.getServer().getOfflinePlayer(user.getUuid()))
-                                    .collect(Collectors.toSet());
-                            OfflinePlayer owner = this.plugin.getServer().getOfflinePlayer(clickedGuild.getOwner().getUuid());
-
-                            List<String> players = members.stream()
-                                    .filter(offlinePlayer -> offlinePlayer.getName() != null)
-                                    .sorted(Comparator.comparing(OfflinePlayer::getName))
-                                    .map(offlinePlayer -> (offlinePlayer.isOnline() ? ChatColor.GREEN : ChatColor.RED) + offlinePlayer.getName())
-                                    .collect(Collectors.toList());
-
-                            lang.sendMessage("guild-members-list", pSender, "%guild%", clickedGuild.getName());
-
-                            ChatColor ownerColor = owner.isOnline() ? ChatColor.GREEN : ChatColor.RED;
-                            pSender.sendMessage("OWNER: " + ownerColor + owner.getName());
-
-                            if (!players.isEmpty()) {
-                                pSender.sendMessage("MEMBERS: ");
-                            }
-                            players.forEach(player -> pSender.sendMessage(player + " "));
+                            sendWhoMessage(pSender, clickedGuild);
                             pSender.closeInventory();
                         });
+    }
+
+    public void sendWhoMessage(Player receiver, Guild guild) {
+        Set<OfflinePlayer> members = guild.getMembers().stream()
+                .map(user -> this.plugin.getServer().getOfflinePlayer(user.getUuid()))
+                .collect(Collectors.toSet());
+        OfflinePlayer owner = this.plugin.getServer().getOfflinePlayer(guild.getOwner().getUuid());
+
+        List<String> players = members.stream()
+                .filter(offlinePlayer -> offlinePlayer.getName() != null)
+                .sorted(Comparator.comparing(OfflinePlayer::getName))
+                .map(offlinePlayer -> (offlinePlayer.isOnline() ? ChatColor.GREEN : ChatColor.RED) + offlinePlayer.getName())
+                .collect(Collectors.toList());
+
+        lang.sendMessage("guild-members-list", receiver, "%guild%", guild.getName());
+
+        ChatColor ownerColor = owner.isOnline() ? ChatColor.GREEN : ChatColor.RED;
+        receiver.sendMessage("OWNER: " + ownerColor + owner.getName());
+
+        if (!players.isEmpty()) {
+            receiver.sendMessage("MEMBERS: ");
+        }
+        players.forEach(p -> receiver.sendMessage(p + " "));
     }
 }
