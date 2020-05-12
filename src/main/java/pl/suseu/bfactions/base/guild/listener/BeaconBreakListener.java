@@ -64,11 +64,12 @@ public class BeaconBreakListener implements Listener {
         this.eventWaiter.waitForEvent(AsyncPlayerChatEvent.class, EventPriority.NORMAL,
                 ev -> ev.getPlayer().equals(event.getPlayer()) && ev.getMessage().equals("" + number.get()),
                 ev -> {
+                    ev.setCancelled(true);
                     this.plugin.getServer().getScheduler().runTask(this.plugin, () -> {
-                        ev.setCancelled(true);
+                        guild.getRegion().getCenter().getBlock().breakNaturally();
                         guild.delete();
-                        this.lang.sendMessage("guild-deleted", event.getPlayer());
                     });
+                    this.lang.sendMessage("guild-deleted", event.getPlayer());
                 }, 20 * 15, () -> {
                     this.lang.sendMessage("confirm-guild-deletion-listener-timeout", event.getPlayer());
                     guild.setDeleteCode(-1);
