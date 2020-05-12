@@ -1,6 +1,7 @@
 package pl.suseu.bfactions.data.serializer;
 
 import com.google.gson.reflect.TypeToken;
+import org.bukkit.Location;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.guild.Guild;
 import pl.suseu.bfactions.base.guild.permission.GuildPermissionSet;
@@ -14,6 +15,18 @@ public class DataSerializer {
 
     public DataSerializer(BFactions plugin) {
         this.plugin = plugin;
+    }
+
+    public String serializeLocation(Location location) {
+        return this.plugin.getGson().toJson(location.serialize());
+    }
+
+    public Location deserializeLocation(String string) {
+        if (string == null) {
+            return null;
+        }
+        return Location.deserialize(this.plugin.getGson().fromJson(string, new TypeToken<Map<String, Object>>() {
+        }.getType()));
     }
 
     public String getMembersSerialized(Set<User> members) {
