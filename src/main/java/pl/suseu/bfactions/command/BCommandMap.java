@@ -2,7 +2,6 @@ package pl.suseu.bfactions.command;
 
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.command.cmds.*;
-import pl.suseu.bfactions.command.cmds.admin.AKickCommandExecutor;
 import pl.suseu.bfactions.command.cmds.admin.AManageCommandExecutor;
 import pl.suseu.bfactions.command.cmds.admin.AResetCommandExecutor;
 import pl.suseu.bfactions.util.StringArrayUtil;
@@ -22,7 +21,7 @@ public class BCommandMap {
     private final InviteMemberCommandExecutor inviteMemberCommandExecutor;
     private final LeaveCommandExecutor leaveCommandExecutor;
     private final AResetCommandExecutor aResetCommandExecutor;
-    private final AKickCommandExecutor aKickCommandExecutor;
+    private final KickCommandExecutor kickCommandExecutor;
     private final AManageCommandExecutor aManageCommandExecutor;
     private final BCommandExecutor deleteCommandExecutor;
     private final RenameCommandExecutor renameCommandExecutor;
@@ -39,7 +38,7 @@ public class BCommandMap {
         this.inviteMemberCommandExecutor = new InviteMemberCommandExecutor(this.plugin);
         this.leaveCommandExecutor = new LeaveCommandExecutor(this.plugin);
         this.aResetCommandExecutor = new AResetCommandExecutor(this.plugin);
-        this.aKickCommandExecutor = new AKickCommandExecutor(this.plugin);
+        this.kickCommandExecutor = new KickCommandExecutor(this.plugin);
         this.deleteCommandExecutor = new DeleteCommandExecutor(this.plugin);
         this.aManageCommandExecutor = new AManageCommandExecutor(this.plugin);
         this.renameCommandExecutor = new RenameCommandExecutor(this.plugin);
@@ -111,7 +110,7 @@ public class BCommandMap {
 
         new BCommandBuilder("kick")
                 .setPermission("bfactions.command.kick")
-                .setExecutor(this.aKickCommandExecutor)
+                .setExecutor(this.kickCommandExecutor)
                 .build(this.commands);
 
         new BCommandBuilder("rename")
