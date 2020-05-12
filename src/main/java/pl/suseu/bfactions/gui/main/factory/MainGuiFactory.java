@@ -81,7 +81,7 @@ public class MainGuiFactory {
             holder.setActionWithConfirmation(53, leaveAction);
         }
 
-        if (guild.isOwner(user)) {
+        if (guild.isOwner(user) || player.hasPermission("bfactions.command.manage")) {
             ItemStack pvpItem;
             if (guild.isPvpEnabled()) {
                 pvpItem = this.itemRepository.getItem("enable-pvp", user.isDefaultItems());
