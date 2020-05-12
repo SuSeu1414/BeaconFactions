@@ -43,6 +43,7 @@ public class RenameCommandExecutor implements BCommandExecutor {
         Guild guild = user.getOwnedGuild();
         if (guild == null) {
             lang.sendMessage("you-do-not-own-any-guild", player);
+            return;
         }
         new ChangeGuildNameAction(this.plugin, guild).execute(player);
     }
