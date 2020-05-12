@@ -157,7 +157,7 @@ public class BCommandMap {
 
         new BCommandBuilder("home")
                 .setPermission("bfactions.command.home")
-                .setExecutor(this.setHomeCommandExecutor)
+                .setExecutor(this.homeCommandExecutor)
                 .build(this.commands);
     }
 
