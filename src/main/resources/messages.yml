@@ -212,3 +212,8 @@ messages:
     chat:
       content:
         - "&l&9[&bBFactions&9] &o&fYou do not own any guilds!"
+  player-is-not-a-member:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fThat player is not a member!"
