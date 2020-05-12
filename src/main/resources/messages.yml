@@ -217,3 +217,13 @@ messages:
     chat:
       content:
         - "&l&9[&bBFactions&9] &o&fThat player is not a member!"
+  guild-home-set:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fGuild home was set!"
+  guild-home-not-set:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fHome of this guild is not set!"
