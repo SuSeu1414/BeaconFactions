@@ -207,3 +207,8 @@ messages:
     chat:
       content:
         - "&l&9[&bBFactions&9] &o&fThere is no such command"
+  you-do-not-own-any-guild:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fYou do not own any guilds!"
