@@ -137,6 +137,7 @@ public class GuildDataController {
         String name = result.getString("name");
         String membersString = result.getString("members");
         String permissionsString = result.getString("permissions");
+        String homeJson = result.getString("home");
 
         if (uuidString == null || ownerString == null || name == null) {
             return false;
@@ -163,6 +164,7 @@ public class GuildDataController {
         Guild guild = new Guild(uuid, name, owner, region, field);
         guild.setMembersFromJson(membersString);
         guild.setPermissionsFromJson(permissionsString);
+        guild.setHomeSerialized(homeJson);
         plugin.getGuildRepository().addGuild(guild, false);
 
         field.recalculate();
@@ -174,17 +176,19 @@ public class GuildDataController {
         StringBuilder sb = new StringBuilder();
 
         sb.append("insert into `" + database.getGuildsTableName() + "` ");
-        sb.append("(`uuid`, `owner`, `name`, `members`, `permissions`) values ( ");
+        sb.append("(`uuid`, `owner`, `name`, `members`, `permissions`, `home`) values ( ");
         sb.append("'" + guild.getUuid() + "',");
         sb.append("'" + guild.getOwner().getUuid() + "',");
         sb.append("'" + guild.getName().replace("'", "''") + "',");
         sb.append("'" + guild.getMembersSerialized() + "',");
-        sb.append("'" + guild.getPermissionsSerialized() + "')");
+        sb.append("'" + guild.getPermissionsSerialized() + "',");
+        sb.append("'" + guild.getHomeSerialized() + "')");
         sb.append(" on duplicate key update ");
         sb.append("`owner` = '" + guild.getOwner().getUuid() + "',");
         sb.append("`name` = '" + guild.getName().replace("'", "''") + "',");
         sb.append("`members` = '" + guild.getMembersSerialized() + "',");
-        sb.append("`permissions` = '" + guild.getPermissionsSerialized() + "'");
+        sb.append("`permissions` = '" + guild.getPermissionsSerialized() + "',");
+        sb.append("`home` = '" + guild.getHomeSerialized() + "'");
 
         return sb.toString();
     }
@@ -211,7 +215,18 @@ public class GuildDataController {
         sb.append("`permissions` text,");
         sb.append("primary key (`uuid`));");
 
-        return database.executeUpdate(sb.toString());
+        for (String query : sb.toString().split(";")) {
+            try {
+                database.executeUpdate(query);
+            } catch (Exception e) {
+                plugin.getLogger().warning("[MySQL] Update: " + query);
+                plugin.getLogger().warning("Could create table");
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        return true;
     }
 
 }
