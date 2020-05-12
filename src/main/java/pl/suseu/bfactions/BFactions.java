@@ -119,13 +119,14 @@ public class BFactions extends JavaPlugin {
         int autoSave = getConfig().getInt("mysql.autoSave") * 20;
         getServer().getScheduler().runTaskTimerAsynchronously(this, this::saveData, autoSave, autoSave);
 
+        this.eventWaiter = new EventWaiter(this);
+        this.eventWaiter.addEvents(AsyncPlayerChatEvent.class);
+
         BCommandMap commandMap = new BCommandMap(this);
         commandMap.initCommands();
         getCommand("beaconfactions").setExecutor(new MainCommandExecutor(this, commandMap));
         getCommand("beaconfactions").setTabCompleter(new MainCommandTabCompleter(this, commandMap));
 
-        this.eventWaiter = new EventWaiter(this);
-        this.eventWaiter.addEvents(AsyncPlayerChatEvent.class);
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         getServer().getPluginManager().registerEvents(new BeaconPlaceListener(this), this);
         getServer().getPluginManager().registerEvents(new BeaconClickListener(this), this);
