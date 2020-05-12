@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.rynbou.langapi3.LangAPI;
@@ -121,6 +122,7 @@ public class BFactions extends JavaPlugin {
 
         this.eventWaiter = new EventWaiter(this);
         this.eventWaiter.addEvents(AsyncPlayerChatEvent.class);
+        this.eventWaiter.addEvents(PlayerMoveEvent.class);
 
         BCommandMap commandMap = new BCommandMap(this);
         commandMap.initCommands();
