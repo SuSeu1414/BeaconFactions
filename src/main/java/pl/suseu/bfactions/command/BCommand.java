@@ -40,7 +40,7 @@ public class BCommand {
         if (this.plugin == null) {
             return;
         }
-        usage = "/" + label + usage;
+        usage = "/" + label + " " + usage;
         this.plugin.getLang().sendMessage("command-usage", sender, "%usage%", usage);
     }
 
