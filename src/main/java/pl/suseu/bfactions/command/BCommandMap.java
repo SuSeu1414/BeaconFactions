@@ -29,6 +29,7 @@ public class BCommandMap {
     private final ListCommandExecutor listCommandExecutor;
     private final HomeCommandExecutor homeCommandExecutor;
     private final SetHomeCommandExecutor setHomeCommandExecutor;
+    private final TransferCommandExecutor transferCommandExecutor;
 
     public BCommandMap(BFactions plugin) {
         this.plugin = plugin;
@@ -48,6 +49,7 @@ public class BCommandMap {
         this.listCommandExecutor = new ListCommandExecutor(this.plugin);
         this.homeCommandExecutor = new HomeCommandExecutor(this.plugin);
         this.setHomeCommandExecutor = new SetHomeCommandExecutor(this.plugin);
+        this.transferCommandExecutor = new TransferCommandExecutor(this.plugin);
     }
 
     public void addCommand(BCommand command) {
@@ -158,6 +160,13 @@ public class BCommandMap {
         new BCommandBuilder("home")
                 .setPermission("bfactions.command.home")
                 .setExecutor(this.homeCommandExecutor)
+                .build(this.commands);
+
+        new BCommandBuilder("transfer")
+                .setPermission("bfactions.command.transfer")
+                .setUsage("transfer <player>")
+                .setNeedsArguments(true)
+                .setExecutor(this.transferCommandExecutor)
                 .build(this.commands);
     }
 
