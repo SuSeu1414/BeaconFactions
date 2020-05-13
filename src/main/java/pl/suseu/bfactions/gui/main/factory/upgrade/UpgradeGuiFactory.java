@@ -1,5 +1,6 @@
 package pl.suseu.bfactions.gui.main.factory.upgrade;
 
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -17,6 +18,7 @@ import pl.suseu.bfactions.gui.main.action.upgrade.OpenFieldUpgradeGuiAction;
 import pl.suseu.bfactions.item.ItemRepository;
 import pl.suseu.bfactions.util.ItemUtil;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -72,7 +74,7 @@ public class UpgradeGuiFactory {
             }
 
             if (tierIndex <= currentTier) {
-                setObtainedItem(opener, holder, tiers, routeIndex, tierIndex);
+                setObtainedItem(player, opener, guild, holder, tiers, routeIndex, tierIndex);
             }
 
             if (tierIndex == currentTier + 1) {
@@ -80,7 +82,7 @@ public class UpgradeGuiFactory {
             }
 
             if (tierIndex > currentTier + 1) {
-                setNotObtainedItem(opener, holder, tiers, routeIndex, tierIndex);
+                setNotObtainedItem(player, opener, guild, holder, tiers, routeIndex, tierIndex);
             }
 
             tierIndex++;
@@ -108,10 +110,13 @@ public class UpgradeGuiFactory {
 //            itemStack = this.itemRepository.getItem(tier.getPathItem(), opener.isDefaultItems());
 //        }
         itemStack = this.itemRepository.getItem(tier.getPathItemBuy(), opener.isDefaultItems());
+        if (beacons.contains(slot)) {
+            itemStack.setType(Material.BEACON);
+        }
         if (tier.getLoreBuy() != null) {
             this.replaceLore(itemStack, tier.getLoreBuy());
         }
-        replaceItem(itemStack, tier);
+        replaceItem(itemStack, tier, true, guild, player);
 
         action = whoClicked -> {
             if (!tier.canAfford(player, guild)) {
@@ -131,7 +136,7 @@ public class UpgradeGuiFactory {
         holder.set(slot, itemStack, action);
     }
 
-    private void setObtainedItem(User opener, CustomInventoryHolder holder, List<Tier> tiers, int routeIndex, int tierIndex) {
+    private void setObtainedItem(Player player, User opener, Guild guild, CustomInventoryHolder holder, List<Tier> tiers, int routeIndex, int tierIndex) {
         ItemStack itemStack;
         ClickAction action = null;
         int slot = route[routeIndex];
@@ -142,14 +147,17 @@ public class UpgradeGuiFactory {
 //            itemStack = this.itemRepository.getItem(tier.getPathItem(), opener.isDefaultItems());
 //        }
         itemStack = this.itemRepository.getItem(tier.getPathItemOwned(), opener.isDefaultItems());
+        if (beacons.contains(slot)) {
+            itemStack.setType(Material.BEACON);
+        }
         if (tier.getLoreOwned() != null) {
             this.replaceLore(itemStack, tier.getLoreOwned());
         }
-        replaceItem(itemStack, tier);
+        replaceItem(itemStack, tier, false, guild, player);
         holder.set(slot, itemStack, action);
     }
 
-    private void setNotObtainedItem(User opener, CustomInventoryHolder holder, List<Tier> tiers, int routeIndex, int tierIndex) {
+    private void setNotObtainedItem(Player player, User opener, Guild guild, CustomInventoryHolder holder, List<Tier> tiers, int routeIndex, int tierIndex) {
         ItemStack itemStack;
         ClickAction action = null;
         int slot = route[routeIndex];
@@ -160,10 +168,13 @@ public class UpgradeGuiFactory {
 //            itemStack = this.itemRepository.getItem(tier.getPathItem(), opener.isDefaultItems());
 //        }
         itemStack = this.itemRepository.getItem(tier.getPathItem(), opener.isDefaultItems());
+        if (beacons.contains(slot)) {
+            itemStack.setType(Material.BEACON);
+        }
         if (tier.getLore() != null) {
             this.replaceLore(itemStack, tier.getLore());
         }
-        replaceItem(itemStack, tier);
+        replaceItem(itemStack, tier, true, guild, player);
         holder.set(slot, itemStack, action);
     }
 
@@ -176,9 +187,8 @@ public class UpgradeGuiFactory {
         itemStack.setItemMeta(itemMeta);
     }
 
-    private void replaceItem(ItemStack itemStack, Tier tier) {
+    private void replaceItem(ItemStack itemStack, Tier tier, boolean checkCost, Guild guild, Player player) {
         ItemUtil.replace(itemStack, "%tier%", String.valueOf(tier.getTier()));
-        //todo placeholders
 //        ItemUtil.replace(itemStack, "%cost%", String.valueOf(tier.getCost()));
         if (tier instanceof FieldTier) {
             ItemUtil.replace(itemStack, "%max_energy%", String.format("%.0f", ((FieldTier) tier).getMaxEnergy()));
@@ -186,7 +196,32 @@ public class UpgradeGuiFactory {
         if (tier instanceof RegionTier) {
             ItemUtil.replace(itemStack, "%radius%", String.valueOf(((RegionTier) tier).getRadius()));
             ItemUtil.replace(itemStack, "%energy_drain%", String.valueOf(((RegionTier) tier).getDrainAmount()));
+            ItemUtil.replace(itemStack, "%region-shape%", ((RegionTier) tier).getRegionType().toString());
         }
+
+        ItemMeta im = itemStack.getItemMeta();
+        if (im == null) {
+            return;
+        }
+        if (im.getLore() != null) {
+            List<String> lore = new ArrayList<>(im.getLore());
+            int priceIndex = -1;
+            int i = 0;
+            for (String s : lore) {
+                if (s.contains("%price%")) {
+                    priceIndex = i;
+                }
+                i++;
+            }
+            if (priceIndex != -1) {
+                lore.remove(priceIndex);
+                lore.addAll(priceIndex, tier.getCostPlaceholder(checkCost, player, guild));
+            }
+            im.setLore(lore);
+        }
+
+
+        itemStack.setItemMeta(im);
     }
 
     private int calculateFirstTierIndex(int x) {
