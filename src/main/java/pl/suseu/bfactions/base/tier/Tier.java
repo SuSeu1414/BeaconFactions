@@ -10,8 +10,11 @@ public abstract class Tier {
 
     private final int tier;
     private final String pathItem;
+    private List<String> lore;
     private final String pathItemBuy;
+    private List<String> loreBuy;
     private final String pathItemOwned;
+    private List<String> loreOwned;
     private final List<TierCost> cost;
     private final TierType type;
 
@@ -58,6 +61,30 @@ public abstract class Tier {
 
     public String getPathItemOwned() {
         return pathItemOwned;
+    }
+
+    public List<String> getLore() {
+        return lore;
+    }
+
+    public void setLore(List<String> lore) {
+        this.lore = lore;
+    }
+
+    public List<String> getLoreBuy() {
+        return loreBuy;
+    }
+
+    public void setLoreBuy(List<String> loreBuy) {
+        this.loreBuy = loreBuy;
+    }
+
+    public List<String> getLoreOwned() {
+        return loreOwned;
+    }
+
+    public void setLoreOwned(List<String> loreOwned) {
+        this.loreOwned = loreOwned;
     }
 
     public enum TierType {

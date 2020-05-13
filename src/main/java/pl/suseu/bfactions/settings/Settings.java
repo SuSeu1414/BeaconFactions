@@ -1,6 +1,6 @@
 package pl.suseu.bfactions.settings;
 
-import org.bukkit.ChatColor;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 @SuppressWarnings("ConstantConditions")
 public class Settings {
@@ -180,6 +181,25 @@ public class Settings {
                 }
             }
             RegionTier tier = new RegionTier(i, guiItem, guiItemBuy, guiItemOwned, cost, Tier.TierType.REGION, radius, regionType, passiveDrain);
+
+            if (tierSection.isList("lore")) {
+                tier.setLore(tierSection.getStringList("lore")
+                        .stream().map(s1 -> ChatColor.translateAlternateColorCodes('&', s1))
+                        .collect(Collectors.toList()));
+            }
+
+            if (tierSection.isList("lore-buy")) {
+                tier.setLoreBuy(tierSection.getStringList("lore-buy")
+                        .stream().map(s1 -> ChatColor.translateAlternateColorCodes('&', s1))
+                        .collect(Collectors.toList()));
+            }
+
+            if (tierSection.isList("lore-owned")) {
+                tier.setLoreOwned(tierSection.getStringList("lore-owned")
+                        .stream().map(s1 -> ChatColor.translateAlternateColorCodes('&', s1))
+                        .collect(Collectors.toList()));
+            }
+
             this.tierRepository.addRegionTier(tier);
             i++;
         }
@@ -205,6 +225,25 @@ public class Settings {
                 }
             }
             FieldTier tier = new FieldTier(i, guiItem, guiItemBuy, guiItemOwned, cost, Tier.TierType.FIELD, maxEnergy);
+
+            if (tierSection.isList("lore")) {
+                tier.setLore(tierSection.getStringList("lore")
+                        .stream().map(s1 -> ChatColor.translateAlternateColorCodes('&', s1))
+                        .collect(Collectors.toList()));
+            }
+
+            if (tierSection.isList("lore-buy")) {
+                tier.setLoreBuy(tierSection.getStringList("lore-buy")
+                        .stream().map(s1 -> ChatColor.translateAlternateColorCodes('&', s1))
+                        .collect(Collectors.toList()));
+            }
+
+            if (tierSection.isList("lore-owned")) {
+                tier.setLoreOwned(tierSection.getStringList("lore-owned")
+                        .stream().map(s1 -> ChatColor.translateAlternateColorCodes('&', s1))
+                        .collect(Collectors.toList()));
+            }
+
             this.tierRepository.addFieldTier(tier);
             i++;
         }
