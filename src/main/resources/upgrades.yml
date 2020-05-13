@@ -264,7 +264,7 @@ size:
       - 'energy:50'
       - 'item:custom-item:32'
   25:
-    type: D0ME
+    type: DOME
     radius: 10
     passive-drain-amount: 10
     gui-item: 'size-upgrade-normal'
