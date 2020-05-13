@@ -1,11 +1,12 @@
 package pl.suseu.bfactions.command;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import org.bukkit.entity.Player;
 import pl.suseu.bfactions.BFactions;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,9 +28,9 @@ public class MainCommandTabCompleter implements TabCompleter {
                     .filter(cmd -> cmd.getName().startsWith(args[0]))
                     .map(BCommand::getName)
                     .collect(Collectors.toList());
+        } else {
+            return Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList());
         }
-
-        return new ArrayList<>();
     }
 
 }
