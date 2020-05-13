@@ -27,6 +27,9 @@ public class BCommandMap {
     private final RenameCommandExecutor renameCommandExecutor;
     private final WhoOnlineCommandExecutor whoOnlineCommandExecutor;
     private final ListCommandExecutor listCommandExecutor;
+    private final HomeCommandExecutor homeCommandExecutor;
+    private final SetHomeCommandExecutor setHomeCommandExecutor;
+    private final TransferCommandExecutor transferCommandExecutor;
 
     public BCommandMap(BFactions plugin) {
         this.plugin = plugin;
@@ -44,6 +47,9 @@ public class BCommandMap {
         this.renameCommandExecutor = new RenameCommandExecutor(this.plugin);
         this.whoOnlineCommandExecutor = new WhoOnlineCommandExecutor(this.plugin);
         this.listCommandExecutor = new ListCommandExecutor(this.plugin);
+        this.homeCommandExecutor = new HomeCommandExecutor(this.plugin);
+        this.setHomeCommandExecutor = new SetHomeCommandExecutor(this.plugin);
+        this.transferCommandExecutor = new TransferCommandExecutor(this.plugin);
     }
 
     public void addCommand(BCommand command) {
@@ -144,6 +150,23 @@ public class BCommandMap {
                 .setAsync(true)
                 .setUsage("list <page>")
                 .setExecutor(this.listCommandExecutor)
+                .build(this.commands);
+
+        new BCommandBuilder("sethome")
+                .setPermission("bfactions.command.sethome")
+                .setExecutor(this.setHomeCommandExecutor)
+                .build(this.commands);
+
+        new BCommandBuilder("home")
+                .setPermission("bfactions.command.home")
+                .setExecutor(this.homeCommandExecutor)
+                .build(this.commands);
+
+        new BCommandBuilder("transfer")
+                .setPermission("bfactions.command.transfer")
+                .setUsage("transfer <player>")
+                .setNeedsArguments(true)
+                .setExecutor(this.transferCommandExecutor)
                 .build(this.commands);
     }
 

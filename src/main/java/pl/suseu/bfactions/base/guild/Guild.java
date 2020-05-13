@@ -38,6 +38,7 @@ public class Guild implements Comparable<Guild> {
 
     private Inventory fuelInventory;
     private int deleteCode = -1;
+    private int transferCode = -1;
     private boolean pvpEnabled;
 
     public Guild(UUID uuid, String name, User owner, Region region, Field field) {
@@ -316,6 +317,14 @@ public class Guild implements Comparable<Guild> {
         this.plugin.getFieldRepository().removeField(this.getField());
         this.plugin.getGuildRepository().removeGuild(this.getUuid());
         this.plugin.getGuildRepository().addDeletedGuild(this.getUuid());
+    }
+
+    public int getTransferCode() {
+        return transferCode;
+    }
+
+    public void setTransferCode(int transferCode) {
+        this.transferCode = transferCode;
     }
 
     @Override

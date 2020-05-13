@@ -42,6 +42,7 @@ public class Settings {
 //    public int guildTagMinLength;
 //    public int guildMembersMax;
     public int cuboidDistanceMin;
+    public int guildHomeDelay;
     public double fieldBarDistance;
     public double fieldDomeDensity;
     public double fieldDomeDistance;
@@ -83,6 +84,7 @@ public class Settings {
 //        guildTagMaxLength = cfg.getInt("guild.tag-max-length");
 //        guildTagMinLength = cfg.getInt("guild.tag-min-length");
 //        guildMembersMax = cfg.getInt("guild.max-members");
+        guildHomeDelay = cfg.getInt("guild.home-tp-delay", 5);
         cuboidDistanceMin = cfg.getInt("guild.minimum-distance");
 
         fieldBarDistance = cfg.getDouble("field.hp-bar-render-distance");

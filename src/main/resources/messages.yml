@@ -217,3 +217,48 @@ messages:
     chat:
       content:
         - "&l&9[&bBFactions&9] &o&fThat player is not a member!"
+  guild-home-set:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fGuild home was set!"
+  guild-home-not-set:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fHome of this guild is not set!"
+  teleportation-started:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fTeleportation started, stand still for %delay% seconds!"
+  teleportation-cancelled:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fTeleportation cancelled!"
+  teleportation-success:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fYou've been teleported!"
+  player-is-already-owner:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fThat player is already an owner of another guild!"
+  confirm-guild-transfer:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fPlease type &c&l%number% &o&fin chat to confirm guild transfer..."
+  confirm-guild-transfer-listener-timeout:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fGuild transfer captcha timed out!"
+  guild-transferred:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fYour guild was successfully transferred"

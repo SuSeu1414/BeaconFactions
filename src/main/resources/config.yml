@@ -1,6 +1,8 @@
 guild:
   #minimum distance between cuboids in X/Y axis
   minimum-distance: 200
+  #/bf home delay in seconds
+  home-tp-delay: 5
 
 field:
   #render distance of the bossbar outside the border
