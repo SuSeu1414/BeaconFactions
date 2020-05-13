@@ -31,4 +31,8 @@ public class TierEnergyCost extends TierCost {
         }
         guild.getField().addEnergy(-1 * this.amount);
     }
+
+    public double getAmount() {
+        return amount;
+    }
 }

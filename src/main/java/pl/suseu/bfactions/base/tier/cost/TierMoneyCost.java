@@ -31,4 +31,8 @@ public class TierMoneyCost extends TierCost {
         }
         this.plugin.getEconomy().withdrawPlayer(player, this.amount);
     }
+
+    public double getAmount() {
+        return amount;
+    }
 }

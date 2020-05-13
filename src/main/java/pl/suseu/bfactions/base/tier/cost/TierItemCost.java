@@ -37,4 +37,12 @@ public class TierItemCost extends TierCost {
         itemStack.setAmount(this.amount);
         player.getInventory().remove(itemStack);
     }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public String getItem() {
+        return item;
+    }
 }
