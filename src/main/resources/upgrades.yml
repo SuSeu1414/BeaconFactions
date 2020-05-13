@@ -1,23 +1,585 @@
 size:
-  1:
+  0:
     type: DOME
     radius: 10
     passive-drain-amount: 10
-    gui-item: 'size-upgrade-dome-normal'
-    gui-item-buy: 'size-upgrade-dome-normal'
-    gui-item-owned: 'size-upgrade-dome-normal'
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
     price:
       - 'money:100'
       - 'energy:50'
       - 'item:custom-item:32'
-      - 'item:another-one:16'
+  1:
+    type: DOME
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+  2:
+    type: DOME
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+  3:
+    type: DOME
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+  4:
+    type: DOME
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+  5:
+    type: DOME
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+  6:
+    type: DOME
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+  7:
+    type: DOME
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+  8:
+    type: DOME
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+  9:
+    type: DOME
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+  10:
+    type: DOME
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+  11:
+    type: DOME
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+  12:
+    type: DOME
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+  13:
+    type: DOME
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+  14:
+    type: DOME
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+  15:
+    type: DOME
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+  16:
+    type: DOME
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+  17:
+    type: DOME
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+  18:
+    type: DOME
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+  19:
+    type: DOME
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+  21:
+    type: DOME
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+  22:
+    type: DOME
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+  23:
+    type: DOME
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+  24:
+    type: DOME
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+  25:
+    type: D0ME
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+  26: # shape change
+    type: ROLLER
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-shape-normal'
+    gui-item-buy: 'size-upgrade-shape-buy'
+    gui-item-owned: 'nothing' # this item will never be shown to the player
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+
+  27:
+    type: ROLLER
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+
+  28:
+    type: ROLLER
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+
+  29:
+    type: ROLLER
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+
+  30:
+    type: ROLLER
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+
+  31:
+    type: ROLLER
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+
+  32:
+    type: ROLLER
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+
+  33:
+    type: ROLLER
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+
+  34:
+    type: ROLLER
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+
+  35:
+    type: ROLLER
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+
+  36:
+    type: ROLLER
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+
+  37:
+    type: ROLLER
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+
+  38:
+    type: ROLLER
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+
+  39:
+    type: ROLLER
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+
+  40:
+    type: ROLLER
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+
+  41:
+    type: ROLLER
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+
+  42:
+    type: ROLLER
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+
+  43:
+    type: ROLLER
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+
+  44:
+    type: ROLLER
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+
+  45:
+    type: ROLLER
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+
+  46:
+    type: ROLLER
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+
+  47:
+    type: ROLLER
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+
+  48:
+    type: ROLLER
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+
+  49:
+    type: ROLLER
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
+
+  50:
+    type: ROLLER
+    radius: 10
+    passive-drain-amount: 10
+    gui-item: 'size-upgrade-normal'
+    gui-item-buy: 'size-upgrade-buy'
+    gui-item-owned: 'size-upgrade-owned'
+    price:
+      - 'money:100'
+      - 'energy:50'
+      - 'item:custom-item:32'
 
 energy:
   1:
     max-energy: 15000000
     gui-item: 'energy-upgrade-normal'
-    gui-item-buy: 'energy-upgrade-normal'
-    gui-item-owned: 'energy-upgrade-normal'
+    gui-item-buy: 'energy-upgrade-buy'
+    gui-item-owned: 'energy-upgrade-owned'
     price:
       - 'money:100'
       - 'energy:50'
