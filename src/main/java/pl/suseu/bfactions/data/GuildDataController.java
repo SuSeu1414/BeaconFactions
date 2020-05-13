@@ -213,6 +213,7 @@ public class GuildDataController {
         sb.append("`name` text not null,");
         sb.append("`members` text,");
         sb.append("`permissions` text,");
+        sb.append("`home` text,");
         sb.append("primary key (`uuid`));");
 
         for (String query : sb.toString().split(";")) {
