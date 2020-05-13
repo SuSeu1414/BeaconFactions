@@ -3,6 +3,7 @@ package pl.suseu.bfactions.gui.main.factory.upgrade;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.guild.Guild;
 import pl.suseu.bfactions.base.tier.FieldTier;
@@ -107,6 +108,9 @@ public class UpgradeGuiFactory {
 //            itemStack = this.itemRepository.getItem(tier.getPathItem(), opener.isDefaultItems());
 //        }
         itemStack = this.itemRepository.getItem(tier.getPathItemBuy(), opener.isDefaultItems());
+        if (tier.getLoreBuy() != null) {
+            this.replaceLore(itemStack, tier.getLoreBuy());
+        }
         replaceItem(itemStack, tier);
 
         action = whoClicked -> {
@@ -138,6 +142,9 @@ public class UpgradeGuiFactory {
 //            itemStack = this.itemRepository.getItem(tier.getPathItem(), opener.isDefaultItems());
 //        }
         itemStack = this.itemRepository.getItem(tier.getPathItemOwned(), opener.isDefaultItems());
+        if (tier.getLoreOwned() != null) {
+            this.replaceLore(itemStack, tier.getLoreOwned());
+        }
         replaceItem(itemStack, tier);
         holder.set(slot, itemStack, action);
     }
@@ -153,8 +160,20 @@ public class UpgradeGuiFactory {
 //            itemStack = this.itemRepository.getItem(tier.getPathItem(), opener.isDefaultItems());
 //        }
         itemStack = this.itemRepository.getItem(tier.getPathItem(), opener.isDefaultItems());
+        if (tier.getLore() != null) {
+            this.replaceLore(itemStack, tier.getLore());
+        }
         replaceItem(itemStack, tier);
         holder.set(slot, itemStack, action);
+    }
+
+    private void replaceLore(ItemStack itemStack, List<String> lore) {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        if (itemMeta == null) {
+            return;
+        }
+        itemMeta.setLore(lore);
+        itemStack.setItemMeta(itemMeta);
     }
 
     private void replaceItem(ItemStack itemStack, Tier tier) {
