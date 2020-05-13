@@ -56,6 +56,7 @@ public class GuildDataController {
                 plugin.getLogger().info("Failed to remove guild from database (" + uuid.toString() + ")");
             }
         }
+        this.plugin.getGuildRepository().clearDeletedGuilds();
 
 //        this.plugin.getGuildRepository().clearModifiedGuilds();
         plugin.getLogger().info("Saved " + success + " guilds successfully.");
