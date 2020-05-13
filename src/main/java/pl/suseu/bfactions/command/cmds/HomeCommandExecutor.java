@@ -46,11 +46,11 @@ public class HomeCommandExecutor implements BCommandExecutor {
                             this.lang.sendMessage("teleportation-started", sender, "%delay%", settings.guildHomeDelay + "");
                             pSender.closeInventory();
                             this.eventWaiter.waitForEvent(PlayerMoveEvent.class, EventPriority.NORMAL, event -> {
-                                return event.getTo() == null
-                                        || (event.getPlayer().equals(pSender)
-                                        && event.getFrom().getX() != event.getTo().getX()
+                                return event.getPlayer().equals(pSender)
+                                        && (event.getTo() == null
+                                        || (event.getFrom().getX() != event.getTo().getX()
                                         && event.getFrom().getY() != event.getTo().getY()
-                                        && event.getFrom().getZ() != event.getTo().getZ());
+                                        && event.getFrom().getZ() != event.getTo().getZ()));
                             }, event -> {
                                 this.lang.sendMessage("teleportation-cancelled", sender);
                             }, settings.guildHomeDelay * 20, () -> {
