@@ -52,14 +52,13 @@ public class ListCommandExecutor implements BCommandExecutor {
         requestedPage = Math.max(requestedPage, 1);
         requestedPage = Math.min(requestedPage, pagesCount);
 
-        sender.sendMessage("Page " + requestedPage + "/" + pagesCount);
         this.lang.sendMessage("list-command-header", sender,
                 "%requestedPage%", String.valueOf(requestedPage), "%maxPage%", String.valueOf(pagesCount));
         for (int i = linesPerPage * (requestedPage - 1); i < linesPerPage * requestedPage; i++) {
             if (i >= guilds.size()) {
                 break;
             }
-            sender.sendMessage(i + ". " + guilds.get(i));
+            sender.sendMessage(i + 1 + ". " + guilds.get(i));
         }
     }
 }
