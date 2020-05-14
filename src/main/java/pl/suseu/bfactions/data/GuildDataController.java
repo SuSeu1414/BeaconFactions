@@ -56,6 +56,7 @@ public class GuildDataController {
                 plugin.getLogger().info("Failed to remove guild from database (" + uuid.toString() + ")");
             }
         }
+        this.plugin.getGuildRepository().clearDeletedGuilds();
 
 //        this.plugin.getGuildRepository().clearModifiedGuilds();
         plugin.getLogger().info("Saved " + success + " guilds successfully.");
@@ -213,6 +214,7 @@ public class GuildDataController {
         sb.append("`name` text not null,");
         sb.append("`members` text,");
         sb.append("`permissions` text,");
+        sb.append("`home` text,");
         sb.append("primary key (`uuid`));");
 
         for (String query : sb.toString().split(";")) {
