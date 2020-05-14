@@ -262,3 +262,8 @@ messages:
     chat:
       content:
         - "&l&9[&bBFactions&9] &o&fYour guild was successfully transferred"
+  help-command-header:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fHelp, page %requestedPage%/%maxPage%"

@@ -11,6 +11,7 @@ public class BCommandBuilder {
     private final List<String> aliases = new ArrayList<>();
     private String permission = "bfactions.default";
     private String usage = null;
+    private String description = null;
     private boolean needsArguments = false;
     private boolean async = false;
     private BCommandExecutor executor;
@@ -34,6 +35,11 @@ public class BCommandBuilder {
         return this;
     }
 
+    public BCommandBuilder setDescription(String description) {
+        this.description = description;
+        return this;
+    }
+
     public BCommandBuilder setNeedsArguments(boolean needsArguments) {
         this.needsArguments = needsArguments;
         return this;
@@ -54,6 +60,6 @@ public class BCommandBuilder {
             Bukkit.getLogger().warning("Cannot create command with no executor");
             return;
         }
-        commands.add(new BCommand(name, aliases, permission, usage, needsArguments, async, executor));
+        commands.add(new BCommand(name, aliases, permission, usage, description, needsArguments, async, executor));
     }
 }
