@@ -1,7 +1,7 @@
 package pl.suseu.bfactions.gui.main.factory;
 
 import org.apache.commons.lang.StringUtils;
-import org.bukkit.Sound;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -14,11 +14,13 @@ import pl.suseu.bfactions.gui.base.ClickAction;
 import pl.suseu.bfactions.gui.base.CustomInventoryHolder;
 import pl.suseu.bfactions.gui.main.action.ChangeGuildNameAction;
 import pl.suseu.bfactions.gui.main.action.LeaveGuildAction;
+import pl.suseu.bfactions.gui.main.action.TogglePvpAction;
 import pl.suseu.bfactions.gui.main.action.invite.OpenGuildInvitesGuiAction;
 import pl.suseu.bfactions.gui.main.action.permission.OpenManageGuildPermissionsGuiAction;
 import pl.suseu.bfactions.gui.main.action.upgrade.OpenFieldUpgradeGuiAction;
 import pl.suseu.bfactions.item.ItemRepository;
 import pl.suseu.bfactions.settings.Settings;
+import pl.suseu.bfactions.util.ItemUtil;
 
 public class MainGuiFactory {
 
@@ -44,35 +46,41 @@ public class MainGuiFactory {
         CustomInventoryHolder holder = new CustomInventoryHolder(title, size);
 
         ItemStack manageInvitesItem = this.itemRepository.getItem("manage-invites", user.isDefaultItems());
-        holder.set(14, manageInvitesItem, new OpenGuildInvitesGuiAction(this.plugin, guild));
+        holder.set(41, manageInvitesItem, new OpenGuildInvitesGuiAction(this.plugin, guild));
 
         ItemStack managePermissionsItem = this.itemRepository.getItem("manage-permissions", user.isDefaultItems());
-        holder.set(23, managePermissionsItem, new OpenManageGuildPermissionsGuiAction(this.plugin, guild, null));
+        holder.set(39, managePermissionsItem, new OpenManageGuildPermissionsGuiAction(this.plugin, guild, null));
 
         ItemStack changeNameItem = this.itemRepository.getItem("change-name", user.isDefaultItems());
-        holder.set(32, changeNameItem, new ChangeGuildNameAction(plugin, guild));
+        holder.set(40, changeNameItem, new ChangeGuildNameAction(plugin, guild));
 
-        ItemStack book1 = this.itemRepository.getItem("main-book-1", user.isDefaultItems());
-        ItemStack book2 = this.itemRepository.getItem("main-book-2", user.isDefaultItems());
-        ItemStack book3 = this.itemRepository.getItem("main-book-3", user.isDefaultItems());
-        ItemStack book4 = this.itemRepository.getItem("main-book-4", user.isDefaultItems());
-
+        ItemStack book1 = this.itemRepository.getItem("info-book", user.isDefaultItems());
+        ItemUtil.replace(book1, "%guild_name%", guild.getName());
+        ItemUtil.replace(book1, "%online%",
+                "" + guild.getMembersAndOwner().stream().filter(u -> Bukkit.getPlayer(u.getUuid()) != null).count());
+        ItemUtil.replace(book1, "%member-count%", guild.getMembersAndOwner().size() + "");
+        ItemUtil.replace(book1, "%guild-name%", guild.getName());
+        ItemUtil.replace(book1, "%owner%", guild.getOwner().getName());
+        ItemUtil.replace(book1, "%region-size%", guild.getRegion().getSize() + "");
+        ItemUtil.replace(book1, "%region-shape%", guild.getRegion().getTier().getRegionType().toString());
+        ItemUtil.replace(book1, "%max-energy%", String.format("%.0f", guild.getField().getTier().getMaxEnergy()));
+        holder.setItem(4, book1);
 
         ItemStack addFuelItem = this.itemRepository.getItem("add-fuel", user.isDefaultItems());
         ClickAction openAddFuelGuiAction = whoClicked -> whoClicked.openInventory(guild.getFuelInventory());
-        holder.set(41, addFuelItem, openAddFuelGuiAction);
+        holder.set(42, addFuelItem, openAddFuelGuiAction);
 
         ItemStack openFieldUpgradesItem = this.itemRepository.getItem("field-upgrades", user.isDefaultItems());
         ClickAction openFieldUpgradesAction = new OpenFieldUpgradeGuiAction(this.plugin, guild, Tier.TierType.FIELD);
-        holder.set(0, openFieldUpgradesItem, openFieldUpgradesAction);
+        holder.set(21, openFieldUpgradesItem, openFieldUpgradesAction);
 
         ItemStack regionUpgradesItem = this.itemRepository.getItem("region-upgrades", user.isDefaultItems());
         ClickAction regionUpgradesAction = new OpenFieldUpgradeGuiAction(this.plugin, guild, Tier.TierType.REGION);
-        holder.set(1, regionUpgradesItem, regionUpgradesAction);
+        holder.set(22, regionUpgradesItem, regionUpgradesAction);
 
         ItemStack openUndamageableItem = this.itemRepository.getItem("field-undamageable-inventory", user.isDefaultItems());
         ClickAction openUndamageableAction = whoClicked -> whoClicked.openInventory(guild.getField().getUndamageableItemInventory());
-        holder.set(2, openUndamageableItem, openUndamageableAction);
+        holder.set(23, openUndamageableItem, openUndamageableAction);
 
         if (guild.isMember(user) && !guild.isOwner(user)) {
             ItemStack leaveItem = this.itemRepository.getItem("quit-guild", user.isDefaultItems());
@@ -81,19 +89,19 @@ public class MainGuiFactory {
             holder.setActionWithConfirmation(53, leaveAction);
         }
 
-        if (guild.isOwner(user) || player.hasPermission("bfactions.command.manage")) {
-            ItemStack pvpItem;
-            if (guild.isPvpEnabled()) {
-                pvpItem = this.itemRepository.getItem("enable-pvp", user.isDefaultItems());
-            } else {
-                pvpItem = this.itemRepository.getItem("disable-pvp", user.isDefaultItems());
+        ItemStack pvpItem;
+        if (guild.isPvpEnabled()) {
+            pvpItem = this.itemRepository.getItem("enable-pvp", user.isDefaultItems());
+        } else {
+            pvpItem = this.itemRepository.getItem("disable-pvp", user.isDefaultItems());
+        }
+        holder.set(38, pvpItem, new TogglePvpAction(this.plugin, guild, user));
+
+        ItemStack fillerItem = this.itemRepository.getItem("main-filler", user.isDefaultItems());
+        for (int slot = 0; slot < 6 * 9; slot++) {
+            if (!holder.isSet(slot)) {
+                holder.setItem(slot, fillerItem);
             }
-            ClickAction pvpAction = whoClicked -> {
-                guild.setPvpEnabled(!guild.isPvpEnabled());
-                whoClicked.openInventory(createGui(player, guild));
-                whoClicked.playSound(whoClicked.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1.0f, 1.0f);
-            };
-            holder.set(5, pvpItem, pvpAction);
         }
 
         return holder.getInventory();
