@@ -183,6 +183,7 @@ public class BFactions extends JavaPlugin {
             field.getAlliedBar().removeAll();
             field.getEnemyBar().removeAll();
         }
+        this.database.shutdown();
     }
 
     private void saveData() {
