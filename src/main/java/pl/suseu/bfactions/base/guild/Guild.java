@@ -36,6 +36,8 @@ public class Guild implements Comparable<Guild> {
     private final Map<User, GuildPermissionSet> permissions = new ConcurrentHashMap<>();
     private String name;
     private User owner;
+    private String entryMOTD = null;
+    private String exitMOTD = null;
 
     private Inventory fuelInventory;
     private int deleteCode = -1;
@@ -308,6 +310,22 @@ public class Guild implements Comparable<Guild> {
 
     public void setDiscountTier(DiscountTier discountTier) {
         this.discountTier = discountTier;
+    }
+
+    public String getEntryMOTD() {
+        return entryMOTD;
+    }
+
+    public void setEntryMOTD(String entryMOTD) {
+        this.entryMOTD = entryMOTD;
+    }
+
+    public String getExitMOTD() {
+        return exitMOTD;
+    }
+
+    public void setExitMOTD(String exitMOTD) {
+        this.exitMOTD = exitMOTD;
     }
 
     public void delete() {
