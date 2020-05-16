@@ -7,6 +7,7 @@ public class TierRepository {
 
     private final List<FieldTier> fieldTiers = new ArrayList<>();
     private final List<RegionTier> regionTiers = new ArrayList<>();
+    private final List<DiscountTier> discountTiers = new ArrayList<>();
 
     public TierRepository() {
     }
@@ -14,6 +15,7 @@ public class TierRepository {
     public void clearTiers() {
         this.fieldTiers.clear();
         this.regionTiers.clear();
+        this.discountTiers.clear();
     }
 
     public void addFieldTier(FieldTier fieldTier) {
@@ -24,11 +26,19 @@ public class TierRepository {
         this.regionTiers.add(regionTier);
     }
 
+    public void addDiscountTier(DiscountTier discountTier) {
+        this.discountTiers.add(discountTier);
+    }
+
     public List<FieldTier> getFieldTiers() {
         return new ArrayList<>(fieldTiers);
     }
 
     public List<RegionTier> getRegionTiers() {
         return new ArrayList<>(regionTiers);
+    }
+
+    public List<DiscountTier> getDiscountTiers() {
+        return new ArrayList<>(this.discountTiers);
     }
 }
