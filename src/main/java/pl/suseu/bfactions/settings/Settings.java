@@ -7,10 +7,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.region.RegionType;
-import pl.suseu.bfactions.base.tier.FieldTier;
-import pl.suseu.bfactions.base.tier.RegionTier;
-import pl.suseu.bfactions.base.tier.Tier;
-import pl.suseu.bfactions.base.tier.TierRepository;
+import pl.suseu.bfactions.base.tier.*;
 import pl.suseu.bfactions.base.tier.cost.TierCost;
 import pl.suseu.bfactions.base.tier.cost.TierEnergyCost;
 import pl.suseu.bfactions.base.tier.cost.TierItemCost;
@@ -247,6 +244,51 @@ public class Settings {
             }
 
             this.tierRepository.addFieldTier(tier);
+            i++;
+        }
+
+        i = 0;
+        ConfigurationSection reductionTiersSection = tiersCfg.getConfigurationSection("reduction");
+        for (String s : reductionTiersSection.getKeys(false)) {
+            ConfigurationSection tierSection = reductionTiersSection.getConfigurationSection(s);
+            double energyReduction = tierSection.getDouble("energy-reduction");
+            double priceReduction = tierSection.getDouble("cost-reduction");
+            String guiItem = tierSection.getString("gui-item");
+            String guiItemBuy = tierSection.getString("gui-item-buy");
+            String guiItemOwned = tierSection.getString("gui-item-owned");
+            List<String> sCost = tierSection.getStringList("price");
+            List<TierCost> cost = new ArrayList<>();
+            for (String c : sCost) {
+                String[] split = c.split(":");
+                if (split[0].equalsIgnoreCase("money")) {
+                    cost.add(new TierMoneyCost(Double.parseDouble(split[1])));
+                } else if (split[0].equalsIgnoreCase("energy")) {
+                    cost.add(new TierEnergyCost(Double.parseDouble(split[1])));
+                } else if (split[0].equalsIgnoreCase("item")) {
+                    cost.add(new TierItemCost(split[1], Integer.parseInt(split[2])));
+                }
+            }
+            DiscountTier tier = new DiscountTier(i, guiItem, guiItemBuy, guiItemOwned, cost, priceReduction, energyReduction);
+
+            if (tierSection.isList("lore")) {
+                tier.setLore(tierSection.getStringList("lore")
+                        .stream().map(s1 -> ChatColor.translateAlternateColorCodes('&', s1))
+                        .collect(Collectors.toList()));
+            }
+
+            if (tierSection.isList("lore-buy")) {
+                tier.setLoreBuy(tierSection.getStringList("lore-buy")
+                        .stream().map(s1 -> ChatColor.translateAlternateColorCodes('&', s1))
+                        .collect(Collectors.toList()));
+            }
+
+            if (tierSection.isList("lore-owned")) {
+                tier.setLoreOwned(tierSection.getStringList("lore-owned")
+                        .stream().map(s1 -> ChatColor.translateAlternateColorCodes('&', s1))
+                        .collect(Collectors.toList()));
+            }
+
+            this.tierRepository.addDiscountTier(tier);
             i++;
         }
 
@@ -614,11 +656,11 @@ public class Settings {
                     success = false;
                 }
                 if (!tierSection.isString("gui-item-buy")) {
-                    log.warning("Configuration (upgrades.yml, size." + s + "): Missing/Invalid 'gui-item-buy' entry!");
+                    log.warning("Configuration (upgrades.yml, energy." + s + "): Missing/Invalid 'gui-item-buy' entry!");
                     success = false;
                 }
                 if (!tierSection.isString("gui-item-owned")) {
-                    log.warning("Configuration (upgrades.yml, size." + s + "): Missing/Invalid 'gui-item-owned' entry!");
+                    log.warning("Configuration (upgrades.yml, energy." + s + "): Missing/Invalid 'gui-item-owned' entry!");
                     success = false;
                 }
                 if (!tierSection.isList("price")) {
@@ -655,6 +697,79 @@ public class Settings {
                                 Integer.parseInt(split[2]);
                             } catch (NumberFormatException e) {
                                 log.warning("Configuration (upgrades.yml, energy." + s + ".price): Invalid price: " + p);
+                                success = false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        // upgrades.yml, reduction
+        if (!this.tiersCfg.isConfigurationSection("reduction")) {
+            log.warning("Configuration (upgrades.yml): Missing 'reduction' section!");
+            success = false;
+        } else {
+            ConfigurationSection reductionSection = this.tiersCfg.getConfigurationSection("reduction");
+            for (String s : reductionSection.getKeys(false)) {
+                ConfigurationSection tierSection = reductionSection.getConfigurationSection(s);
+                if (!tierSection.isDouble("cost-reduction") &&
+                        !tierSection.isInt("cost-reduction") &&
+                        !tierSection.isLong("cost-reduction")) {
+                    log.warning("Configuration (upgrades.yml, reduction." + s + "): Missing/Invalid 'cost-reduction' entry!");
+                    success = false;
+                }
+                if (!tierSection.isDouble("energy-reduction") &&
+                        !tierSection.isInt("energy-reduction") &&
+                        !tierSection.isLong("energy-reduction")) {
+                    log.warning("Configuration (upgrades.yml, reduction." + s + "): Missing/Invalid 'energy-reduction' entry!");
+                    success = false;
+                }
+                if (!tierSection.isString("gui-item")) {
+                    log.warning("Configuration (upgrades.yml, reduction." + s + "): Missing/Invalid 'gui-item' entry!");
+                    success = false;
+                }
+                if (!tierSection.isString("gui-item-buy")) {
+                    log.warning("Configuration (upgrades.yml, reduction." + s + "): Missing/Invalid 'gui-item-buy' entry!");
+                    success = false;
+                }
+                if (!tierSection.isString("gui-item-owned")) {
+                    log.warning("Configuration (upgrades.yml, reduction." + s + "): Missing/Invalid 'gui-item-owned' entry!");
+                    success = false;
+                }
+                if (!tierSection.isList("price")) {
+                    log.warning("Configuration (upgrades.yml, reduction." + s + "): Missing/Invalid 'price' entry!");
+                    success = false;
+                } else {
+                    List<String> price = tierSection.getStringList("price");
+                    for (String p : price) {
+                        String[] split = p.split(":");
+                        if (split.length < 1) {
+                            log.warning("Configuration (upgrades.yml, reduction." + s + ".price): Invalid price: " + p);
+                            success = false;
+                            continue;
+                        }
+                        if (split[0].equalsIgnoreCase("money") || split[0].equalsIgnoreCase("energy")) {
+                            if (split.length != 2) {
+                                log.warning("Configuration (upgrades.yml, reduction." + s + ".price): Invalid price: " + p);
+                                success = false;
+                                continue;
+                            }
+                            try {
+                                Double.parseDouble(split[1]);
+                            } catch (NumberFormatException e) {
+                                log.warning("Configuration (upgrades.yml, reduction." + s + ".price): Invalid price: " + p);
+                                success = false;
+                            }
+                        } else if (split[0].equalsIgnoreCase("item")) {
+                            if (split.length != 3) {
+                                log.warning("Configuration (upgrades.yml, reduction." + s + ".price): Invalid price: " + p);
+                                success = false;
+                                continue;
+                            }
+                            try {
+                                Integer.parseInt(split[2]);
+                            } catch (NumberFormatException e) {
+                                log.warning("Configuration (upgrades.yml, reduction." + s + ".price): Invalid price: " + p);
                                 success = false;
                             }
                         }
