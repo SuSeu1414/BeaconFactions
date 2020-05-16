@@ -151,6 +151,6 @@ public abstract class Tier {
     }
 
     public enum TierType {
-        FIELD, REGION,
+        FIELD, REGION, DISCOUNT,
     }
 }
