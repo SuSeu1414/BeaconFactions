@@ -29,6 +29,7 @@ import pl.suseu.bfactions.base.user.listener.PlayerJoinListener;
 import pl.suseu.bfactions.command.BCommandMap;
 import pl.suseu.bfactions.command.MainCommandExecutor;
 import pl.suseu.bfactions.command.MainCommandTabCompleter;
+import pl.suseu.bfactions.crafting.RecipeRepository;
 import pl.suseu.bfactions.data.DataIntegrator;
 import pl.suseu.bfactions.data.GuildDataController;
 import pl.suseu.bfactions.data.UserDataController;
@@ -60,15 +61,20 @@ public class BFactions extends JavaPlugin {
     private FieldRepository fieldRepository;
     private DataIntegrator dataIntegrator;
     private DataSerializer dataSerializer;
+    private RecipeRepository recipeRepository;
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
         this.saveResource("upgrades.yml", false);
+        this.saveResource("recipes.yml", false);
         settings = new Settings(this);
         lang = new LangAPI(this, "messages.yml");
         lang.reload();
         log = getLogger();
+
+        this.itemRepository = new ItemRepository(this);
+        this.itemRepository.load();
 
         if (!settings.loadConfig()) {
             log.severe("Invalid config, check previous warnings!");
@@ -77,10 +83,6 @@ public class BFactions extends JavaPlugin {
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
-
-        this.itemRepository = new ItemRepository(this);
-        this.itemRepository.load();
-
 
         this.database = new Database(this);
         if (!this.database.initDatabase()) {

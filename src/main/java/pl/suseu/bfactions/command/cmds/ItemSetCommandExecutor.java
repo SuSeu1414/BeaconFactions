@@ -35,5 +35,6 @@ public class ItemSetCommandExecutor implements BCommandExecutor {
         this.itemRepository.addItem(itemId, player.getInventory().getItemInMainHand());
         this.itemRepository.save();
         sender.sendMessage("Item " + itemId + " set.");
+        this.plugin.getSettings().recipeRepository.onItemChange(itemId);
     }
 }

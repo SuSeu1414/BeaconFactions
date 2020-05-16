@@ -1,0 +1,22 @@
+recipes:
+  #the key must be unique
+  1:
+    #can be a vanilla item like minecraft:diamond or custom bfactions:beacon
+    result: bfactions:beacon
+    result-amount: 1
+
+    #Uses a crafting grid like this:
+    # 0,1,2
+    # 3,4,5
+    # 6,7,8
+    #You can skip a number to have an empty slot
+    ingredients:
+      0: minecraft:diamond
+      1: minecraft:diamond
+      2: minecraft:diamond
+      3: minecraft:diamond
+      4: minecraft:diamond
+      5: minecraft:diamond
+      6: minecraft:diamond
+      7: minecraft:diamond
+      8: bfactions:random-item

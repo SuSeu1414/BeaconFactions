@@ -2,6 +2,7 @@ package pl.suseu.bfactions.settings;
 
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -12,12 +13,12 @@ import pl.suseu.bfactions.base.tier.cost.TierCost;
 import pl.suseu.bfactions.base.tier.cost.TierEnergyCost;
 import pl.suseu.bfactions.base.tier.cost.TierItemCost;
 import pl.suseu.bfactions.base.tier.cost.TierMoneyCost;
+import pl.suseu.bfactions.crafting.CraftingItem;
+import pl.suseu.bfactions.crafting.CraftingRecipe;
+import pl.suseu.bfactions.crafting.RecipeRepository;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -32,7 +33,9 @@ public class Settings {
     private final BFactions plugin;
     private final FileConfiguration cfg;
     private final YamlConfiguration tiersCfg;
+    public final RecipeRepository recipeRepository;
     private final Logger log;
+    private final YamlConfiguration recipesCfg;
     //    public int guildNameMaxLength;
 //    public int guildNameMinLength;
 //    public int guildTagMaxLength;
@@ -68,7 +71,9 @@ public class Settings {
         this.plugin = plugin;
         this.cfg = plugin.getConfig();
         this.tiersCfg = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "upgrades.yml"));
+        this.recipesCfg = YamlConfiguration.loadConfiguration(new File(plugin.getDataFolder(), "recipes.yml"));
         this.log = plugin.getLogger();
+        this.recipeRepository = new RecipeRepository(plugin);
     }
 
     public boolean loadConfig() {
@@ -290,6 +295,33 @@ public class Settings {
 
             this.tierRepository.addDiscountTier(tier);
             i++;
+        }
+
+        ConfigurationSection recipesSection = recipesCfg.getConfigurationSection("recipes");
+        CraftingItem nullItem = new CraftingItem();
+        List<CraftingItem> ingredientsNull = new ArrayList<>();
+        for (int j = 0; j < 9; j++) {
+            ingredientsNull.add(nullItem);
+        }
+        for (String recipeKey : recipesSection.getKeys(false)) {
+            try {
+                ConfigurationSection recipeSection = recipesSection.getConfigurationSection(recipeKey);
+                NamespacedKey key = new NamespacedKey(this.plugin, recipeKey);
+                CraftingItem result = CraftingItem.deserialize(recipeSection.getString("result"));
+                int amount = recipeSection.getInt("result-amount");
+                List<CraftingItem> ingredients = new ArrayList<>(ingredientsNull);
+                ConfigurationSection ingredientsSection = recipeSection.getConfigurationSection("ingredients");
+                for (String ingredient : ingredientsSection.getKeys(false)) {
+                    int ingredientIndex = Integer.parseInt(ingredient);
+                    CraftingItem item = CraftingItem.deserialize(ingredientsSection.getString(ingredient));
+                    ingredients.set(ingredientIndex, item);
+                }
+                CraftingRecipe recipe = new CraftingRecipe(key, ingredients, result, amount);
+                recipeRepository.addRecipe(recipe);
+            } catch (Exception e) {
+                e.printStackTrace();
+                this.log.warning("Could not load recipe: " + recipeKey);
+            }
         }
 
         return true;
@@ -772,6 +804,67 @@ public class Settings {
                                 log.warning("Configuration (upgrades.yml, reduction." + s + ".price): Invalid price: " + p);
                                 success = false;
                             }
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!recipesCfg.isConfigurationSection("recipes")) {
+            log.warning("Configuration (recipes.yml): Missing 'recipes' section!");
+            success = false;
+        } else {
+            ConfigurationSection recipes = recipesCfg.getConfigurationSection("recipes");
+
+            for (String key : recipes.getKeys(false)) {
+                ConfigurationSection recipeSection = recipes.getConfigurationSection(key);
+
+                if (!recipeSection.isString("result")) {
+                    log.warning("Configuration (upgrades.yml, " + key + "): Missing/Invalid 'gui-item-owned' entry!");
+                    success = false;
+                }
+                if (!recipeSection.isInt("result-amount")) {
+                    log.warning("Configuration (upgrades.yml, " + key + "): Missing/Invalid 'result-amount' entry!");
+                    success = false;
+                }
+                if (!recipeSection.isConfigurationSection("ingredients")) {
+                    log.warning("Configuration (upgrades.yml, " + key + "): Missing/Invalid 'ingredients' section!");
+                    success = false;
+                }
+
+                ConfigurationSection ingredientsSection = recipeSection.getConfigurationSection("ingredients");
+                Set<String> keys = recipeSection.getKeys(false);
+                if (keys.size() == 0 || keys.size() > 9) {
+                    log.warning("Configuration (upgrades.yml, " + key + "): Missing/Invalid 'ingredients' section!");
+                    success = false;
+                }
+                for (String ingredientKey : ingredientsSection.getKeys(false)) {
+                    try {
+                        int i = Integer.parseInt(ingredientKey);
+                        if (i > 8 || i < 0) {
+                            log.warning("Configuration (upgrades.yml, " + key + "): Missing/Invalid 'ingredients' section!");
+                            success = false;
+                        }
+                    } catch (NumberFormatException e) {
+                        log.warning("Configuration (upgrades.yml, " + key + "): Missing/Invalid 'ingredients' section!");
+                        success = false;
+                    }
+                    String item = ingredientsSection.getString(ingredientKey);
+                    String[] split = item.split(":");
+                    if (split.length != 2) {
+                        log.warning("Configuration (upgrades.yml, " + key + "): Invalid item '" + item + "' section!");
+                        success = false;
+                    }
+                    if (!split[0].equalsIgnoreCase("minecraft")
+                            && !split[0].equalsIgnoreCase("bfactions")) {
+                        log.warning("Configuration (upgrades.yml, " + key + "): Invalid item '" + item + "' section!");
+                        success = false;
+                    }
+                    if (split[0].equals("minecraft")) {
+                        Material material = Material.matchMaterial(split[1]);
+                        if (material == null) {
+                            log.warning("Configuration (upgrades.yml, " + key + "): Invalid item '" + item + "' section!");
+                            success = false;
                         }
                     }
                 }
