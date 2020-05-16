@@ -181,11 +181,15 @@ public class BFactions extends JavaPlugin {
     @Override
     public void onDisable() {
         saveData();
-        for (Field field : fieldRepository.getFields()) {
-            field.getAlliedBar().removeAll();
-            field.getEnemyBar().removeAll();
+        if (this.fieldRepository != null) {
+            for (Field field : fieldRepository.getFields()) {
+                field.getAlliedBar().removeAll();
+                field.getEnemyBar().removeAll();
+            }
         }
-        this.database.shutdown();
+        if (this.database != null) {
+            this.database.shutdown();
+        }
     }
 
     private void saveData() {
