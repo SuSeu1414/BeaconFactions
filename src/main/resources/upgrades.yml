@@ -585,3 +585,14 @@ energy:
       - 'energy:50'
       - 'item:custom-item:32'
       - 'item:another-one:16'
+
+
+reduction:
+  1:
+    cost-reduction: 50
+    energy-reduction: 50
+    gui-item: 'reduction-upgrade-normal'
+    gui-item-buy: 'reduction-upgrade-buy'
+    gui-item-owned: 'reduction-upgrade-owned'
+    price:
+      - 'money:100'
