@@ -9,6 +9,7 @@ import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.field.Field;
 import pl.suseu.bfactions.base.region.Region;
 import pl.suseu.bfactions.base.region.RegionRepository;
+import pl.suseu.bfactions.base.region.RegionType;
 import pl.suseu.bfactions.base.user.User;
 import pl.suseu.bfactions.settings.Settings;
 
@@ -51,23 +52,34 @@ public class FieldParticleTask implements Runnable {
             Particle.DustOptions domeOptions =
                     new Particle.DustOptions(Color.BLUE, 1);
 
-            Set<Location> dome = field.domeInRange(location, settings.fieldDomeDistance);
-            this.plugin.getServer().getScheduler().runTask(this.plugin, () -> {
-                for (Location particle : dome) {
-                    player.spawnParticle(Particle.REDSTONE, particle, 1, domeOptions);
-                }
-            });
+            if (field.getGuild().getRegion().getTier().getRegionType() == RegionType.DOME) {
+                Set<Location> dome = field.domeInRange(location, settings.fieldDomeDistance);
+                this.plugin.getServer().getScheduler().runTask(this.plugin, () -> {
+                    for (Location particle : dome) {
+                        player.spawnParticle(Particle.REDSTONE, particle, 1, domeOptions);
+                    }
+                });
 
-            if (closest.isInside(location)) {
-                continue;
+                if (closest.isInside(location)) {
+                    continue;
+                }
+
+                Set<Location> border = field.borderInRange(location, settings.fieldBorderDistance);
+                this.plugin.getServer().getScheduler().runTask(this.plugin, () -> {
+                    for (Location particle : border) {
+                        player.spawnParticle(Particle.REDSTONE, particle, 1, borderOptions);
+                    }
+                });
             }
 
-            Set<Location> border = field.borderInRange(location, settings.fieldBorderDistance);
-            this.plugin.getServer().getScheduler().runTask(this.plugin, () -> {
-                for (Location particle : border) {
-                    player.spawnParticle(Particle.REDSTONE, particle, 1, borderOptions);
-                }
-            });
+            if (field.getGuild().getRegion().getTier().getRegionType() == RegionType.ROLLER) {
+                Set<Location> border = field.borderInRange(location, settings.fieldDomeDistance);
+                this.plugin.getServer().getScheduler().runTask(this.plugin, () -> {
+                    for (Location particle : border) {
+                        player.spawnParticle(Particle.REDSTONE, particle, 1, borderOptions);
+                    }
+                });
+            }
         }
     }
 

@@ -31,6 +31,7 @@ public class BCommandMap {
     private final SetHomeCommandExecutor setHomeCommandExecutor;
     private final TransferCommandExecutor transferCommandExecutor;
     private final HelpCommandExecutor helpCommandExecutor;
+    private final SetMotdCommandExecutor setMotdCommandExecutor;
 
     public BCommandMap(BFactions plugin) {
         this.plugin = plugin;
@@ -52,6 +53,7 @@ public class BCommandMap {
         this.setHomeCommandExecutor = new SetHomeCommandExecutor(this.plugin);
         this.transferCommandExecutor = new TransferCommandExecutor(this.plugin);
         this.helpCommandExecutor = new HelpCommandExecutor(this.plugin, this);
+        this.setMotdCommandExecutor = new SetMotdCommandExecutor(this.plugin);
     }
 
     public void addCommand(BCommand command) {
@@ -199,6 +201,14 @@ public class BCommandMap {
                 .setAsync(true)
                 .setUsage("help <page>")
                 .setExecutor(this.helpCommandExecutor)
+                .build(this.commands);
+
+        new BCommandBuilder("setmotd")
+                .setPermission("bfactions.command.setmotd")
+                .setDescription("Set the MOTD in your guild")
+                .setUsage("setmotd entry/exit")
+                .setNeedsArguments(true)
+                .setExecutor(this.setMotdCommandExecutor)
                 .build(this.commands);
     }
 
