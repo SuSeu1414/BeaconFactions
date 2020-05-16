@@ -10,6 +10,7 @@ import pl.suseu.bfactions.base.field.Field;
 import pl.suseu.bfactions.base.guild.permission.GuildPermission;
 import pl.suseu.bfactions.base.guild.permission.GuildPermissionSet;
 import pl.suseu.bfactions.base.region.Region;
+import pl.suseu.bfactions.base.tier.DiscountTier;
 import pl.suseu.bfactions.base.tier.FieldTier;
 import pl.suseu.bfactions.base.tier.RegionTier;
 import pl.suseu.bfactions.base.tier.Tier;
@@ -40,6 +41,7 @@ public class Guild implements Comparable<Guild> {
     private int deleteCode = -1;
     private int transferCode = -1;
     private boolean pvpEnabled;
+    private DiscountTier discountTier;
 
     public Guild(UUID uuid, String name, User owner, Region region, Field field) {
         this.uuid = uuid;
@@ -62,6 +64,7 @@ public class Guild implements Comparable<Guild> {
         }
 
         this.fuelInventory = new FuelInventoryHolder(this).getInventory();
+        this.discountTier = null;
     }
 
     public UUID getUuid() {
@@ -297,6 +300,14 @@ public class Guild implements Comparable<Guild> {
 
     public void setPvpEnabled(boolean pvpEnabled) {
         this.pvpEnabled = pvpEnabled;
+    }
+
+    public DiscountTier getDiscountTier() {
+        return discountTier;
+    }
+
+    public void setDiscountTier(DiscountTier discountTier) {
+        this.discountTier = discountTier;
     }
 
     public void delete() {
