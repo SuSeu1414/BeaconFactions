@@ -139,6 +139,12 @@ public class GuildDataController {
         String membersString = result.getString("members");
         String permissionsString = result.getString("permissions");
         String homeJson = result.getString("home");
+        String entryMotd = result.getString("entry-motd");
+        String exitMotd = result.getString("exit-motd");
+        Integer discountTier = result.getInt("reduction-tier");
+        if (result.wasNull()) {
+            discountTier = null;
+        }
 
         if (uuidString == null || ownerString == null || name == null) {
             return false;
@@ -166,6 +172,11 @@ public class GuildDataController {
         guild.setMembersFromJson(membersString);
         guild.setPermissionsFromJson(permissionsString);
         guild.setHomeSerialized(homeJson);
+        guild.setEntryMOTD(entryMotd);
+        guild.setExitMOTD(exitMotd);
+        if (discountTier != null) {
+            guild.setDiscountTier(this.plugin.getSettings().tierRepository.getDiscountTiers().get(discountTier));
+        }
         plugin.getGuildRepository().addGuild(guild, false);
 
         field.recalculate();
@@ -183,13 +194,20 @@ public class GuildDataController {
         sb.append("'" + guild.getName().replace("'", "''") + "',");
         sb.append("'" + guild.getMembersSerialized() + "',");
         sb.append("'" + guild.getPermissionsSerialized() + "',");
+        sb.append("'" + guild.getHomeSerialized() + "',");
+        sb.append("'" + guild.getEntryMOTD() + "',");
+        sb.append("'" + guild.getExitMOTD() + "',");
+        sb.append("'" + (guild.getDiscountTier() == null ? null : guild.getDiscountTier().getTier()) + "',");
         sb.append("'" + guild.getHomeSerialized() + "')");
         sb.append(" on duplicate key update ");
         sb.append("`owner` = '" + guild.getOwner().getUuid() + "',");
         sb.append("`name` = '" + guild.getName().replace("'", "''") + "',");
         sb.append("`members` = '" + guild.getMembersSerialized() + "',");
         sb.append("`permissions` = '" + guild.getPermissionsSerialized() + "',");
-        sb.append("`home` = '" + guild.getHomeSerialized() + "'");
+        sb.append("`home` = '" + guild.getHomeSerialized() + "',");
+        sb.append("`entry-motd` = '" + guild.getEntryMOTD() + "',");
+        sb.append("`exit-motd` = '" + guild.getExitMOTD() + "',");
+        sb.append("`reduction-tier` = '" + (guild.getDiscountTier() == null ? null : guild.getDiscountTier().getTier()) + "'");
 
         return sb.toString();
     }
@@ -215,6 +233,9 @@ public class GuildDataController {
         sb.append("`members` text,");
         sb.append("`permissions` text,");
         sb.append("`home` text,");
+        sb.append("`entry-motd` text,");
+        sb.append("`exit-motd` text,");
+        sb.append("`reduction-tier` int,");
         sb.append("primary key (`uuid`));");
 
         for (String query : sb.toString().split(";")) {
