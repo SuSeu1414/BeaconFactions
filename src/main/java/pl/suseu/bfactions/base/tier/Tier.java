@@ -100,12 +100,18 @@ public abstract class Tier {
     }
 
     public List<String> getCostPlaceholder(boolean checkCosts, Player player, Guild guild) {
+        double discount = guild.getDiscountTier() != null ? guild.getDiscountTier().getPriceDiscount() : 0;
         List<String> price = new ArrayList<>();
-        price.add("" + ChatColor.BLUE + ChatColor.BOLD + ">> Cost: ");
+        price.add(""
+                + ChatColor.BLUE + ChatColor.BOLD + ">> Cost: "
+                + ChatColor.AQUA + ChatColor.BOLD + "(" + String.format("%.0f", discount) + "% discount)");
+//                + ChatColor.BLUE + ChatColor.BOLD + ": ");
+        discount /= 100.0;
+        discount = 1.0 - discount;
         for (TierCost cost : this.cost) {
             if (cost instanceof TierMoneyCost) {
                 double amount = ((TierMoneyCost) cost).getAmount();
-//                String amountS = String.format("%.0f (%.2f%%)", amount);
+                amount *= discount;
                 String amountS = String.format("%.1f", amount);
                 if (checkCosts) {
                     price.add("  "
@@ -117,6 +123,7 @@ public abstract class Tier {
             }
             if (cost instanceof TierEnergyCost) {
                 double amount = ((TierEnergyCost) cost).getAmount();
+                amount *= discount;
                 String amountS = String.format("%.1f", amount);
                 if (checkCosts) {
                     price.add("  "
@@ -136,6 +143,7 @@ public abstract class Tier {
                     continue;
                 }
                 int amount = ((TierItemCost) cost).getAmount();
+                amount *= discount;
                 String itemName = (im.hasDisplayName()) ? im.getDisplayName()
                         : StringUtils.capitalize(item.getType().toString().replace("_", " ").toLowerCase());
                 if (checkCosts) {

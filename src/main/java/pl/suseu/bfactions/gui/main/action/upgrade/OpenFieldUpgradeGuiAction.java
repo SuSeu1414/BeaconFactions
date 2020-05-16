@@ -53,13 +53,18 @@ public class OpenFieldUpgradeGuiAction implements ClickAction {
             tiers = this.plugin.getSettings().tierRepository.getRegionTiers().stream()
                     .map(fieldTier -> (Tier) fieldTier)
                     .collect(Collectors.toList());
+        } else if (tierType == Tier.TierType.DISCOUNT) {
+            tiers = this.plugin.getSettings().tierRepository.getDiscountTiers().stream()
+                    .map(discountTier -> (Tier) discountTier)
+                    .collect(Collectors.toList());
         }
 
         if (tiers == null) {
             return;
         }
 
-        Inventory inv = this.upgradeGuiFactory.createGui(whoClicked, this.guild, tiers, this.guild.getTier(tierType).getTier());
+        int tier = this.guild.getTier(tierType) == null ? -1 : this.guild.getTier(tierType).getTier();
+        Inventory inv = this.upgradeGuiFactory.createGui(whoClicked, this.guild, tiers, tier);
         whoClicked.openInventory(inv);
     }
 }

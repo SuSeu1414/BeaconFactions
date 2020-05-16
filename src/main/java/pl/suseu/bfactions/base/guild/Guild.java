@@ -212,6 +212,10 @@ public class Guild implements Comparable<Guild> {
             return this.region.getTier();
         }
 
+        if (tierType == Tier.TierType.DISCOUNT) {
+            return this.discountTier;
+        }
+
         return null;
     }
 
@@ -225,6 +229,10 @@ public class Guild implements Comparable<Guild> {
             if (this.plugin != null) {
                 this.plugin.getServer().getScheduler().runTaskAsynchronously(this.plugin, this.field::recalculate);
             }
+        }
+
+        if (tier instanceof DiscountTier) {
+            this.setDiscountTier(((DiscountTier) tier));
         }
     }
 

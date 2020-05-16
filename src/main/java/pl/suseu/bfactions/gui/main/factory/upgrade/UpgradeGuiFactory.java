@@ -7,6 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.guild.Guild;
+import pl.suseu.bfactions.base.tier.DiscountTier;
 import pl.suseu.bfactions.base.tier.FieldTier;
 import pl.suseu.bfactions.base.tier.RegionTier;
 import pl.suseu.bfactions.base.tier.Tier;
@@ -129,6 +130,8 @@ public class UpgradeGuiFactory {
                 this.plugin.getLang().sendMessage("field-upgraded", whoClicked);
             } else if (tierType == Tier.TierType.REGION) {
                 this.plugin.getLang().sendMessage("region-upgraded", whoClicked);
+            } else if (tierType == Tier.TierType.DISCOUNT) {
+                this.plugin.getLang().sendMessage("guild-upgraded", whoClicked);
             }
             new OpenFieldUpgradeGuiAction(this.plugin, guild, tierType).execute(whoClicked);
         };
@@ -197,6 +200,10 @@ public class UpgradeGuiFactory {
             ItemUtil.replace(itemStack, "%radius%", String.valueOf(((RegionTier) tier).getRadius()));
             ItemUtil.replace(itemStack, "%energy_drain%", String.valueOf(((RegionTier) tier).getDrainAmount()));
             ItemUtil.replace(itemStack, "%region-shape%", ((RegionTier) tier).getRegionType().toString());
+        }
+        if (tier instanceof DiscountTier) {
+            ItemUtil.replace(itemStack, "%discount%", String.format("%.0f", ((DiscountTier) tier).getPriceDiscount()));
+            ItemUtil.replace(itemStack, "%energy-reduction%", String.format("%.0f", ((DiscountTier) tier).getEnergyDiscount()));
         }
 
         ItemMeta im = itemStack.getItemMeta();
