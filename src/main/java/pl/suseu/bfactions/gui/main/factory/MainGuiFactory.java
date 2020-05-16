@@ -10,6 +10,7 @@ import pl.suseu.bfactions.base.guild.Guild;
 import pl.suseu.bfactions.base.tier.Tier;
 import pl.suseu.bfactions.base.user.User;
 import pl.suseu.bfactions.base.user.UserRepository;
+import pl.suseu.bfactions.command.cmds.WhoOnlineCommandExecutor;
 import pl.suseu.bfactions.gui.base.ClickAction;
 import pl.suseu.bfactions.gui.base.CustomInventoryHolder;
 import pl.suseu.bfactions.gui.main.action.ChangeGuildNameAction;
@@ -64,7 +65,11 @@ public class MainGuiFactory {
         ItemUtil.replace(book1, "%region-size%", guild.getRegion().getSize() + "");
         ItemUtil.replace(book1, "%region-shape%", guild.getRegion().getTier().getRegionType().toString());
         ItemUtil.replace(book1, "%max-energy%", String.format("%.0f", guild.getField().getTier().getMaxEnergy()));
-        holder.setItem(4, book1);
+        ClickAction sendWhoAction = whoClicked -> {
+            whoClicked.closeInventory();
+            WhoOnlineCommandExecutor.sendWhoMessage(whoClicked, guild, this.plugin);
+        };
+        holder.set(4, book1, sendWhoAction);
 
         ItemStack addFuelItem = this.itemRepository.getItem("add-fuel", user.isDefaultItems());
         ClickAction openAddFuelGuiAction = whoClicked -> whoClicked.openInventory(guild.getFuelInventory());
