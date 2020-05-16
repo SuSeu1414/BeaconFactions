@@ -1,12 +1,11 @@
 package pl.suseu.bfactions.base.user;
 
+import org.apache.commons.lang.StringUtils;
 import pl.suseu.bfactions.BFactions;
 
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 public class UserRepository {
 
@@ -36,6 +35,12 @@ public class UserRepository {
         user = new User(uuid);
         addUser(user, true);
         return user;
+    }
+
+    public List<User> getUsers(String name) {
+        return this.getUsers().stream()
+                .filter(user -> StringUtils.containsIgnoreCase(user.getName(), name))
+                .collect(Collectors.toList());
     }
 
     public User getUserByName(String name) {

@@ -12,6 +12,8 @@ import pl.suseu.bfactions.base.user.UserRepository;
 import pl.suseu.bfactions.gui.base.ClickAction;
 import pl.suseu.bfactions.gui.main.factory.permission.ManageGuildPermissionsGuiFactory;
 
+import java.util.ArrayList;
+
 public class OpenManageGuildPermissionsGuiAction implements ClickAction {
 
     private final BFactions plugin;
@@ -40,7 +42,8 @@ public class OpenManageGuildPermissionsGuiAction implements ClickAction {
         }
 
 
-        Inventory inv = this.manageGuildPermissionsGuiFactory.createGui(whoClicked, this.guild);
+        Inventory inv = this.manageGuildPermissionsGuiFactory
+                .createGui(whoClicked, this.guild, new ArrayList<>(this.guild.getMembers()));
         if (inv == null) {
             return;
         }
