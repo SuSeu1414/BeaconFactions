@@ -112,8 +112,11 @@ public class UserDataController {
             return false;
         }
 
+        boolean potato = result.getBoolean("potato");
+
         UUID uuid = UUID.fromString(uuidString);
         User user = new User(uuid);
+        user.setPotatoMode(potato);
 
         this.plugin.getUserRepository().addUser(user, false);
         return true;
