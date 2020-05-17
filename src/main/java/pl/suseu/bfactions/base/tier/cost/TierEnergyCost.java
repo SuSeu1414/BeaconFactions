@@ -29,7 +29,10 @@ public class TierEnergyCost extends TierCost {
         if (plugin == null) {
             return;
         }
-        guild.getField().addEnergy(-1 * this.amount);
+        double discount = guild.getDiscountTier() != null ? guild.getDiscountTier().getPriceDiscount() : 0;
+        discount /= 100.0;
+        discount = 1.0 - discount;
+        guild.getField().addEnergy(-1 * this.amount * discount);
     }
 
     public double getAmount() {
