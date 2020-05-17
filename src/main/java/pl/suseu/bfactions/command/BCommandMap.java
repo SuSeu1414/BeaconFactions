@@ -32,6 +32,7 @@ public class BCommandMap {
     private final TransferCommandExecutor transferCommandExecutor;
     private final HelpCommandExecutor helpCommandExecutor;
     private final SetMotdCommandExecutor setMotdCommandExecutor;
+    private final PotatoCommandExecutor potatoCommandExecutor;
 
     public BCommandMap(BFactions plugin) {
         this.plugin = plugin;
@@ -54,6 +55,7 @@ public class BCommandMap {
         this.transferCommandExecutor = new TransferCommandExecutor(this.plugin);
         this.helpCommandExecutor = new HelpCommandExecutor(this.plugin, this);
         this.setMotdCommandExecutor = new SetMotdCommandExecutor(this.plugin);
+        this.potatoCommandExecutor = new PotatoCommandExecutor(this.plugin);
     }
 
     public void addCommand(BCommand command) {
@@ -209,6 +211,13 @@ public class BCommandMap {
                 .setUsage("setmotd entry/exit")
                 .setNeedsArguments(true)
                 .setExecutor(this.setMotdCommandExecutor)
+                .build(this.commands);
+
+        new BCommandBuilder("potato")
+                .setPermission("bfactions.command.potato")
+                .setDescription("Decreases the amount of particles being displayed")
+                .setAsync(true)
+                .setExecutor(potatoCommandExecutor)
                 .build(this.commands);
     }
 

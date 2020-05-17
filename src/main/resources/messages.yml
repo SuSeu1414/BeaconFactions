@@ -294,3 +294,8 @@ messages:
     chat:
       content:
         - "&l&9[&bBFactions&9] &o&fPlease type new MOTD in chat..."
+  potato-mode-toggled:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fPotato PC mode is now &c&l%status%&o&f!"

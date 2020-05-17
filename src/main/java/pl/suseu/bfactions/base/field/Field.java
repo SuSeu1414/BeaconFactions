@@ -8,6 +8,7 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.inventory.Inventory;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.guild.Guild;
+import pl.suseu.bfactions.base.region.RegionType;
 import pl.suseu.bfactions.base.tier.FieldTier;
 import pl.suseu.bfactions.gui.base.UndamageableFieldInventoryHolder;
 import pl.suseu.bfactions.settings.Settings;
@@ -18,10 +19,13 @@ import java.util.*;
 public class Field {
 
     private final BFactions plugin = ((BFactions) Bukkit.getPluginManager().getPlugin(BFactions.PLUGIN_NAME));
+    private final Settings settings = plugin.getSettings();
 
     private final UUID uuid;
     private final Map<Integer, Set<Location>> border = new HashMap<>();
     private final Map<Integer, Set<Location>> dome = new HashMap<>();
+    private final Map<Integer, Set<Location>> borderPotato = new HashMap<>();
+    private final Map<Integer, Set<Location>> domePotato = new HashMap<>();
     private Guild guild;
     private FieldTier tier;
     private double currentEnergy;
@@ -56,14 +60,32 @@ public class Field {
 
         this.dome.clear();
         this.border.clear();
+        this.domePotato.clear();
+        this.borderPotato.clear();
 
         for (int i = 0; i < 256; i++) {
             border.put(i, new HashSet<>());
             dome.put(i, new HashSet<>());
         }
 
-        GeometryUtil.dome(center, radius, settings.fieldDomeDensity).forEach(this::addDome);
-        GeometryUtil.roller(center, radius, 0, 255, settings.fieldBorderDensity).forEach(this::addBorder);
+        RegionType shape = getGuild().getRegion().getTier().getRegionType();
+        if (shape == RegionType.DOME) {
+            GeometryUtil.dome(center, radius, settings.fieldDomeDensity)
+                    .forEach(p -> addParticle(this.dome, p));
+            GeometryUtil.dome(center, radius, settings.fieldDomeDensity / 2)
+                    .forEach(p -> addParticle(this.domePotato, p));
+
+            GeometryUtil.roller(center, radius, 0, 255, settings.fieldBorderDensity)
+                    .forEach(p -> addParticle(this.border, p));
+            GeometryUtil.roller(center, radius, 0, 255, settings.fieldBorderDensity / 2)
+                    .forEach(p -> addParticle(this.borderPotato, p));
+        } else if (shape == RegionType.ROLLER) {
+            GeometryUtil.roller(center, radius, 0, 255, settings.fieldDomeDensity)
+                    .forEach(p -> addParticle(this.border, p));
+            GeometryUtil.roller(center, radius, 0, 255, settings.fieldDomeDensity / 2)
+                    .forEach(p -> addParticle(this.borderPotato, p));
+        }
+
     }
 
     public void addEnergy(double energy) {
@@ -76,21 +98,36 @@ public class Field {
         }
     }
 
-    public Set<Location> domeInRange(Location location, double range) {
+    public Set<Location> domeInRange(Location location, boolean potato) {
+        return potato
+                ? particlesInRange(location, settings.fieldDomeDistance, settings.fieldDomeDistanceHorizontal, this.domePotato)
+                : particlesInRange(location, settings.fieldDomeDistance, settings.fieldDomeDistanceHorizontal, this.dome);
+    }
+
+    public Set<Location> borderInRange(Location location, boolean potato) {
+        double dist = getGuild().getRegion().getTier().getRegionType() == RegionType.DOME
+                ? settings.fieldBorderDistance
+                : settings.fieldDomeDistance;
+        double distHorizontal = getGuild().getRegion().getTier().getRegionType() == RegionType.DOME
+                ? settings.fieldBorderDistanceHorizontal
+                : settings.fieldDomeDistanceHorizontal;
+        return potato
+                ? particlesInRange(location, dist, distHorizontal, this.borderPotato)
+                : particlesInRange(location, dist, distHorizontal, this.border);
+    }
+
+    private Set<Location> particlesInRange(Location location, double range, double verticalRange, Map<Integer, Set<Location>> particles) {
         Set<Location> toReturn = new HashSet<>();
 
-        int low = (int) (location.getBlockY() - range);
-        int high = (int) (location.getBlockY() + range);
-
-        if (low < 0) {
-            low = 0;
-        }
-        if (high > 255) {
-            high = 255;
-        }
+        int low = (int) Math.max(location.getBlockY() - verticalRange, 0);
+        int high = (int) Math.min(location.getBlockY() + verticalRange, 255);
 
         for (int y = low; y <= high; y++) {
-            for (Location l : dome.getOrDefault(y, new HashSet<>())) {
+            Set<Location> locations = particles.get(y);
+            if (locations == null) {
+                continue;
+            }
+            for (Location l : locations) {
                 if (l.distance(location) < range) {
                     toReturn.add(l);
                 }
@@ -100,40 +137,10 @@ public class Field {
         return toReturn;
     }
 
-    public Set<Location> borderInRange(Location location, double range) {
-        Set<Location> toReturn = new HashSet<>();
-
-        int low = (int) (location.getBlockY() - range);
-        int high = (int) (location.getBlockY() + range);
-
-        if (low < 0) {
-            low = 0;
-        }
-        if (high > 255) {
-            high = 255;
-        }
-
-        for (int y = low; y <= high; y++) {
-            for (Location l : border.getOrDefault(y, new HashSet<>())) {
-                if (l.distance(location) < range) {
-                    toReturn.add(l);
-                }
-            }
-        }
-
-        return toReturn;
-    }
-
-    private void addDome(Location location) {
+    private void addParticle(Map<Integer, Set<Location>> particles, Location location) {
         int y = location.getBlockY();
-        this.dome.computeIfAbsent(y, k -> new HashSet<>());
-        this.dome.get(y).add(location);
-    }
-
-    private void addBorder(Location location) {
-        int y = location.getBlockY();
-        this.border.computeIfAbsent(y, k -> new HashSet<>());
-        this.border.get(y).add(location);
+        particles.computeIfAbsent(y, k -> new HashSet<>());
+        particles.get(y).add(location);
     }
 
     public UUID getUuid() {

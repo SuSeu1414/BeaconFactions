@@ -46,8 +46,10 @@ public class Settings {
     public double fieldBarDistance;
     public double fieldDomeDensity;
     public double fieldDomeDistance;
+    public double fieldDomeDistanceHorizontal;
     public double fieldBorderDensity;
     public double fieldBorderDistance;
+    public double fieldBorderDistanceHorizontal;
     public int fieldKnockdownTimeout;
     public double fieldEnergyInitial;
     public int fieldPassiveDrainDelay;
@@ -92,8 +94,10 @@ public class Settings {
         fieldBarDistance = cfg.getDouble("field.hp-bar-render-distance");
         fieldDomeDensity = cfg.getDouble("field.dome-particle-density");
         fieldDomeDistance = cfg.getDouble("field.dome-render-distance");
+        fieldDomeDistanceHorizontal = cfg.getDouble("field.dome-render-distance-horizontal");
         fieldBorderDensity = cfg.getDouble("field.border-particle-density");
         fieldBorderDistance = cfg.getDouble("field.border-render-distance");
+        fieldBorderDistanceHorizontal = cfg.getDouble("field.border-render-distance-horizontal");
         fieldKnockdownTimeout = cfg.getInt("field.field-knockdown-timeout") * 1000;
         fieldPassiveDrainDelay = cfg.getInt("field.passive-drain-delay");
         fieldDamageArrow = cfg.getDouble("field.arrow-damage");
@@ -385,6 +389,12 @@ public class Settings {
                 log.warning("Configuration (field): Missing/Invalid 'dome-render-distance' entry!");
                 success = false;
             }
+            if (!fieldSection.isDouble("dome-render-distance-horizontal")
+                    && !fieldSection.isInt("dome-render-distance-horizontal")
+                    && !fieldSection.isLong("dome-render-distance-horizontal")) {
+                log.warning("Configuration (field): Missing/Invalid 'dome-render-distance-horizontal' entry!");
+                success = false;
+            }
             if (!fieldSection.isDouble("border-particle-density")
                     && !fieldSection.isInt("border-particle-density")
                     && !fieldSection.isLong("border-particle-density")) {
@@ -395,6 +405,12 @@ public class Settings {
                     && !fieldSection.isInt("border-render-distance")
                     && !fieldSection.isLong("border-render-distance")) {
                 log.warning("Configuration (field): Missing/Invalid 'border-render-distance' entry!");
+                success = false;
+            }
+            if (!fieldSection.isDouble("border-render-distance-horizontal")
+                    && !fieldSection.isInt("border-render-distance-horizontal")
+                    && !fieldSection.isLong("border-render-distance-horizontal")) {
+                log.warning("Configuration (field): Missing/Invalid 'border-render-distance-horizontal' entry!");
                 success = false;
             }
             if (!fieldSection.isInt("field-knockdown-timeout")) {
@@ -442,28 +458,28 @@ public class Settings {
             } else {
                 ConfigurationSection initialCfgSection = fieldSection.getConfigurationSection("initial-configuration");
 
-                if (!initialCfgSection.isDouble("max-energy")
-                        && !initialCfgSection.isInt("max-energy")
-                        && !initialCfgSection.isLong("max-energy")) {
-                    log.warning("Configuration (field.initial-configuration): Missing/Invalid 'max-energy' entry!");
-                    success = false;
-                }
+//                if (!initialCfgSection.isDouble("max-energy")
+//                        && !initialCfgSection.isInt("max-energy")
+//                        && !initialCfgSection.isLong("max-energy")) {
+//                    log.warning("Configuration (field.initial-configuration): Missing/Invalid 'max-energy' entry!");
+//                    success = false;
+//                }
                 if (!initialCfgSection.isDouble("initial-energy")
                         && !initialCfgSection.isInt("initial-energy")
                         && !initialCfgSection.isLong("initial-energy")) {
                     log.warning("Configuration (field.initial-configuration): Missing/Invalid 'initial-energy' entry!");
                     success = false;
                 }
-                if (!initialCfgSection.isInt("radius")) {
-                    log.warning("Configuration (field.initial-configuration): Missing/Invalid 'radius' entry!");
-                    success = false;
-                }
-                if (!initialCfgSection.isDouble("passive-drain-amount")
-                        && !initialCfgSection.isInt("passive-drain-amount")
-                        && !initialCfgSection.isLong("passive-drain-amount")) {
-                    log.warning("Configuration (field.initial-configuration): Missing/Invalid 'passive-drain-amount' entry!");
-                    success = false;
-                }
+//                if (!initialCfgSection.isInt("radius")) {
+//                    log.warning("Configuration (field.initial-configuration): Missing/Invalid 'radius' entry!");
+//                    success = false;
+//                }
+//                if (!initialCfgSection.isDouble("passive-drain-amount")
+//                        && !initialCfgSection.isInt("passive-drain-amount")
+//                        && !initialCfgSection.isLong("passive-drain-amount")) {
+//                    log.warning("Configuration (field.initial-configuration): Missing/Invalid 'passive-drain-amount' entry!");
+//                    success = false;
+//                }
             }
 
 //            if (!fieldSection.isConfigurationSection("energy-upgrades")) {

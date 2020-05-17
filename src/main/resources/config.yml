@@ -11,10 +11,14 @@ field:
   dome-particle-density: 0.5
   #amount of blocks from which the dome is visible
   dome-render-distance: 30
+  #amount of blocks from which the dome is visible (horizontally)
+  dome-render-distance-horizontal: 10
   #density of the wall
   border-particle-density: 1
   #amount of blocks from which the wall is visible
   border-render-distance: 5
+  #amount of blocks from which the wall is visible (horizontally)
+  border-render-distance-horizontal: 5
   #the amount of seconds the players are allowed to mine/interact with foreign region after the field is knocked down
   field-knockdown-timeout: 300
   #how often passive drain should trigger in ticks
@@ -31,7 +35,7 @@ field:
     EMERALD: 200000
   #the energy the field starts with
   initial-configuration:
-    max-energy: 10000000
+    initial-energy: 10000000
 
   # In this section you can specify items which make the field undamageable
   # in this example "test" is the item id
