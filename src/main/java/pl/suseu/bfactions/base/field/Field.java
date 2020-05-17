@@ -90,7 +90,7 @@ public class Field {
         }
 
         for (int y = low; y <= high; y++) {
-            for (Location l : dome.get(y)) {
+            for (Location l : dome.getOrDefault(y, new HashSet<>())) {
                 if (l.distance(location) < range) {
                     toReturn.add(l);
                 }
@@ -114,7 +114,7 @@ public class Field {
         }
 
         for (int y = low; y <= high; y++) {
-            for (Location l : border.get(y)) {
+            for (Location l : border.getOrDefault(y, new HashSet<>())) {
                 if (l.distance(location) < range) {
                     toReturn.add(l);
                 }
