@@ -25,7 +25,7 @@ public class User {
     private long lastRegionChange;
 
     private boolean defaultItems;
-    private boolean potatoMode = true;
+    private boolean potatoMode = false;
 
     public User(UUID uuid) {
         this.uuid = uuid;
