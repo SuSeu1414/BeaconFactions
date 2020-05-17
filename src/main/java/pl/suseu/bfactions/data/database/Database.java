@@ -129,4 +129,8 @@ public class Database {
     public boolean isInitialized() {
         return initialized;
     }
+
+    public HikariDataSource getDataSource() {
+        return dataSource;
+    }
 }
