@@ -4,6 +4,8 @@ import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.user.User;
 import pl.suseu.bfactions.data.database.Database;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
@@ -78,16 +80,26 @@ public class UserDataController {
     }
 
     private boolean saveUser(User user) {
-        String update = getInsert(user);
-        for (String query : update.split(";")) {
-            try {
-                database.executeUpdate(query);
-            } catch (Exception e) {
-                plugin.getLogger().warning("[MySQL] Update: " + query);
-                plugin.getLogger().warning("Could not save user to database");
-                e.printStackTrace();
-                return false;
-            }
+        //noinspection SqlResolve
+        String sql = "insert into `" + database.getUsersTableName() + "` "
+                + "(`uuid`) "
+                + "values (?)"
+                + "on duplicate key update "
+                + "`uuid` = ?";
+
+        try (Connection connection = this.database.getDataSource().getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            int i = 0;
+            statement.setObject(++i, user.getUuid().toString());
+            statement.setObject(++i, user.getUuid().toString());
+
+            statement.executeUpdate();
+        } catch (Exception e) {
+            plugin.getLogger().warning("[MySQL] Update: " + sql);
+            plugin.getLogger().warning("Could not save user to database");
+            e.printStackTrace();
+            return false;
         }
         return true;
     }
@@ -103,18 +115,6 @@ public class UserDataController {
 
         this.plugin.getUserRepository().addUser(user, false);
         return true;
-    }
-
-    private String getInsert(User user) {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("insert into `" + database.getUsersTableName() + "` ");
-        sb.append("(`uuid`) values ( ");
-        sb.append("'" + user.getUuid() + "')");
-        sb.append(" on duplicate key update ");
-        sb.append("`uuid` = '" + user.getUuid() + "';");
-
-        return sb.toString();
     }
 
     public boolean createTable() {
