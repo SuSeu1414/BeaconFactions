@@ -7,6 +7,8 @@ import pl.suseu.bfactions.base.region.Region;
 import pl.suseu.bfactions.base.user.User;
 import pl.suseu.bfactions.data.database.Database;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
@@ -103,31 +105,78 @@ public class GuildDataController {
     }
 
     private boolean saveGuild(Guild guild) {
-        String update = getInsert(guild);
-        for (String query : update.split(";")) {
-            try {
-                database.executeUpdate(query);
-            } catch (Exception e) {
-                plugin.getLogger().warning("[MySQL] Update: " + query);
-                plugin.getLogger().warning("Could not save guild to database");
-                e.printStackTrace();
-                return false;
-            }
+        String uuid = guild.getUuid().toString();
+        String owner = guild.getOwner().getUuid().toString();
+        String name = guild.getName();
+        String members = guild.getMembersSerialized();
+        String permissions = guild.getPermissionsSerialized();
+        String home = guild.getHomeSerialized();
+        String entryMotd = guild.getEntryMOTD();
+        String exitMotd = guild.getExitMOTD();
+        Integer reductionTier = guild.getDiscountTier() == null ? null : guild.getDiscountTier().getTier();
+
+        String sql = "insert into `" + database.getGuildsTableName() + "` "
+                + "(`uuid`, `owner`, `name`, `members`, `permissions`, "
+                + "`home`, `entry-motd`, `exit-motd`, `reduction-tier`) "
+                + "values (?, ?, ?, ?, ?, ?, ?, ?, ?) "
+                + " on duplicate key update "
+                + "`owner` = ?,"
+                + "`name` = ?,"
+                + "`members` = ?,"
+                + "`permissions` = ?,"
+                + "`home` = ?,"
+                + "`entry-motd` = ?,"
+                + "`exit-motd` = ?,"
+                + "`reduction-tier` = ?";
+
+        try (Connection connection = this.database.getDataSource().getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            int i = 0;
+            statement.setObject(++i, uuid);
+            statement.setObject(++i, owner);
+            statement.setObject(++i, name);
+            statement.setObject(++i, members);
+            statement.setObject(++i, permissions);
+            statement.setObject(++i, home);
+            statement.setObject(++i, entryMotd);
+            statement.setObject(++i, exitMotd);
+            statement.setObject(++i, reductionTier);
+
+            statement.setObject(++i, owner);
+            statement.setObject(++i, name);
+            statement.setObject(++i, members);
+            statement.setObject(++i, permissions);
+            statement.setObject(++i, home);
+            statement.setObject(++i, entryMotd);
+            statement.setObject(++i, exitMotd);
+            statement.setObject(++i, reductionTier);
+
+            statement.executeUpdate();
+        } catch (Exception e) {
+            plugin.getLogger().warning("[MySQL] Update: " + sql);
+            plugin.getLogger().warning("Could not save guild to database");
+            e.printStackTrace();
+            return false;
         }
         return true;
     }
 
     public boolean deleteGuild(UUID uuid) {
-        String update = getDeleteQuery(uuid);
-        for (String query : update.split(";")) {
-            try {
-                database.executeUpdate(query);
-            } catch (Exception e) {
-                plugin.getLogger().warning("[MySQL] Update: " + query);
-                plugin.getLogger().warning("Could not remove guild from database");
-                e.printStackTrace();
-                return false;
-            }
+        String sql = "delete from `" + database.getGuildsTableName() + "` "
+                + "where `uuid` = ?";
+
+        try (Connection connection = this.database.getDataSource().getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setObject(1, uuid.toString());
+
+            statement.executeUpdate();
+        } catch (Exception e) {
+            plugin.getLogger().warning("[MySQL] Update: " + sql);
+            plugin.getLogger().warning("Could not remove guild from database");
+            e.printStackTrace();
+            return false;
         }
         return true;
     }
@@ -186,43 +235,6 @@ public class GuildDataController {
         field.recalculate();
 
         return true;
-    }
-
-    private String getInsert(Guild guild) {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("insert into `" + database.getGuildsTableName() + "` ");
-        sb.append("(`uuid`, `owner`, `name`, `members`, `permissions`, `home`, `entry-motd`, `exit-motd`, `reduction-tier`) values ( ");
-        sb.append("'" + guild.getUuid() + "',");
-        sb.append("'" + guild.getOwner().getUuid() + "',");
-        sb.append("'" + guild.getName().replace("'", "''") + "',");
-        sb.append("'" + guild.getMembersSerialized() + "',");
-        sb.append("'" + guild.getPermissionsSerialized() + "',");
-        sb.append("'" + guild.getHomeSerialized() + "',");
-        sb.append("'" + guild.getEntryMOTD() + "',");
-        sb.append("'" + guild.getExitMOTD() + "',");
-        sb.append("'" + (guild.getDiscountTier() == null ? -1 : guild.getDiscountTier().getTier()) + "')");
-        sb.append(" on duplicate key update ");
-        sb.append("`owner` = '" + guild.getOwner().getUuid() + "',");
-        sb.append("`name` = '" + guild.getName().replace("'", "''") + "',");
-        sb.append("`members` = '" + guild.getMembersSerialized() + "',");
-        sb.append("`permissions` = '" + guild.getPermissionsSerialized() + "',");
-        sb.append("`home` = '" + guild.getHomeSerialized() + "',");
-        sb.append("`entry-motd` = '" + guild.getEntryMOTD() + "',");
-        sb.append("`exit-motd` = '" + guild.getExitMOTD() + "',");
-        sb.append("`reduction-tier` = " + (guild.getDiscountTier() == null ? -1 : guild.getDiscountTier().getTier()) + "");
-
-        return sb.toString();
-    }
-
-    private String getDeleteQuery(UUID uuid) {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("delete from `" + database.getGuildsTableName() + "` ");
-        sb.append("where ");
-        sb.append("`uuid` = '" + uuid.toString() + "'");
-
-        return sb.toString();
     }
 
     public boolean createTable() {
