@@ -8,6 +8,8 @@ import pl.suseu.bfactions.base.region.Region;
 import pl.suseu.bfactions.base.tier.RegionTier;
 import pl.suseu.bfactions.data.database.Database;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
@@ -57,32 +59,67 @@ public class RegionDataController {
     }
 
     public boolean saveRegion(Region region) {
-        String update = getInsert(region);
-        for (String query : update.split(";")) {
-            try {
-                database.executeUpdate(query);
-            } catch (Exception e) {
-                plugin.getLogger().warning("[MySQL] Update: " + query);
-                plugin.getLogger().warning("Could not save region to database");
-                e.printStackTrace();
-                return false;
-            }
+        String uuid = region.getUuid().toString();
+        int tier = region.getTier().getTier();
+        String world = region.getCenter().getWorld().getName();
+        int x = region.getCenter().getBlockX();
+        int y = region.getCenter().getBlockY();
+        int z = region.getCenter().getBlockZ();
+
+        //noinspection SqlResolve
+        String sql = "insert into `" + database.getRegionsTableName() + "` "
+                + "(`uuid`, `tier`, `world`, `x`, `y`, `z`) "
+                + "values (?, ?, ?, ?, ?, ?) "
+                + "on duplicate key update "
+                + "`tier` = ?,"
+                + "`world` = ?,"
+                + "`x` = ?,"
+                + "`y` = ?,"
+                + "`z` = ?";
+
+
+        try (Connection connection = this.database.getDataSource().getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            int i = 0;
+            statement.setObject(++i, uuid);
+            statement.setObject(++i, tier);
+            statement.setObject(++i, world);
+            statement.setObject(++i, x);
+            statement.setObject(++i, y);
+            statement.setObject(++i, z);
+
+            statement.setObject(++i, tier);
+            statement.setObject(++i, world);
+            statement.setObject(++i, x);
+            statement.setObject(++i, y);
+            statement.setObject(++i, z);
+        } catch (Exception e) {
+            plugin.getLogger().warning("[MySQL] Update: " + sql);
+            plugin.getLogger().warning("Could not save region to database");
+            e.printStackTrace();
+            return false;
         }
         return true;
     }
 
 
     public boolean deleteRegion(UUID uuid) {
-        String update = getDeleteQuery(uuid);
-        for (String query : update.split(";")) {
-            try {
-                database.executeUpdate(query);
-            } catch (Exception e) {
-                plugin.getLogger().warning("[MySQL] Update: " + query);
-                plugin.getLogger().warning("Could not remove region from database");
-                e.printStackTrace();
-                return false;
-            }
+        //noinspection SqlResolve
+        String sql = "delete from `" + database.getRegionsTableName() + "` "
+                + "where `uuid` = ?";
+
+        try (Connection connection = this.database.getDataSource().getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setObject(1, uuid.toString());
+
+            statement.executeUpdate();
+        } catch (Exception e) {
+            plugin.getLogger().warning("[MySQL] Update: " + sql);
+            plugin.getLogger().warning("Could not remove region from database");
+            e.printStackTrace();
+            return false;
         }
         return true;
     }
@@ -114,39 +151,6 @@ public class RegionDataController {
         plugin.getRegionRepository().addRegion(region);
 
         return true;
-    }
-
-
-    private String getInsert(Region region) {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("insert into `" + database.getRegionsTableName() + "` ");
-        sb.append("(`uuid`, `tier`, `world`, `x`, `y`, `z`) values ( ");
-        sb.append("'" + region.getUuid() + "',");
-        sb.append("'" + region.getTier().getTier() + "',");
-        sb.append("'" + region.getCenter().getWorld().getName() + "',");
-        sb.append("'" + region.getCenter().getBlockX() + "',");
-        sb.append("'" + region.getCenter().getBlockY() + "',");
-        sb.append("'" + region.getCenter().getBlockZ() + "')");
-        sb.append(" on duplicate key update ");
-        sb.append("`tier` = '" + region.getTier().getTier() + "',");
-        sb.append("`world` = '" + region.getCenter().getWorld().getName() + "',");
-        sb.append("`x` = '" + region.getCenter().getBlockX() + "',");
-        sb.append("`y` = '" + region.getCenter().getBlockY() + "',");
-        sb.append("`z` = '" + region.getCenter().getBlockZ() + "'");
-
-        return sb.toString();
-    }
-
-
-    private String getDeleteQuery(UUID uuid) {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("delete from `" + database.getRegionsTableName() + "` ");
-        sb.append("where ");
-        sb.append("`uuid` = '" + uuid.toString() + "'");
-
-        return sb.toString();
     }
 
     public boolean createTable() {
