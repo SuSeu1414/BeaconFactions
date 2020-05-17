@@ -114,7 +114,7 @@ public class FieldDataController {
     }
 
     public boolean deleteField(UUID uuid) {
-        String sql = "delete from `" + database.getGuildsTableName() + "` "
+        String sql = "delete from `" + database.getFieldsTableName() + "` "
                 + "where `uuid` = ?";
 
         try (Connection connection = this.database.getDataSource().getConnection();
