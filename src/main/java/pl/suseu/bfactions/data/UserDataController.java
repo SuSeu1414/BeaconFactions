@@ -82,17 +82,19 @@ public class UserDataController {
     private boolean saveUser(User user) {
         //noinspection SqlResolve
         String sql = "insert into `" + database.getUsersTableName() + "` "
-                + "(`uuid`) "
-                + "values (?)"
+                + "(`uuid`, `potato`) "
+                + "values (?, ?)"
                 + "on duplicate key update "
-                + "`uuid` = ?";
+                + "`potato` = ?";
 
         try (Connection connection = this.database.getDataSource().getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
             int i = 0;
             statement.setObject(++i, user.getUuid().toString());
-            statement.setObject(++i, user.getUuid().toString());
+            statement.setObject(++i, user.usesPotatoMode());
+
+            statement.setObject(++i, user.usesPotatoMode());
 
             statement.executeUpdate();
         } catch (Exception e) {
@@ -123,6 +125,7 @@ public class UserDataController {
         sb.append("create table if not exists ");
         sb.append("`").append(database.getUsersTableName()).append("`");
         sb.append("(`uuid` varchar(36) not null,");
+        sb.append("`potato` boolean,");
         sb.append("primary key (`uuid`));");
 
         return database.executeUpdate(sb.toString());
