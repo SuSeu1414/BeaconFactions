@@ -29,7 +29,10 @@ public class TierMoneyCost extends TierCost {
         if (plugin == null) {
             return;
         }
-        this.plugin.getEconomy().withdrawPlayer(player, this.amount);
+        double discount = guild.getDiscountTier() != null ? guild.getDiscountTier().getPriceDiscount() : 0;
+        discount /= 100.0;
+        discount = 1.0 - discount;
+        this.plugin.getEconomy().withdrawPlayer(player, this.amount * discount);
     }
 
     public double getAmount() {

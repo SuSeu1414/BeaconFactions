@@ -33,9 +33,13 @@ public class TierItemCost extends TierCost {
         if (plugin == null) {
             return;
         }
+        double discount = guild.getDiscountTier() != null ? guild.getDiscountTier().getPriceDiscount() : 0;
+        discount /= 100.0;
+        discount = 1.0 - discount;
+
         ItemStack itemStack = plugin.getItemRepository().getItem(item, false);
-        itemStack.setAmount(this.amount);
-        player.getInventory().remove(itemStack);
+        itemStack.setAmount((int) Math.ceil(this.amount * discount));
+        player.getInventory().removeItem(itemStack);
     }
 
     public int getAmount() {
