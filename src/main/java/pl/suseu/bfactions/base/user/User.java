@@ -25,6 +25,7 @@ public class User {
     private long lastRegionChange;
 
     private boolean defaultItems;
+    private boolean potatoMode = true;
 
     public User(UUID uuid) {
         this.uuid = uuid;
@@ -106,6 +107,15 @@ public class User {
 
     public void setDefaultItems(boolean defaultItems) {
         this.defaultItems = defaultItems;
+    }
+
+    public boolean usesPotatoMode() {
+        return potatoMode;
+    }
+
+    public void setPotatoMode(boolean potatoMode) {
+        this.potatoMode = potatoMode;
+        plugin.getUserRepository().addModifiedUser(this);
     }
 
     @Override
