@@ -21,8 +21,9 @@ import pl.suseu.bfactions.util.ItemUtil;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ManageGuildPermissionsGuiFactory {
 
@@ -40,8 +41,14 @@ public class ManageGuildPermissionsGuiFactory {
         this.mainGuiFactory = new MainGuiFactory(plugin);
     }
 
-    public Inventory createGui(Player player, Guild guild) {
-        Set<User> members = guild.getMembers();
+    public Inventory createGui(Player player, Guild guild, List<User> members) {
+        if (members == null) {
+            members = new ArrayList<>(guild.getMembers());
+        }
+        members = members.stream()
+                .sorted(Comparator.comparing(User::getName))
+                .collect(Collectors.toList());
+
         List<AbstractMap.SimpleEntry<ItemStack, ClickAction>> items = new ArrayList<>();
 
         User opener = this.userRepository.getUser(player.getUniqueId());
@@ -78,8 +85,12 @@ public class ManageGuildPermissionsGuiFactory {
 
         paginator.set(53, backToMainItem, backToMainAction);
 
+        ItemStack searchItem = this.itemRepository.getItem("search-members", opener.isDefaultItems());
+        ClickAction searchAction = new SearchMembersAction(this.plugin, player, guild);
+        paginator.set(4, searchItem, searchAction);
+
         ItemStack filler = this.itemRepository.getItem("permissions-filler", opener.isDefaultItems());
-        for (int i : new int[]{0, 1, 2, 3, 4, 5, 6, 7, 8, 45, 46, 48, 50, 52}) {
+        for (int i : new int[]{0, 1, 2, 3, 5, 6, 7, 8, 45, 46, 48, 50, 52}) {
             paginator.setItem(i, filler);
         }
 
