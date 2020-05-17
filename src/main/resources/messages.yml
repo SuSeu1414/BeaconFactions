@@ -268,21 +268,17 @@ messages:
       content:
         - "&l&9[&bBFactions&9] &o&fHelp, page %requestedPage%/%maxPage%"
   guild-motd-entry:
-    title-enabled: true
-    title:
-      content: "%motd%"
-      sub-content: "&fWelcome to &6&l%guild%"
-      fade-in: 20
-      stay: 50
-      fade-out: 20
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &fWelcome to &6&l%guild%"
+        - "&l&9[&bBFactions&9] &f%motd%"
   guild-motd-exit:
-    title-enabled: true
-    title:
-      content: "%motd%"
-      sub-content: "&6&l%guild% &r&fsays goodbye"
-      fade-in: 20
-      stay: 50
-      fade-out: 20
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &6&l%guild% &r&fsays goodbye"
+        - "&l&9[&bBFactions&9] &f%motd%"
   guild-motd-set:
     chat-enabled: true
     chat:

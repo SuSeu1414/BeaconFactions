@@ -1,5 +1,6 @@
 package pl.suseu.bfactions.command.cmds;
 
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventPriority;
@@ -67,9 +68,9 @@ public class SetMotdCommandExecutor implements BCommandExecutor {
                 event -> event.getPlayer().equals(player),
                 event -> {
                     if (arg.equalsIgnoreCase("entry")) {
-                        guild.setEntryMOTD(event.getMessage());
+                        guild.setEntryMOTD(ChatColor.translateAlternateColorCodes('&', event.getMessage()));
                     } else if (arg.equalsIgnoreCase("exit")) {
-                        guild.setExitMOTD(event.getMessage());
+                        guild.setExitMOTD(ChatColor.translateAlternateColorCodes('&', event.getMessage()));
                     }
                     this.lang.sendMessage("guild-motd-set", player);
                     event.setCancelled(true);
