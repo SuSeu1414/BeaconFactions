@@ -11,6 +11,8 @@ import pl.suseu.bfactions.data.database.Database;
 import pl.suseu.bfactions.settings.Settings;
 import pl.suseu.bfactions.util.ItemUtil;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
@@ -62,31 +64,70 @@ public class FieldDataController {
     }
 
     public boolean saveField(Field field) {
-        String update = getInsert(field);
-        for (String query : update.split(";")) {
-            try {
-                database.executeUpdate(query);
-            } catch (Exception e) {
-                plugin.getLogger().warning("[MySQL] Update: " + query);
-                plugin.getLogger().warning("Could not save field to database");
-                e.printStackTrace();
-                return false;
+        String uuid = field.getUuid().toString();
+        int tier = field.getTier().getTier();
+        double currentEnergy = field.getCurrentEnergy();
+        String boostUndamageableItem = null;
+        long boostUndamageableTime = 0;
+
+        Inventory inv = field.getUndamageableItemInventory();
+        if (inv != null) {
+            ItemStack itemStack = inv.getItem(13);
+            if (itemStack != null && itemStack.hasItemMeta()) {
+                boostUndamageableItem = ItemUtil.getBoostItemId(itemStack.getItemMeta(), "undamageable");
+                boostUndamageableTime = ItemUtil.getBoostUndamageableRemainingTime(itemStack.getItemMeta());
             }
+        }
+
+
+        String sql = "insert into `" + database.getFieldsTableName() + "` "
+                + "(`uuid`, `tier`, `currentEnergy`, `boost-undamageable-item`, `boost-undamageable-time`) "
+                + "values (?, ?, ?, ?, ?) "
+                + "on duplicate key update "
+                + "`tier` = ?,"
+                + "`currentEnergy` = ?,"
+                + "`boost-undamageable-item` = ?,"
+                + "`boost-undamageable-time` = ?";
+
+        try (Connection connection = this.database.getDataSource().getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            int i = 0;
+            statement.setObject(++i, uuid);
+            statement.setObject(++i, tier);
+            statement.setObject(++i, currentEnergy);
+            statement.setObject(++i, boostUndamageableItem);
+            statement.setObject(++i, boostUndamageableTime);
+
+            statement.setObject(++i, tier);
+            statement.setObject(++i, currentEnergy);
+            statement.setObject(++i, boostUndamageableItem);
+            statement.setObject(++i, boostUndamageableTime);
+
+        } catch (Exception e) {
+            plugin.getLogger().warning("[MySQL] Update: " + sql);
+            plugin.getLogger().warning("Could not save field to database");
+            e.printStackTrace();
+            return false;
         }
         return true;
     }
 
     public boolean deleteField(UUID uuid) {
-        String update = getDeleteQuery(uuid);
-        for (String query : update.split(";")) {
-            try {
-                database.executeUpdate(query);
-            } catch (Exception e) {
-                plugin.getLogger().warning("[MySQL] Update: " + query);
-                plugin.getLogger().warning("Could not remove field from database");
-                e.printStackTrace();
-                return false;
-            }
+        String sql = "delete from `" + database.getGuildsTableName() + "` "
+                + "where `uuid` = ?";
+
+        try (Connection connection = this.database.getDataSource().getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setObject(1, uuid.toString());
+
+            statement.executeUpdate();
+        } catch (Exception e) {
+            plugin.getLogger().warning("[MySQL] Update: " + sql);
+            plugin.getLogger().warning("Could not remove field from database");
+            e.printStackTrace();
+            return false;
         }
         return true;
     }
@@ -108,7 +149,6 @@ public class FieldDataController {
         FieldTier tier = this.settings.tierRepository.getFieldTiers().get(tierIndex);
         Field field = new Field(uuid, tier);
         field.setCurrentEnergy(currentEnergy);
-        //TODO STATE LOADING
         if (currentEnergy != 0) {
             field.setState(FieldState.ENABLED);
         } else {
@@ -132,48 +172,6 @@ public class FieldDataController {
         }
 
         return true;
-    }
-
-    private String getInsert(Field field) {
-        StringBuilder sb = new StringBuilder();
-
-        String boostUndamageableItem = "null";
-        long boostUndamageableTime = 0;
-
-        Inventory inv = field.getUndamageableItemInventory();
-        if (inv != null) {
-            ItemStack itemStack = inv.getItem(13);
-            if (itemStack != null && itemStack.hasItemMeta()) {
-                boostUndamageableItem = ItemUtil.getBoostItemId(itemStack.getItemMeta(), "undamageable");
-                boostUndamageableTime = ItemUtil.getBoostUndamageableRemainingTime(itemStack.getItemMeta());
-            }
-        }
-
-        sb.append("insert into `" + database.getFieldsTableName() + "` ");
-        sb.append("(`uuid`, `tier`, `currentEnergy`, `boost-undamageable-item`, `boost-undamageable-time`) values ( ");
-        sb.append("'" + field.getUuid() + "',");
-        sb.append("'" + field.getTier().getTier() + "',");
-        sb.append("'" + field.getCurrentEnergy() + "',");
-        sb.append("'" + boostUndamageableItem + "',");
-        sb.append("'" + boostUndamageableTime + "')");
-        sb.append(" on duplicate key update ");
-        sb.append("`tier` = '" + field.getTier().getTier() + "',");
-        sb.append("`currentEnergy` = '" + field.getCurrentEnergy() + "',");
-        sb.append("`boost-undamageable-item` = '" + boostUndamageableItem + "',");
-        sb.append("`boost-undamageable-time` = '" + boostUndamageableTime + "'");
-
-        return sb.toString();
-    }
-
-
-    private String getDeleteQuery(UUID uuid) {
-        StringBuilder sb = new StringBuilder();
-
-        sb.append("delete from `" + database.getFieldsTableName() + "` ");
-        sb.append("where ");
-        sb.append("`uuid` = '" + uuid.toString() + "'");
-
-        return sb.toString();
     }
 
     public boolean createTable() {
