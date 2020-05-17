@@ -94,6 +94,8 @@ public class RegionDataController {
             statement.setObject(++i, x);
             statement.setObject(++i, y);
             statement.setObject(++i, z);
+
+            statement.executeUpdate();
         } catch (Exception e) {
             plugin.getLogger().warning("[MySQL] Update: " + sql);
             plugin.getLogger().warning("Could not save region to database");

@@ -104,6 +104,7 @@ public class FieldDataController {
             statement.setObject(++i, boostUndamageableItem);
             statement.setObject(++i, boostUndamageableTime);
 
+            statement.executeUpdate();
         } catch (Exception e) {
             plugin.getLogger().warning("[MySQL] Update: " + sql);
             plugin.getLogger().warning("Could not save field to database");
