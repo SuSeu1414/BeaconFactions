@@ -30,7 +30,6 @@ import pl.suseu.bfactions.base.user.listener.PlayerJoinListener;
 import pl.suseu.bfactions.command.BCommandMap;
 import pl.suseu.bfactions.command.MainCommandExecutor;
 import pl.suseu.bfactions.command.MainCommandTabCompleter;
-import pl.suseu.bfactions.crafting.RecipeRepository;
 import pl.suseu.bfactions.data.DataIntegrator;
 import pl.suseu.bfactions.data.GuildDataController;
 import pl.suseu.bfactions.data.UserDataController;
@@ -62,7 +61,6 @@ public class BFactions extends JavaPlugin {
     private FieldRepository fieldRepository;
     private DataIntegrator dataIntegrator;
     private DataSerializer dataSerializer;
-    private RecipeRepository recipeRepository;
 
     @Override
     public void onEnable() {
