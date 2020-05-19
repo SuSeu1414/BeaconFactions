@@ -149,7 +149,7 @@ public class RegionDataController {
         }
 
         RegionTier tier = this.plugin.getSettings().tierRepository.getRegionTiers().get(tierIndex);
-        Region region = new Region(uuid, new Location(world, x + .5, y, z + .5), tier);
+        Region region = new Region(uuid, new Location(world, x, y, z), tier);
         plugin.getRegionRepository().addRegion(region);
 
         return true;
