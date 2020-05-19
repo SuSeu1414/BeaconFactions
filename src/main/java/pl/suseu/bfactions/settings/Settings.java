@@ -68,6 +68,7 @@ public class Settings {
     public String timeMinutes;
     public String timeSeconds;
     public String timeMilliseconds;
+    public List<String> hologramBeacon;
 
     public Settings(BFactions plugin) {
         this.plugin = plugin;
@@ -164,6 +165,9 @@ public class Settings {
         timeMinutes = cfg.getString("time-format.minutes");
         timeSeconds = cfg.getString("time-format.seconds");
         timeMilliseconds = cfg.getString("time-format.milliseconds");
+
+        hologramBeacon = cfg.getStringList("hologram.beacon").stream()
+                .map(s -> ChatColor.translateAlternateColorCodes('&', s)).collect(Collectors.toList());
 
         // load tiers
         int i = 0;
@@ -604,6 +608,17 @@ public class Settings {
         for (String t : new String[]{"days", "minutes", "hours", "seconds", "milliseconds"}) {
             if (!cfg.isString("time-format." + t)) {
                 log.warning("Configuration (time-format): Missing/Invalid '" + t + "' entry!");
+                success = false;
+            }
+        }
+
+        if (!cfg.isConfigurationSection("hologram")) {
+            log.warning("Configuration: Missing 'hologram' section!");
+            success = false;
+        } else {
+            ConfigurationSection hologramSection = cfg.getConfigurationSection("hologram");
+            if (!hologramSection.isList("beacon")) {
+                log.warning("Configuration (hologram): Missing/Invalid 'beacon' entry!");
                 success = false;
             }
         }

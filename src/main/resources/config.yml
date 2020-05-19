@@ -55,6 +55,10 @@ time-format:
   seconds: 's'
   milliseconds: 'ms'
 
+hologram:
+  beacon:
+    - 'test'
+
 gui:
   main-gui-title: '&a%guild%'
   invites-gui-title: 'Invites %page%/%pages%'
