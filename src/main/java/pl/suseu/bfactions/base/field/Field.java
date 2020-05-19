@@ -26,6 +26,7 @@ public class Field {
     private final Map<Integer, Set<Location>> dome = new HashMap<>();
     private final Map<Integer, Set<Location>> borderPotato = new HashMap<>();
     private final Map<Integer, Set<Location>> domePotato = new HashMap<>();
+    private final Set<Location> outline = new HashSet<>();
     private Guild guild;
     private FieldTier tier;
     private double currentEnergy;
@@ -55,13 +56,14 @@ public class Field {
     @SuppressWarnings("ConstantConditions")
     public void recalculate() {
         Settings settings = plugin.getSettings();
-        Location center = this.guild.getRegion().getCenter();
+        Location center = this.guild.getRegion().getCenter().toCenterLocation();
         double radius = this.guild.getRegion().getSize();
 
         this.dome.clear();
         this.border.clear();
         this.domePotato.clear();
         this.borderPotato.clear();
+        this.outline.clear();
 
         for (int i = 0; i < 256; i++) {
             border.put(i, new HashSet<>());
@@ -85,6 +87,8 @@ public class Field {
             GeometryUtil.roller(center, radius, 0, 255, settings.fieldDomeDensity / 2)
                     .forEach(p -> addParticle(this.borderPotato, p));
         }
+
+        outline.addAll(getGuild().getRegion().getOutline());
 
     }
 
@@ -211,6 +215,10 @@ public class Field {
     public void setState(FieldState state) {
         this.state = state;
         this.stateChangeTime = System.currentTimeMillis();
+    }
+
+    public Set<Location> getOutline() {
+        return outline;
     }
 
     public long getStateChangeTime() {

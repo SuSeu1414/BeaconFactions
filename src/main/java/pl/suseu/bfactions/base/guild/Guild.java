@@ -38,6 +38,7 @@ public class Guild implements Comparable<Guild> {
     private User owner;
     private String entryMOTD = null;
     private String exitMOTD = null;
+    private boolean outline = false;
 
     private Inventory fuelInventory;
     private int deleteCode = -1;
@@ -334,6 +335,14 @@ public class Guild implements Comparable<Guild> {
 
     public void setExitMOTD(String exitMOTD) {
         this.exitMOTD = exitMOTD;
+    }
+
+    public boolean isOutline() {
+        return outline;
+    }
+
+    public void setOutline(boolean outline) {
+        this.outline = outline;
     }
 
     public void delete() {
