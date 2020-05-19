@@ -17,7 +17,7 @@ public class GeometryUtil {
         double dZ = (to.getZ() - z) / n;
 
         line.add(from);
-        for (int i = 1; i < n; i++) {
+        for (int i = 1; i <= n; i++) {
             line.add(new Location(from.getWorld(), x + i * dX, y + i * dY, z + i * dZ));
         }
 
@@ -85,6 +85,20 @@ public class GeometryUtil {
         }
 
         return roller;
+    }
+
+    public static Set<Location> corners(Location block) {
+        block = block.toCenterLocation();
+        Set<Location> corners = new HashSet<>();
+        for (double x = -0.49; x <= 0.49; x += 0.98) {
+            for (double y = -0.49; y <= 0.49; y += 0.98) {
+                for (double z = -0.49; z <= 0.49; z += 0.98) {
+                    corners.add(block.clone().add(x, y, z));
+                }
+            }
+        }
+
+        return corners;
     }
 
     public enum Plane {
