@@ -46,7 +46,7 @@ public class MotdListener implements Listener {
 
         String motd = event.getRegion() != null ? guild.getEntryMOTD() : guild.getExitMOTD();
 
-        if (motd != null && !motd.equals("null")) {
+        if (motd != null) {
             if (event.getRegion() != null) {
                 langAPI.sendMessage("guild-motd-entry", player, "%motd%", motd, "%guild%", guild.getName());
             } else {
@@ -71,10 +71,12 @@ public class MotdListener implements Listener {
             return;
         }
 
-        this.plugin.getServer().getScheduler().runTaskLater(this.plugin, () -> {
-            langAPI.sendMessage("guild-motd-entry", player,
-                    "%motd%", guild.getEntryMOTD(),
-                    "%guild%", guild.getName());
-        }, 1);
+        String motd = guild.getEntryMOTD();
+
+        if (motd != null) {
+            this.plugin.getServer().getScheduler().runTaskLater(this.plugin, () -> {
+                langAPI.sendMessage("guild-motd-entry", player, "%motd%", motd, "%guild%", guild.getName());
+            }, 1);
+        }
     }
 }
