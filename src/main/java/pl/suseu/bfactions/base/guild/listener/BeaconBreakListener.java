@@ -66,7 +66,9 @@ public class BeaconBreakListener implements Listener {
                 ev -> {
                     ev.setCancelled(true);
                     this.plugin.getServer().getScheduler().runTask(this.plugin, () -> {
-                        ev.getPlayer().getInventory().addItem(this.plugin.getItemRepository().getItem("beacon", false));
+                        guild.getRegion().getCenter().getWorld().dropItemNaturally(guild.getRegion().getCenter(),
+                                this.plugin.getItemRepository().getItem("beacon", false));
+                        //ev.getPlayer().getInventory().addItem(this.plugin.getItemRepository().getItem("beacon", false));
                         guild.delete();
                     });
                     this.lang.sendMessage("guild-deleted", event.getPlayer());
