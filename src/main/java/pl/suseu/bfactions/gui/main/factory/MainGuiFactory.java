@@ -2,6 +2,7 @@ package pl.suseu.bfactions.gui.main.factory;
 
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -90,6 +91,19 @@ public class MainGuiFactory {
         ItemStack openUndamageableItem = this.itemRepository.getItem("field-undamageable-inventory", user.isDefaultItems());
         ClickAction openUndamageableAction = whoClicked -> whoClicked.openInventory(guild.getField().getUndamageableItemInventory());
         holder.set(23, openUndamageableItem, openUndamageableAction);
+
+        ItemStack highlightProtectedBlocksItem = this.itemRepository.getItem("highlight-protected-blocks", user.isDefaultItems());
+        ClickAction highlightProtectedBlocksAction = whoClicked -> {
+            if (guild.isOutline()) {
+                return;
+            }
+            whoClicked.playSound(whoClicked.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1f, 1f);
+            guild.setOutline(true);
+            this.plugin.getServer().getScheduler().runTaskLater(this.plugin, () -> {
+                guild.setOutline(false);
+            }, 15 * 20);
+        };
+        holder.set(24, highlightProtectedBlocksItem, highlightProtectedBlocksAction);
 
         if (guild.isMember(user) && !guild.isOwner(user)) {
             ItemStack leaveItem = this.itemRepository.getItem("quit-guild", user.isDefaultItems());
