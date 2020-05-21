@@ -1,5 +1,6 @@
 package pl.suseu.bfactions.base.field.task;
 
+import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import pl.suseu.bfactions.BFactions;
@@ -84,6 +85,15 @@ public class FieldBarTask implements Runnable {
             alliedBar.setProgress(progress);
             enemyBar.setTitle(title);
             enemyBar.setProgress(progress);
+            if (progress < 0.33) {
+                enemyBar.setColor(BarColor.WHITE);
+            }
+            if (progress >= 0.33) {
+                enemyBar.setColor(BarColor.YELLOW);
+            }
+            if (progress > 0.66) {
+                enemyBar.setColor(BarColor.RED);
+            }
 
             Set<Player> inRange = plugin.getServer().getOnlinePlayers().stream()
                     .filter(player -> region.flatDistance(player.getLocation()) < range)
