@@ -37,6 +37,7 @@ import pl.suseu.bfactions.data.database.Database;
 import pl.suseu.bfactions.data.serializer.DataSerializer;
 import pl.suseu.bfactions.gui.base.InventoryClickListener;
 import pl.suseu.bfactions.item.ItemRepository;
+import pl.suseu.bfactions.placeholder.PlaceholderService;
 import pl.suseu.bfactions.settings.Settings;
 import pl.suseu.eventwaiter.EventWaiter;
 
@@ -61,6 +62,7 @@ public class BFactions extends JavaPlugin {
     private FieldRepository fieldRepository;
     private DataIntegrator dataIntegrator;
     private DataSerializer dataSerializer;
+    private PlaceholderService placeholderService;
 
     @Override
     public void onEnable() {
@@ -105,6 +107,8 @@ public class BFactions extends JavaPlugin {
 
         this.dataIntegrator = new DataIntegrator(this);
         this.dataIntegrator.checkIntegrity();
+
+        this.placeholderService = new PlaceholderService(this);
 
         if (!setupEconomy()) {
             log.severe("Disabled due to no Vault dependency found!");
@@ -164,6 +168,8 @@ public class BFactions extends JavaPlugin {
                 new FieldPassiveDrainTask(this), 1, 1);
         getServer().getScheduler().runTaskTimerAsynchronously(this,
                 new GuildInventoriesTask(this), 1, 1);
+        getServer().getScheduler().runTaskTimerAsynchronously(this,
+                this.placeholderService, 1, 1);
     }
 
     private boolean setupEconomy() {
@@ -242,6 +248,10 @@ public class BFactions extends JavaPlugin {
 
     public DataSerializer getDataSerializer() {
         return dataSerializer;
+    }
+
+    public PlaceholderService getPlaceholderService() {
+        return placeholderService;
     }
 
     public Economy getEconomy() {
