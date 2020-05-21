@@ -57,8 +57,7 @@ time-format:
 
 hologram:
   beacon:
-    - '&a&l%guild%'
-    - '&7&lMembers: &f&l%member-count%% &7&l(&a&l%online% Online&7&l)'
+    - 'test'
 
 gui:
   main-gui-title: '&a%guild%'

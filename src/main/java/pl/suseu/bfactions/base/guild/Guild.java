@@ -1,7 +1,5 @@
 package pl.suseu.bfactions.base.guild;
 
-import com.gmail.filoghost.holographicdisplays.api.Hologram;
-import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -47,7 +45,6 @@ public class Guild implements Comparable<Guild> {
     private int transferCode = -1;
     private boolean pvpEnabled;
     private DiscountTier discountTier;
-    private Hologram hologram;
 
     public Guild(UUID uuid, String name, User owner, Region region, Field field) {
         this.uuid = uuid;
@@ -71,8 +68,6 @@ public class Guild implements Comparable<Guild> {
 
         this.fuelInventory = new FuelInventoryHolder(this).getInventory();
         this.discountTier = null;
-
-        createHologram();
     }
 
     public UUID getUuid() {
@@ -368,9 +363,6 @@ public class Guild implements Comparable<Guild> {
         this.plugin.getFieldRepository().removeField(this.getField());
         this.plugin.getGuildRepository().removeGuild(this.getUuid());
         this.plugin.getGuildRepository().addDeletedGuild(this.getUuid());
-        if (this.hologram != null) {
-            this.hologram.delete();
-        }
     }
 
     public int getTransferCode() {
@@ -379,15 +371,6 @@ public class Guild implements Comparable<Guild> {
 
     public void setTransferCode(int transferCode) {
         this.transferCode = transferCode;
-    }
-
-    private void createHologram() {
-        hologram = HologramsAPI.createHologram(this.plugin, this.region.getCenter());
-        this.plugin.getSettings().hologramBeacon.forEach(hologram::appendTextLine);
-        double h = hologram.getHeight();
-        hologram.delete();
-        hologram = HologramsAPI.createHologram(this.plugin, this.region.getCenter().toCenterLocation().add(0, 0.75 + h, 0));
-        this.plugin.getSettings().hologramBeacon.forEach(hologram::appendTextLine);
     }
 
     @Override
