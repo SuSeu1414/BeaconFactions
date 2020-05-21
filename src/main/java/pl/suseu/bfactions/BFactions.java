@@ -100,6 +100,8 @@ public class BFactions extends JavaPlugin {
         this.regionRepository = new RegionRepository(this);
         this.fieldRepository = new FieldRepository(this);
 
+        this.placeholderService = new PlaceholderService(this);
+
         this.guildDataController = new GuildDataController(this);
         this.userDataController = new UserDataController(this);
         this.userDataController.loadUsers();
@@ -108,7 +110,7 @@ public class BFactions extends JavaPlugin {
         this.dataIntegrator = new DataIntegrator(this);
         this.dataIntegrator.checkIntegrity();
 
-        this.placeholderService = new PlaceholderService(this);
+
 
         if (!setupEconomy()) {
             log.severe("Disabled due to no Vault dependency found!");

@@ -5,17 +5,12 @@ import pl.suseu.bfactions.base.guild.Guild;
 import pl.suseu.bfactions.base.guild.GuildRepository;
 import pl.suseu.bfactions.base.user.UserRepository;
 
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-
 public class PlaceholderService implements Runnable {
 
 
     private final BFactions plugin;
     private final UserRepository userRepository;
     private final GuildRepository guildRepository;
-    private final Map<UUID, String> guildNamePlaceholder = new ConcurrentHashMap<>();
     private long counter = 0;
 
     public PlaceholderService(BFactions plugin) {
@@ -26,19 +21,16 @@ public class PlaceholderService implements Runnable {
 
     @Override
     public void run() {
-        updateGuildNames();
+        updateGuilds();
         counter++;
     }
 
-    private void updateGuildNames() {
+    private void updateGuilds() {
         if (counter % (20 * 5) == 0) { // every 5 seconds
             for (Guild guild : guildRepository.getGuilds()) {
-                this.guildNamePlaceholder.put(guild.getUuid(), guild.getName());
+                guild.updatePlaceholders();
+                guild.updateHologram();
             }
         }
-    }
-
-    public String getGuildName(UUID uuid) {
-        return this.guildNamePlaceholder.get(uuid);
     }
 }

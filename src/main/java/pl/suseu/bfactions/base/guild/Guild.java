@@ -18,7 +18,7 @@ import pl.suseu.bfactions.base.tier.RegionTier;
 import pl.suseu.bfactions.base.tier.Tier;
 import pl.suseu.bfactions.base.user.User;
 import pl.suseu.bfactions.gui.base.FuelInventoryHolder;
-import pl.suseu.bfactions.placeholder.hologram.GuildNameHologramPlaceholder;
+import pl.suseu.bfactions.placeholder.Placeholders;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -49,6 +49,7 @@ public class Guild implements Comparable<Guild> {
     private boolean pvpEnabled;
     private DiscountTier discountTier;
     private Hologram hologram;
+    private final Placeholders placeholders = new Placeholders();
 
     public Guild(UUID uuid, String name, User owner, Region region, Field field) {
         this.uuid = uuid;
@@ -383,16 +384,39 @@ public class Guild implements Comparable<Guild> {
         this.transferCode = transferCode;
     }
 
-    private void createHologram() {
-        hologram = HologramsAPI.createHologram(this.plugin, this.region.getCenter());
-        hologram = HologramsAPI.createHologram(this.plugin, this.region.getCenter().toCenterLocation().add(0, 0.75, 0));
-        hologram.teleport(hologram.getLocation().clone().add(0, hologram.getY() + hologram.getHeight(), 0));
-        this.plugin.getSettings().hologramBeacon.stream()
-                .map(s -> s.replace("%name%", "%name-" + this.uuid.toString().toLowerCase() + "%"))
-                .forEach(hologram::appendTextLine);
+    public void updatePlaceholders() {
+        placeholders.setPlaceholder("%guild%", this.getName());
+        placeholders.setPlaceholder("%member-count%", "" + this.getMembersAndOwner().size());
+        placeholders.setPlaceholder("%online%", "" + this.getMembersAndOwner().stream()
+                .filter(user -> Bukkit.getOfflinePlayer(user.getUuid()).isOnline())
+                .count());
+    }
 
-        HologramsAPI.registerPlaceholder(this.plugin, "%name-" + this.uuid.toString().toLowerCase() + "%", 1.0,
-                new GuildNameHologramPlaceholder(this.uuid, this.plugin));
+    private void createHologram() {
+        this.hologram = HologramsAPI.createHologram(this.plugin, this.region.getCenter().toCenterLocation().add(0, 0.75, 0));
+        this.updatePlaceholders();
+        this.updateHologram(false);
+        this.hologram.teleport(hologram.getLocation().clone().add(0, hologram.getHeight(), 0));
+    }
+
+    public void updateHologram() {
+        if (hologram == null || plugin == null) {
+            return;
+        }
+        this.plugin.getServer().getScheduler().runTask(this.plugin, () -> this.updateHologram(false));
+    }
+
+    private void updateHologram(boolean calledAsync) {
+        if (calledAsync) {
+            this.updateHologram();
+        } else {
+            this.hologram.clearLines();
+            this.plugin.getSettings().hologramBeacon.stream()
+                    .map(s -> s.replace("%guild%", this.placeholders.getPlaceholder("%guild%")))
+                    .map(s -> s.replace("%member-count%", this.placeholders.getPlaceholder("%member-count%")))
+                    .map(s -> s.replace("%online%", this.placeholders.getPlaceholder("%online%")))
+                    .forEach(hologram::appendTextLine);
+        }
     }
 
     @Override
