@@ -18,6 +18,7 @@ import pl.suseu.bfactions.base.tier.RegionTier;
 import pl.suseu.bfactions.base.tier.Tier;
 import pl.suseu.bfactions.base.user.User;
 import pl.suseu.bfactions.gui.base.FuelInventoryHolder;
+import pl.suseu.bfactions.placeholder.hologram.GuildNameHologramPlaceholder;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -370,6 +371,7 @@ public class Guild implements Comparable<Guild> {
         this.plugin.getGuildRepository().addDeletedGuild(this.getUuid());
         if (this.hologram != null) {
             this.hologram.delete();
+            //todo delete palceholder
         }
     }
 
@@ -387,7 +389,12 @@ public class Guild implements Comparable<Guild> {
         double h = hologram.getHeight();
         hologram.delete();
         hologram = HologramsAPI.createHologram(this.plugin, this.region.getCenter().toCenterLocation().add(0, 0.75 + h, 0));
-        this.plugin.getSettings().hologramBeacon.forEach(hologram::appendTextLine);
+        this.plugin.getSettings().hologramBeacon.stream()
+                .map(s -> s.replace("%name%", "%name-" + this.uuid.toString().toLowerCase() + "%"))
+                .forEach(hologram::appendTextLine);
+
+        HologramsAPI.registerPlaceholder(this.plugin, "%name-" + this.uuid.toString().toLowerCase() + "%", 1.0,
+                new GuildNameHologramPlaceholder(this.uuid, this.plugin));
     }
 
     @Override
