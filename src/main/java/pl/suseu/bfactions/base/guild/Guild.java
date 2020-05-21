@@ -385,10 +385,8 @@ public class Guild implements Comparable<Guild> {
 
     private void createHologram() {
         hologram = HologramsAPI.createHologram(this.plugin, this.region.getCenter());
-        this.plugin.getSettings().hologramBeacon.forEach(hologram::appendTextLine);
-        double h = hologram.getHeight();
-        hologram.delete();
-        hologram = HologramsAPI.createHologram(this.plugin, this.region.getCenter().toCenterLocation().add(0, 0.75 + h, 0));
+        hologram = HologramsAPI.createHologram(this.plugin, this.region.getCenter().toCenterLocation().add(0, 0.75, 0));
+        hologram.teleport(hologram.getLocation().clone().add(0, hologram.getY() + hologram.getHeight(), 0));
         this.plugin.getSettings().hologramBeacon.stream()
                 .map(s -> s.replace("%name%", "%name-" + this.uuid.toString().toLowerCase() + "%"))
                 .forEach(hologram::appendTextLine);
