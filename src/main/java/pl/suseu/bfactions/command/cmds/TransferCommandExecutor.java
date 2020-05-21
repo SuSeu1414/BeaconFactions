@@ -82,7 +82,7 @@ public class TransferCommandExecutor implements BCommandExecutor {
                 ev -> {
                     ev.setCancelled(true);
                     guild.setOwner(newOwner);
-                    guild.removeMember(newOwner);
+                    guild.removeMember(newOwner, true);
                     guild.addMember(oldOwner);
                     this.lang.sendMessage("guild-transferred", player);
                 }, 20 * 15, () -> {

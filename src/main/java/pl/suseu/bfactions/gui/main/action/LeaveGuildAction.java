@@ -24,7 +24,7 @@ public class LeaveGuildAction implements ClickAction {
     @Override
     public void execute(Player whoClicked) {
         whoClicked.closeInventory();
-        this.guild.removeMember(user);
+        this.guild.removeMember(user, false);
         this.guild.getRegion().teleportToSafety(whoClicked);
         this.lang.sendMessage("guild-quit", whoClicked, "%guild%", guild.getName());
     }

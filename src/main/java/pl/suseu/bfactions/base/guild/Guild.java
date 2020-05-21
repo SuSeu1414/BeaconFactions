@@ -94,16 +94,18 @@ public class Guild implements Comparable<Guild> {
         }
     }
 
-    public void removeMember(User user) {
+    public void removeMember(User user, boolean ownershipTransfer) {
         if (user == null) {
             return;
         }
         this.members.remove(user);
         this.permissions.remove(user);
-        user.removeGuild(this);
-        Player player = Bukkit.getPlayer(user.getUuid());
-        if (player != null) {
-            this.getField().getAlliedBar().removePlayer(player);
+        if (!ownershipTransfer) {
+            user.removeGuild(this);
+            Player player = Bukkit.getPlayer(user.getUuid());
+            if (player != null) {
+                this.getField().getAlliedBar().removePlayer(player);
+            }
         }
     }
 
@@ -358,9 +360,9 @@ public class Guild implements Comparable<Guild> {
         }
 
         for (User member : this.getMembers()) {
-            this.removeMember(member);
+            this.removeMember(member, false);
         }
-        this.removeMember(this.getOwner());
+        this.removeMember(this.getOwner(), false);
         this.getField().getAlliedBar().removeAll();
         this.getField().getEnemyBar().removeAll();
         this.getField().getEnemyBar().setVisible(false);
