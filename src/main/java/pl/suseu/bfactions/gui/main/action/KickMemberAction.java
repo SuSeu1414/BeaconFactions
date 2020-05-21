@@ -36,7 +36,7 @@ public class KickMemberAction implements ClickAction {
             return;
         }
 
-        whoClicked.closeInventory();
+        this.plugin.getServer().getScheduler().runTask(this.plugin, (Runnable) whoClicked::closeInventory);
         this.guild.removeMember(this.member);
         this.lang.sendMessage("kicked-member", whoClicked, "%player%", this.member.getName());
         Player player = Bukkit.getPlayer(this.member.getUuid());
