@@ -5,6 +5,8 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.region.Region;
+import pl.suseu.bfactions.base.region.event.PlayerEnterRegionEvent;
+import pl.suseu.bfactions.base.region.event.PlayerLeaveRegionEvent;
 import pl.suseu.bfactions.base.region.event.PlayerRegionChangeEvent;
 import pl.suseu.bfactions.base.user.User;
 
@@ -45,10 +47,24 @@ public class UserLocationTask implements Runnable {
             if (oldRegion != newRegion) {
                 user.setCurrentRegion(newRegion);
                 user.setLastRegionChange(System.currentTimeMillis());
-                PlayerRegionChangeEvent event = new PlayerRegionChangeEvent(player, user, newRegion, oldLocation, newLocation);
-                plugin.getServer().getPluginManager().callEvent(event);
+                PlayerRegionChangeEvent playerRegionChangeEvent = new PlayerRegionChangeEvent(player, user, newRegion, oldLocation, newLocation);
+                plugin.getServer().getPluginManager().callEvent(playerRegionChangeEvent);
+                boolean cancel = playerRegionChangeEvent.isCancelled();
+                if (newRegion != null) {
+                    PlayerEnterRegionEvent playerEnterRegionEvent = new PlayerEnterRegionEvent(player, user, newRegion, oldLocation, newLocation);
+                    plugin.getServer().getPluginManager().callEvent(playerEnterRegionEvent);
+                    if (playerEnterRegionEvent.isCancelled()) {
+                        cancel = true;
+                    }
+                } else {
+                    PlayerLeaveRegionEvent playerLeaveRegionEvent = new PlayerLeaveRegionEvent(player, user, oldRegion, oldLocation, newLocation);
+                    plugin.getServer().getPluginManager().callEvent(playerLeaveRegionEvent);
+                    if (playerLeaveRegionEvent.isCancelled()) {
+                        cancel = true;
+                    }
+                }
 
-                if (event.isCancelled()) {
+                if (cancel) {
                     Location finalOldLocation = oldLocation;
                     plugin.getServer().getScheduler().runTask(plugin, () -> player.teleport(finalOldLocation));
                 }
