@@ -37,6 +37,7 @@ import pl.suseu.bfactions.data.database.Database;
 import pl.suseu.bfactions.data.serializer.DataSerializer;
 import pl.suseu.bfactions.gui.base.InventoryClickListener;
 import pl.suseu.bfactions.item.ItemRepository;
+import pl.suseu.bfactions.placeholder.BFactionsPlaceholder;
 import pl.suseu.bfactions.placeholder.PlaceholderService;
 import pl.suseu.bfactions.settings.Settings;
 import pl.suseu.eventwaiter.EventWaiter;
@@ -110,8 +111,6 @@ public class BFactions extends JavaPlugin {
         this.dataIntegrator = new DataIntegrator(this);
         this.dataIntegrator.checkIntegrity();
 
-
-
         if (!setupEconomy()) {
             log.severe("Disabled due to no Vault dependency found!");
             getServer().getPluginManager().disablePlugin(this);
@@ -123,6 +122,8 @@ public class BFactions extends JavaPlugin {
             getServer().getPluginManager().disablePlugin(this);
             return;
         }
+
+        new BFactionsPlaceholder(this).register();
 
         int autoSave = getConfig().getInt("mysql.autoSave") * 20;
         getServer().getScheduler().runTaskTimerAsynchronously(this, this::saveData, autoSave, autoSave);
@@ -157,6 +158,7 @@ public class BFactions extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BeaconBreakListener(this), this);
         getServer().getPluginManager().registerEvents(new PVPDamageListener(this), this);
         getServer().getPluginManager().registerEvents(new MotdListener(this), this);
+        getServer().getPluginManager().registerEvents(this.placeholderService, this);
 
         getServer().getScheduler().runTaskTimerAsynchronously(this,
                 new FieldParticleTask(this), 5, 5);
