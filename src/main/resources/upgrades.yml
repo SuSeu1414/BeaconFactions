@@ -575,7 +575,7 @@ size:
       - 'item:custom-item:32'
 
 energy:
-  1:
+  0:
     max-energy: 15000000
     gui-item: 'energy-upgrade-normal'
     gui-item-buy: 'energy-upgrade-buy'
@@ -588,7 +588,7 @@ energy:
 
 
 reduction:
-  1:
+  0:
     cost-reduction: 50
     energy-reduction: 50
     gui-item: 'reduction-upgrade-normal'
@@ -596,3 +596,13 @@ reduction:
     gui-item-owned: 'reduction-upgrade-owned'
     price:
       - 'money:100'
+  1:
+    cost-reduction: 75
+    energy-reduction: 75
+    gui-item: 'reduction-upgrade-normal'
+    gui-item-buy: 'reduction-upgrade-buy'
+    gui-item-owned: 'reduction-upgrade-owned'
+    price:
+      - 'money:100'
+    requirements:
+      - 'tier:size:10'

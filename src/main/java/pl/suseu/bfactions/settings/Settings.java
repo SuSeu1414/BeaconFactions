@@ -9,10 +9,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.region.RegionType;
 import pl.suseu.bfactions.base.tier.*;
-import pl.suseu.bfactions.base.tier.cost.TierCost;
-import pl.suseu.bfactions.base.tier.cost.TierEnergyCost;
-import pl.suseu.bfactions.base.tier.cost.TierItemCost;
-import pl.suseu.bfactions.base.tier.cost.TierMoneyCost;
+import pl.suseu.bfactions.base.tier.cost.*;
 import pl.suseu.bfactions.crafting.CraftingItem;
 import pl.suseu.bfactions.crafting.CraftingRecipe;
 import pl.suseu.bfactions.crafting.RecipeRepository;
@@ -192,6 +189,18 @@ public class Settings {
                     cost.add(new TierItemCost(split[1], Integer.parseInt(split[2])));
                 }
             }
+            if (tierSection.isList("requirements")) {
+                for (String requirement : tierSection.getStringList("requirements")) {
+                    String[] split = requirement.split(":");
+                    if (split[0].equalsIgnoreCase("tier")) {
+                        Tier.TierType rType = Tier.TierType.valueOf(split[1].toUpperCase()
+                                .replace("ENERGY", "FIELD")
+                                .replace("SIZE", "REGION")
+                                .replace("REDUCTION", "DISCOUNT"));
+                        cost.add(new TierRequirementCost(rType, Integer.parseInt(split[2])));
+                    }
+                }
+            }
             RegionTier tier = new RegionTier(i, guiItem, guiItemBuy, guiItemOwned, cost, Tier.TierType.REGION, radius, regionType, passiveDrain);
 
             if (tierSection.isList("lore")) {
@@ -234,6 +243,18 @@ public class Settings {
                     cost.add(new TierEnergyCost(Double.parseDouble(split[1])));
                 } else if (split[0].equalsIgnoreCase("item")) {
                     cost.add(new TierItemCost(split[1], Integer.parseInt(split[2])));
+                }
+            }
+            if (tierSection.isList("requirements")) {
+                for (String requirement : tierSection.getStringList("requirements")) {
+                    String[] split = requirement.split(":");
+                    if (split[0].equalsIgnoreCase("tier")) {
+                        Tier.TierType rType = Tier.TierType.valueOf(split[1].toUpperCase()
+                                .replace("ENERGY", "FIELD")
+                                .replace("SIZE", "REGION")
+                                .replace("REDUCTION", "DISCOUNT"));
+                        cost.add(new TierRequirementCost(rType, Integer.parseInt(split[2])));
+                    }
                 }
             }
             FieldTier tier = new FieldTier(i, guiItem, guiItemBuy, guiItemOwned, cost, Tier.TierType.FIELD, maxEnergy);
@@ -279,6 +300,18 @@ public class Settings {
                     cost.add(new TierEnergyCost(Double.parseDouble(split[1])));
                 } else if (split[0].equalsIgnoreCase("item")) {
                     cost.add(new TierItemCost(split[1], Integer.parseInt(split[2])));
+                }
+            }
+            if (tierSection.isList("requirements")) {
+                for (String requirement : tierSection.getStringList("requirements")) {
+                    String[] split = requirement.split(":");
+                    if (split[0].equalsIgnoreCase("tier")) {
+                        Tier.TierType rType = Tier.TierType.valueOf(split[1].toUpperCase()
+                                .replace("ENERGY", "FIELD")
+                                .replace("SIZE", "REGION")
+                                .replace("REDUCTION", "DISCOUNT"));
+                        cost.add(new TierRequirementCost(rType, Integer.parseInt(split[2])));
+                    }
                 }
             }
             DiscountTier tier = new DiscountTier(i, guiItem, guiItemBuy, guiItemOwned, cost, priceReduction, energyReduction);
@@ -696,6 +729,37 @@ public class Settings {
                         }
                     }
                 }
+                if (tierSection.isList("requirements")) {
+                    List<String> requirements = tierSection.getStringList("requirements");
+                    for (String r : requirements) {
+                        String[] split = r.split(":");
+                        if (split.length != 3) {
+                            log.warning("Configuration (upgrades.yml, size." + s + ".price): Invalid requirement: " + r);
+                            success = false;
+                            continue;
+                        }
+                        if (!split[0].equalsIgnoreCase("tier")) {
+                            log.warning("Configuration (upgrades.yml, size." + s + ".price): Invalid requirement: " + r);
+                            success = false;
+                            continue;
+                        }
+                        if (Tier.TierType.valueOf(split[1].toUpperCase()
+                                .replace("ENERGY", "FIELD")
+                                .replace("SIZE", "REGION")
+                                .replace("REDUCTION", "DISCOUNT")) == null) {
+                            log.warning("Configuration (upgrades.yml, size." + s + ".price): Invalid requirement: " + r);
+                            success = false;
+                            continue;
+                        }
+                        try {
+                            Integer.parseInt(split[2]);
+                        } catch (NumberFormatException e) {
+                            log.warning("Configuration (upgrades.yml, size." + s + ".price): Invalid requirement: " + r);
+                            success = false;
+                            continue;
+                        }
+                    }
+                }
             }
         }
 
@@ -762,6 +826,37 @@ public class Settings {
                                 log.warning("Configuration (upgrades.yml, energy." + s + ".price): Invalid price: " + p);
                                 success = false;
                             }
+                        }
+                    }
+                }
+                if (tierSection.isList("requirements")) {
+                    List<String> requirements = tierSection.getStringList("requirements");
+                    for (String r : requirements) {
+                        String[] split = r.split(":");
+                        if (split.length != 3) {
+                            log.warning("Configuration (upgrades.yml, energy." + s + ".price): Invalid requirement: " + r);
+                            success = false;
+                            continue;
+                        }
+                        if (!split[0].equalsIgnoreCase("tier")) {
+                            log.warning("Configuration (upgrades.yml, energy." + s + ".price): Invalid requirement: " + r);
+                            success = false;
+                            continue;
+                        }
+                        if (Tier.TierType.valueOf(split[1].toUpperCase()
+                                .replace("ENERGY", "FIELD")
+                                .replace("SIZE", "REGION")
+                                .replace("REDUCTION", "DISCOUNT")) == null) {
+                            log.warning("Configuration (upgrades.yml, energy." + s + ".price): Invalid requirement: " + r);
+                            success = false;
+                            continue;
+                        }
+                        try {
+                            Integer.parseInt(split[2]);
+                        } catch (NumberFormatException e) {
+                            log.warning("Configuration (upgrades.yml, energy." + s + ".price): Invalid requirement: " + r);
+                            success = false;
+                            continue;
                         }
                     }
                 }
@@ -835,6 +930,37 @@ public class Settings {
                                 log.warning("Configuration (upgrades.yml, reduction." + s + ".price): Invalid price: " + p);
                                 success = false;
                             }
+                        }
+                    }
+                }
+                if (tierSection.isList("requirements")) {
+                    List<String> requirements = tierSection.getStringList("requirements");
+                    for (String r : requirements) {
+                        String[] split = r.split(":");
+                        if (split.length != 3) {
+                            log.warning("Configuration (upgrades.yml, reduction." + s + ".price): Invalid requirement: " + r);
+                            success = false;
+                            continue;
+                        }
+                        if (!split[0].equalsIgnoreCase("tier")) {
+                            log.warning("Configuration (upgrades.yml, reduction." + s + ".price): Invalid requirement: " + r);
+                            success = false;
+                            continue;
+                        }
+                        if (Tier.TierType.valueOf(split[1].toUpperCase()
+                                .replace("ENERGY", "FIELD")
+                                .replace("SIZE", "REGION")
+                                .replace("REDUCTION", "DISCOUNT")) == null) {
+                            log.warning("Configuration (upgrades.yml, reduction." + s + ".price): Invalid requirement: " + r);
+                            success = false;
+                            continue;
+                        }
+                        try {
+                            Integer.parseInt(split[2]);
+                        } catch (NumberFormatException e) {
+                            log.warning("Configuration (upgrades.yml, reduction." + s + ".price): Invalid requirement: " + r);
+                            success = false;
+                            continue;
                         }
                     }
                 }
