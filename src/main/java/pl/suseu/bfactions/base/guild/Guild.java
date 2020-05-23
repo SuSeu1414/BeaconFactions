@@ -216,19 +216,16 @@ public class Guild implements Comparable<Guild> {
     }
 
     public Tier getTier(Tier.TierType tierType) {
-        if (tierType == Tier.TierType.FIELD) {
-            return this.field.getTier();
+        switch (tierType) {
+            case FIELD:
+                return this.field.getTier();
+            case REGION:
+                return this.region.getTier();
+            case DISCOUNT:
+                return this.discountTier;
+            default:
+                return null;
         }
-
-        if (tierType == Tier.TierType.REGION) {
-            return this.region.getTier();
-        }
-
-        if (tierType == Tier.TierType.DISCOUNT) {
-            return this.discountTier;
-        }
-
-        return null;
     }
 
     public void setTier(Tier tier) {
