@@ -8,10 +8,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.guild.Guild;
-import pl.suseu.bfactions.base.tier.cost.TierCost;
-import pl.suseu.bfactions.base.tier.cost.TierEnergyCost;
-import pl.suseu.bfactions.base.tier.cost.TierItemCost;
-import pl.suseu.bfactions.base.tier.cost.TierMoneyCost;
+import pl.suseu.bfactions.base.tier.cost.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,6 +97,7 @@ public abstract class Tier {
     }
 
     public List<String> getCostPlaceholder(boolean checkCosts, Player player, Guild guild) {
+        List<TierRequirementCost> requiredTiers = new ArrayList<>();
         double discount = guild.getDiscountTier() != null ? guild.getDiscountTier().getPriceDiscount() : 0;
         List<String> price = new ArrayList<>();
         price.add(""
@@ -154,11 +152,43 @@ public abstract class Tier {
                     price.add("  " + ChatColor.BLUE + ChatColor.BOLD + ">> " + amount + "x " + im.getDisplayName());
                 }
             }
+            if (cost instanceof TierRequirementCost) {
+                requiredTiers.add(((TierRequirementCost) cost));
+            }
         }
+
+        if (requiredTiers.size() > 0) {
+            price.add("");
+            price.add("" + ChatColor.BLUE + ChatColor.BOLD + ">> Requires: ");
+            for (TierRequirementCost requirement : requiredTiers) {
+                if (checkCosts) {
+                    price.add("  "
+                            + (requirement.canBuy(player, guild) ? ChatColor.GREEN + "\u2713" : ChatColor.RED + "\u2717")
+                            + " " + ChatColor.BOLD + requirement.getTierType().getName() + " " + requirement.getTier());
+                } else {
+                    price.add("  " + ChatColor.BLUE + ChatColor.BOLD + ">> "
+                            + requirement.getTierType().getName() + " " + requirement.getTier());
+                }
+            }
+        }
+
         return price;
     }
 
     public enum TierType {
-        FIELD, REGION, DISCOUNT,
+        FIELD("Field Tier"),
+        REGION("Size Tier"),
+        DISCOUNT("Reduction Tier"),
+        ;
+
+        private final String name;
+
+        TierType(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
     }
 }

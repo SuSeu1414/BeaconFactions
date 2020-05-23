@@ -15,6 +15,6 @@ public abstract class TierCost {
     public abstract void buy(Player player, Guild guild);
 
     public enum TierCostType {
-        MONEY, ENERGY, ITEM,
+        MONEY, ENERGY, ITEM, TIER_REQUIREMENT
     }
 }
