@@ -26,6 +26,7 @@ import pl.suseu.bfactions.base.region.listener.PlayerMoveListener;
 import pl.suseu.bfactions.base.region.task.EntityLocationTask;
 import pl.suseu.bfactions.base.region.task.UserLocationTask;
 import pl.suseu.bfactions.base.user.UserRepository;
+import pl.suseu.bfactions.base.user.UserRepositoryManager;
 import pl.suseu.bfactions.base.user.listener.PlayerJoinListener;
 import pl.suseu.bfactions.command.BCommandMap;
 import pl.suseu.bfactions.command.MainCommandExecutor;
@@ -57,6 +58,7 @@ public class BFactions extends JavaPlugin {
     private GuildRepository guildRepository;
     private GuildDataController guildDataController;
     private UserRepository userRepository;
+    private UserRepositoryManager userRepositoryManager;
     private UserDataController userDataController;
     private RegionRepository regionRepository;
     private ItemRepository itemRepository;
@@ -98,6 +100,7 @@ public class BFactions extends JavaPlugin {
 
         this.guildRepository = new GuildRepository(this);
         this.userRepository = new UserRepository(this);
+        this.userRepositoryManager = new UserRepositoryManager(this);
         this.regionRepository = new RegionRepository(this);
         this.fieldRepository = new FieldRepository(this);
 
@@ -159,6 +162,7 @@ public class BFactions extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new PVPDamageListener(this), this);
         getServer().getPluginManager().registerEvents(new MotdListener(this), this);
         getServer().getPluginManager().registerEvents(this.placeholderService, this);
+        getServer().getPluginManager().registerEvents(this.userRepositoryManager, this);
 
         getServer().getScheduler().runTaskTimerAsynchronously(this,
                 new FieldParticleTask(this), 5, 5);
@@ -174,6 +178,8 @@ public class BFactions extends JavaPlugin {
                 new GuildInventoriesTask(this), 1, 1);
         getServer().getScheduler().runTaskTimerAsynchronously(this,
                 this.placeholderService, 1, 1);
+        getServer().getScheduler().runTaskTimer(this,
+                this.userRepositoryManager, 1, 20 * 60);
     }
 
     private boolean setupEconomy() {
