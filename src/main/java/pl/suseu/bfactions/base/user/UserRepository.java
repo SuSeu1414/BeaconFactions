@@ -14,6 +14,7 @@ public class UserRepository {
     private final Map<UUID, User> users = new ConcurrentHashMap<>();
     private final Set<UUID> modifiedUsers = ConcurrentHashMap.newKeySet();
     private final Set<UUID> projectileUsers = ConcurrentHashMap.newKeySet();
+    private final Map<UUID, User> onlineUsers = new ConcurrentHashMap<>();
 
     public UserRepository(BFactions plugin) {
         this.plugin = plugin;
@@ -50,6 +51,29 @@ public class UserRepository {
             }
         }
         return null;
+    }
+
+    public void addOnlineUser(User user) {
+        this.onlineUsers.put(user.getUuid(), user);
+    }
+
+    public void removeOnlineUser(User user) {
+        this.removeOnlineUser(user.getUuid());
+    }
+
+    public void removeOnlineUser(UUID uuid) {
+        this.onlineUsers.remove(uuid);
+    }
+
+    public Set<User> getOnlineUsers() {
+        return new HashSet<>(this.onlineUsers.values());
+    }
+
+    public User getOnlineUser(UUID uuid) {
+        if (!this.onlineUsers.containsKey(uuid)) {
+            return null;
+        }
+        return this.onlineUsers.get(uuid);
     }
 
     public void addModifiedUser(User user) {
