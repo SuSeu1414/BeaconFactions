@@ -42,6 +42,7 @@ public class HelpCommandExecutor implements BCommandExecutor {
         int elementsPerPage = 5;
 
         List<String> help = this.bCommandMap.getCommands().stream()
+                .filter(cmd -> sender.hasPermission(cmd.getPermission()))
                 .sorted(Comparator.comparing(BCommand::getName))
                 .map(cmd -> ""
                         + ChatColor.BOLD
