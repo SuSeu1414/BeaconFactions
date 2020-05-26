@@ -14,7 +14,11 @@ import pl.suseu.bfactions.gui.base.UndamageableFieldInventoryHolder;
 import pl.suseu.bfactions.settings.Settings;
 import pl.suseu.bfactions.util.GeometryUtil;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Field {
 
@@ -22,11 +26,11 @@ public class Field {
     private final Settings settings = plugin.getSettings();
 
     private final UUID uuid;
-    private final Map<Integer, Set<Location>> border = new HashMap<>();
-    private final Map<Integer, Set<Location>> dome = new HashMap<>();
-    private final Map<Integer, Set<Location>> borderPotato = new HashMap<>();
-    private final Map<Integer, Set<Location>> domePotato = new HashMap<>();
-    private final Set<Location> outline = new HashSet<>();
+    private final Map<Integer, Set<Location>> border = new ConcurrentHashMap<>();
+    private final Map<Integer, Set<Location>> dome = new ConcurrentHashMap<>();
+    private final Map<Integer, Set<Location>> borderPotato = new ConcurrentHashMap<>();
+    private final Map<Integer, Set<Location>> domePotato = new ConcurrentHashMap<>();
+    private final Set<Location> outline = ConcurrentHashMap.newKeySet();
     private Guild guild;
     private FieldTier tier;
     private double currentEnergy;
@@ -36,6 +40,7 @@ public class Field {
     private long stateChangeTime;
     private long undamageableTime;
     private Inventory undamageableItemInventory;
+    private long unrepairableUntil;
 
     public Field(UUID uuid, FieldTier tier) {
         this.uuid = uuid;
@@ -223,5 +228,17 @@ public class Field {
 
     public long getStateChangeTime() {
         return stateChangeTime;
+    }
+
+    public long getUnrepairableUntil() {
+        return unrepairableUntil;
+    }
+
+    public void setUnrepairableUntil(long unrepairableUntil) {
+        this.unrepairableUntil = unrepairableUntil;
+    }
+
+    public boolean isRepairable() {
+        return System.currentTimeMillis() > unrepairableUntil;
     }
 }

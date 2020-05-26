@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import pl.suseu.bfactions.BFactions;
+import pl.suseu.bfactions.base.field.Field;
 import pl.suseu.bfactions.base.field.FieldState;
 import pl.suseu.bfactions.base.region.Region;
 
@@ -46,7 +47,9 @@ public class EntityExplodeListener implements Listener {
 
         //check if need to apply field damage
         if (event.blockList().stream().anyMatch(block -> region.isInside(block.getLocation()))) {
-            region.getGuild().getField().addEnergy(-1 * plugin.getSettings().fieldDamageTNT);
+            Field field = region.getGuild().getField();
+            field.setUnrepairableUntil(System.currentTimeMillis() + plugin.getSettings().fieldHealDelay);
+            field.addEnergy(-1 * plugin.getSettings().fieldDamageTNT);
         }
 
         //remove damage in border, not in field

@@ -5,6 +5,8 @@ guild:
   home-tp-delay: 5
 
 field:
+  #delay until the field can be repaired after it's been damaged
+  heal-delay: 150
   #render distance of the bossbar outside the border
   hp-bar-render-distance: 30
   #density of the dome

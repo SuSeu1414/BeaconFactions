@@ -11,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.projectiles.ProjectileSource;
 import pl.suseu.bfactions.BFactions;
+import pl.suseu.bfactions.base.field.Field;
 import pl.suseu.bfactions.base.region.event.EntityRegionChangeEvent;
 import pl.suseu.bfactions.base.user.User;
 
@@ -48,7 +49,9 @@ public class EntityRegionChangeListener implements Listener {
                 return;
             }
 
-            event.getRegion().getGuild().getField().addEnergy(-1 * plugin.getSettings().fieldDamageArrow);
+            Field field = event.getRegion().getGuild().getField();
+            field.setUnrepairableUntil(System.currentTimeMillis() + plugin.getSettings().fieldHealDelay);
+            field.addEnergy(-1 * plugin.getSettings().fieldDamageArrow);
 
             double range = plugin.getSettings().fieldDomeDistance;
             Location location = arrow.getLocation();

@@ -52,6 +52,7 @@ public class Settings {
     public int fieldPassiveDrainDelay;
     public double fieldDamageArrow;
     public double fieldDamageTNT;
+    public int fieldHealDelay;
     public String guiMainTitle;
     public String guiInvitesTitle;
     public String guiManageMembersTitle;
@@ -100,6 +101,7 @@ public class Settings {
         fieldPassiveDrainDelay = cfg.getInt("field.passive-drain-delay");
         fieldDamageArrow = cfg.getDouble("field.arrow-damage");
         fieldDamageTNT = cfg.getDouble("field.tnt-damage");
+        fieldHealDelay = cfg.getInt("field.field-heal-delay", 150) * 1000;
         fieldEnergyConversions.clear();
 //        fieldTiers.clear();
 //        regionTiers.clear();
