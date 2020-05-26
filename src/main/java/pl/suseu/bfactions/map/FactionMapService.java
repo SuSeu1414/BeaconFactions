@@ -2,13 +2,19 @@ package pl.suseu.bfactions.map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.MapMeta;
 import org.bukkit.map.MapCanvas;
 import org.bukkit.map.MapRenderer;
 import org.bukkit.map.MapView;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 import pl.suseu.bfactions.BFactions;
+
+import java.util.UUID;
 
 public class FactionMapService {
 
@@ -25,10 +31,24 @@ public class FactionMapService {
     private ItemStack createMapItem() {
         ItemStack itemStack = new ItemStack(Material.FILLED_MAP);
         MapMeta mapMeta = ((MapMeta) itemStack.getItemMeta());
-        MapView mapView = Bukkit.createMap(plugin.getServer().getWorlds().get(0));
+        MapView mapView = Bukkit.getMap(0);
+        if (mapView == null) {
+            mapView = Bukkit.createMap(Bukkit.getWorlds().get(0));
+        }
+//        System.out.println("id " + mapView.getId());
         mapView.setTrackingPosition(true);
         mapView.setUnlimitedTracking(true);
-        MapRenderer craftRenderer = mapView.getRenderers().get(0);
+//        System.out.println(mapView.getRenderers().size());
+//        for (MapRenderer renderer : mapView.getRenderers()) {
+//            System.out.println(renderer.getClass().toString());
+//        }
+        MapRenderer craftRenderer = null;
+        for (MapRenderer renderer : mapView.getRenderers()) {
+            if (renderer.getClass().toString().contains("CraftMapRenderer")) {
+                craftRenderer = renderer;
+                break;
+            }
+        }
         for (MapRenderer renderer : mapView.getRenderers()) {
             mapView.removeRenderer(renderer);
         }
@@ -39,12 +59,36 @@ public class FactionMapService {
                 mapView.setCenterZ(player.getLocation().getBlockZ());
             }
         });
-        mapView.addRenderer(craftRenderer);
+        if (craftRenderer != null) {
+            mapView.addRenderer(craftRenderer);
+        }
         mapView.addRenderer(this.imageMapRenderer);
+//        System.out.println(mapView.getRenderers().size());
+//        for (MapRenderer renderer : mapView.getRenderers()) {
+//            System.out.println(renderer.getClass().toString());
+//        }
         mapMeta.setMapView(mapView);
+
+        PersistentDataContainer pdc = mapMeta.getPersistentDataContainer();
+        NamespacedKey factionMap = new NamespacedKey(plugin, "faction-map");
+        NamespacedKey random = new NamespacedKey(plugin, "random");
+        pdc.set(factionMap, PersistentDataType.BYTE, (byte) 1);
+        pdc.set(random, PersistentDataType.STRING, UUID.randomUUID().toString());
+
         itemStack.setItemMeta(mapMeta);
 
         return itemStack;
+    }
+
+    public boolean isFactionMap(ItemStack itemStack) {
+        ItemMeta im = itemStack.getItemMeta();
+        if (im == null) {
+            return false;
+        }
+
+        PersistentDataContainer pdc = im.getPersistentDataContainer();
+        NamespacedKey factionMap = new NamespacedKey(plugin, "faction-map");
+        return pdc.getOrDefault(factionMap, PersistentDataType.BYTE, (byte) 0) == 1;
     }
 
     public ItemStack getMapItem() {
