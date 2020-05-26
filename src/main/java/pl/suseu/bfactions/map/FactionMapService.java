@@ -25,10 +25,23 @@ public class FactionMapService {
     private ItemStack createMapItem() {
         ItemStack itemStack = new ItemStack(Material.FILLED_MAP);
         MapMeta mapMeta = ((MapMeta) itemStack.getItemMeta());
-        MapView mapView = Bukkit.createMap(plugin.getServer().getWorlds().get(0));
+        MapView mapView = Bukkit.getMap(0);
+        if (mapView == null) {
+            mapView = Bukkit.createMap(Bukkit.getWorlds().get(0));
+        }
         mapView.setTrackingPosition(true);
         mapView.setUnlimitedTracking(true);
-        MapRenderer craftRenderer = mapView.getRenderers().get(0);
+//        System.out.println(mapView.getRenderers().size());
+//        for (MapRenderer renderer : mapView.getRenderers()) {
+//            System.out.println(renderer.getClass().toString());
+//        }
+        MapRenderer craftRenderer = null;
+        for (MapRenderer renderer : mapView.getRenderers()) {
+            if (renderer.getClass().toString().contains("CraftMapRenderer")) {
+                craftRenderer = renderer;
+                break;
+            }
+        }
         for (MapRenderer renderer : mapView.getRenderers()) {
             mapView.removeRenderer(renderer);
         }
@@ -39,8 +52,14 @@ public class FactionMapService {
                 mapView.setCenterZ(player.getLocation().getBlockZ());
             }
         });
-        mapView.addRenderer(craftRenderer);
+        if (craftRenderer != null) {
+            mapView.addRenderer(craftRenderer);
+        }
         mapView.addRenderer(this.imageMapRenderer);
+//        System.out.println(mapView.getRenderers().size());
+//        for (MapRenderer renderer : mapView.getRenderers()) {
+//            System.out.println(renderer.getClass().toString());
+//        }
         mapMeta.setMapView(mapView);
         itemStack.setItemMeta(mapMeta);
 
