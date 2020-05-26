@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 public class RegionRepository {
 
@@ -35,6 +36,20 @@ public class RegionRepository {
         }
 
         return nearest;
+    }
+
+    public Region getRegionByLocation(Location location) {
+        Region nearest = this.nearestRegion(location);
+        if (nearest == null || !nearest.isInPerimeter(location)) {
+            return null;
+        }
+        return nearest;
+    }
+
+    public Set<Region> regionsInRange(Location location, int range) {
+        return this.getRegions().stream()
+                .filter(region -> region.getCenter().distance(location) <= range)
+                .collect(Collectors.toSet());
     }
 
     public Region getRegion(UUID uuid) {

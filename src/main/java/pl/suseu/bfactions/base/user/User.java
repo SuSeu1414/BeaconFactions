@@ -7,6 +7,7 @@ import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.guild.Guild;
 import pl.suseu.bfactions.base.region.Region;
 
+import java.awt.*;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -26,6 +27,11 @@ public class User {
 
     private boolean defaultItems;
     private boolean potatoMode = false;
+
+    private boolean mapNeedsRedraw;
+    private Image mapImage;
+    private int lastDrawnMap;
+    private boolean recalculatingMap;
 
     public User(UUID uuid) {
         this.uuid = uuid;
@@ -116,6 +122,38 @@ public class User {
     public void setPotatoMode(boolean potatoMode) {
         this.potatoMode = potatoMode;
         plugin.getUserRepository().addModifiedUser(this);
+    }
+
+    public boolean mapNeedsRedraw() {
+        return mapNeedsRedraw;
+    }
+
+    public void setMapNeedsRedraw(boolean mapNeedsRedraw) {
+        this.mapNeedsRedraw = mapNeedsRedraw;
+    }
+
+    public Image getMapImage() {
+        return mapImage;
+    }
+
+    public void setMapImage(Image mapImage) {
+        this.mapImage = mapImage;
+    }
+
+    public int getLastDrawnMap() {
+        return lastDrawnMap;
+    }
+
+    public void setLastDrawnMap(int lastDrawnMap) {
+        this.lastDrawnMap = lastDrawnMap;
+    }
+
+    public boolean isRecalculatingMap() {
+        return recalculatingMap;
+    }
+
+    public void setRecalculatingMap(boolean recalculatingMap) {
+        this.recalculatingMap = recalculatingMap;
     }
 
     @Override

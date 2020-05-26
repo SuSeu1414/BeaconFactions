@@ -33,6 +33,7 @@ public class BCommandMap {
     private final HelpCommandExecutor helpCommandExecutor;
     private final SetMotdCommandExecutor setMotdCommandExecutor;
     private final PotatoCommandExecutor potatoCommandExecutor;
+    private final MapCommandExecutor mapCommandExecutor;
 
     public BCommandMap(BFactions plugin) {
         this.plugin = plugin;
@@ -56,6 +57,7 @@ public class BCommandMap {
         this.helpCommandExecutor = new HelpCommandExecutor(this.plugin, this);
         this.setMotdCommandExecutor = new SetMotdCommandExecutor(this.plugin);
         this.potatoCommandExecutor = new PotatoCommandExecutor(this.plugin);
+        this.mapCommandExecutor = new MapCommandExecutor(this.plugin);
     }
 
     public void addCommand(BCommand command) {
@@ -218,6 +220,13 @@ public class BCommandMap {
                 .setDescription("Decreases the amount of particles being displayed")
                 .setAsync(true)
                 .setExecutor(potatoCommandExecutor)
+                .build(this.commands);
+
+        new BCommandBuilder("map")
+                .setPermission("bfactions.command.map")
+                .setDescription("todo")
+//                .setAsync(true)
+                .setExecutor(this.mapCommandExecutor)
                 .build(this.commands);
     }
 

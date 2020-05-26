@@ -45,11 +45,20 @@ public class UserRepositoryManager implements Listener, Runnable {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onQuit(PlayerQuitEvent event) {
-        this.userRepository.removeOnlineUser(event.getPlayer().getUniqueId());
+        this.quit(event.getPlayer());
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onKick(PlayerKickEvent event) {
-        this.userRepository.removeOnlineUser(event.getPlayer().getUniqueId());
+        this.quit(event.getPlayer());
+    }
+
+    private void quit(Player player) {
+        User user = this.userRepository.getOnlineUser(player.getUniqueId());
+        this.userRepository.removeOnlineUser(player.getUniqueId());
+
+        if (user != null) {
+            user.setMapImage(null);
+        }
     }
 }

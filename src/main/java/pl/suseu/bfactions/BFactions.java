@@ -38,6 +38,8 @@ import pl.suseu.bfactions.data.database.Database;
 import pl.suseu.bfactions.data.serializer.DataSerializer;
 import pl.suseu.bfactions.gui.base.InventoryClickListener;
 import pl.suseu.bfactions.item.ItemRepository;
+import pl.suseu.bfactions.map.FactionMapService;
+import pl.suseu.bfactions.map.FactionMapUpdater;
 import pl.suseu.bfactions.placeholder.BFactionsPlaceholder;
 import pl.suseu.bfactions.placeholder.PlaceholderService;
 import pl.suseu.bfactions.settings.Settings;
@@ -66,8 +68,10 @@ public class BFactions extends JavaPlugin {
     private DataIntegrator dataIntegrator;
     private DataSerializer dataSerializer;
     private PlaceholderService placeholderService;
+    private FactionMapService factionMapService;
 
     @Override
+
     public void onEnable() {
         saveDefaultConfig();
         this.saveResource("upgrades.yml", false);
@@ -97,6 +101,8 @@ public class BFactions extends JavaPlugin {
         }
 
         this.dataSerializer = new DataSerializer(this);
+
+        this.factionMapService = new FactionMapService(this);
 
         this.guildRepository = new GuildRepository(this);
         this.userRepository = new UserRepository(this);
@@ -180,6 +186,8 @@ public class BFactions extends JavaPlugin {
                 this.placeholderService, 1, 1);
         getServer().getScheduler().runTaskTimer(this,
                 this.userRepositoryManager, 1, 20 * 60);
+        getServer().getScheduler().runTaskTimerAsynchronously(this,
+                new FactionMapUpdater(this), 5, 5);
     }
 
     private boolean setupEconomy() {
@@ -266,5 +274,9 @@ public class BFactions extends JavaPlugin {
 
     public Economy getEconomy() {
         return economy;
+    }
+
+    public FactionMapService getFactionMapService() {
+        return factionMapService;
     }
 }
