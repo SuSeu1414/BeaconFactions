@@ -30,6 +30,9 @@ public class EntityRegionChangeListener implements Listener {
         }
 
         if (event.getEntity() instanceof TNTPrimed) {
+            if (event.getFrom().equals(event.getTo())) {
+                return;
+            }
             TNTPrimed tnt = (TNTPrimed) event.getEntity();
             tnt.setFuseTicks(0);
         }
