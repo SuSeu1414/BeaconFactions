@@ -49,7 +49,6 @@ public class ImageMapRenderer extends MapRenderer {
         }
 
         byte dir = (byte) map(normalizeYaw(player.getLocation().getYaw() + (float) 11.125), 0, 360, 0, 16);
-        System.out.println(dir + " " + (normalizeYaw(player.getLocation().getYaw() + (float) 11.125)));
         if (dir < 0) {
             dir = 0;
         }
