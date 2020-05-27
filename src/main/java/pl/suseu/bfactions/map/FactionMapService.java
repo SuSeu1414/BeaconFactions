@@ -35,20 +35,8 @@ public class FactionMapService {
         if (mapView == null) {
             mapView = Bukkit.createMap(Bukkit.getWorlds().get(0));
         }
-//        System.out.println("id " + mapView.getId());
         mapView.setTrackingPosition(true);
         mapView.setUnlimitedTracking(true);
-//        System.out.println(mapView.getRenderers().size());
-//        for (MapRenderer renderer : mapView.getRenderers()) {
-//            System.out.println(renderer.getClass().toString());
-//        }
-        MapRenderer craftRenderer = null;
-        for (MapRenderer renderer : mapView.getRenderers()) {
-            if (renderer.getClass().toString().contains("CraftMapRenderer")) {
-                craftRenderer = renderer;
-                break;
-            }
-        }
         for (MapRenderer renderer : mapView.getRenderers()) {
             mapView.removeRenderer(renderer);
         }
@@ -59,14 +47,7 @@ public class FactionMapService {
                 mapView.setCenterZ(player.getLocation().getBlockZ());
             }
         });
-        if (craftRenderer != null) {
-            mapView.addRenderer(craftRenderer);
-        }
         mapView.addRenderer(this.imageMapRenderer);
-//        System.out.println(mapView.getRenderers().size());
-//        for (MapRenderer renderer : mapView.getRenderers()) {
-//            System.out.println(renderer.getClass().toString());
-//        }
         mapMeta.setMapView(mapView);
 
         PersistentDataContainer pdc = mapMeta.getPersistentDataContainer();

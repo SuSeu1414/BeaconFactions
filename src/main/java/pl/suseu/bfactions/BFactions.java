@@ -187,7 +187,7 @@ public class BFactions extends JavaPlugin {
         getServer().getScheduler().runTaskTimer(this,
                 this.userRepositoryManager, 1, 20 * 60);
         getServer().getScheduler().runTaskTimerAsynchronously(this,
-                new FactionMapUpdater(this), 5, 5);
+                new FactionMapUpdater(this), 1, 1);
     }
 
     private boolean setupEconomy() {
