@@ -58,9 +58,20 @@ public class GuildInventoriesTask implements Runnable {
                 continue;
             }
 
-            if (guild.getField().getCurrentEnergy() + itemEnergy > guild.getField().getTier().getMaxEnergy()) {
+
+            boolean repairable = guild.getField().isRepairable();
+            if (guild.getField().getCurrentEnergy() + itemEnergy > guild.getField().getTier().getMaxEnergy()
+                    || !repairable) {
                 dropItem(center, itemStack);
                 guild.getFuelInventory().remove(itemStack);
+
+                if (!repairable) {
+                    guild.getFuelInventory().getViewers().forEach(player -> {
+                        long time = (guild.getField().getUnrepairableUntil() - System.currentTimeMillis()) / 1000;
+                        this.plugin.getLang().sendMessage("cannot-refuel-while-attacked", player
+                                , "%seconds%", time + "");
+                    });
+                }
                 continue;
             }
 

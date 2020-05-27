@@ -48,7 +48,12 @@ public class RegionRepository {
 
     public Set<Region> regionsInRange(Location location, int range) {
         return this.getRegions().stream()
-                .filter(region -> region.getCenter().distance(location) <= range)
+                .filter(region -> {
+                    if (!region.getCenter().getWorld().equals(location.getWorld())) {
+                        return false;
+                    }
+                    return region.getCenter().distance(location) <= range;
+                })
                 .collect(Collectors.toSet());
     }
 

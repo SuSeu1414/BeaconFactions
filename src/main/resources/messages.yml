@@ -299,3 +299,8 @@ messages:
     chat:
       content:
         - "&l&9[&bBFactions&9] &o&fPotato PC mode is now &c&l%status%&o&f!"
+  cannot-refuel-while-attacked:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fYour guild is under attack! You cannot add fuel for another %seconds% seconds"
