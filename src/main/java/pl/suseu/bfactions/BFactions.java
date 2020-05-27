@@ -71,7 +71,6 @@ public class BFactions extends JavaPlugin {
     private FactionMapService factionMapService;
 
     @Override
-
     public void onEnable() {
         saveDefaultConfig();
         this.saveResource("upgrades.yml", false);
