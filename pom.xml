@@ -110,7 +110,22 @@
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.2.2</version>
                 <configuration>
-                    <!-- put your configurations here -->
+                    <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml
+                    </dependencyReducedPomLocation>
+                    <relocations>
+                        <relocation>
+                            <pattern>co.aikar.taskchain</pattern>
+                            <shadedPattern>pl.suseu.bfactions.taskchain</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>pl.rynbou.langapi3</pattern>
+                            <shadedPattern>pl.suseu.bfactions.langapi</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>pl.rynbou.langapi3</pattern>
+                            <shadedPattern>pl.suseu.bfactions.langapi</shadedPattern>
+                        </relocation>
+                    </relocations>
                 </configuration>
                 <executions>
                     <execution>
