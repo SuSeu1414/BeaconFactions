@@ -59,7 +59,7 @@
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
-            <version>3.4.2</version>
+            <version>3.4.5</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -122,8 +122,8 @@
                             <shadedPattern>pl.suseu.bfactions.langapi</shadedPattern>
                         </relocation>
                         <relocation>
-                            <pattern>pl.rynbou.langapi3</pattern>
-                            <shadedPattern>pl.suseu.bfactions.langapi</shadedPattern>
+                            <pattern>pl.suseu.eventwaiter</pattern>
+                            <shadedPattern>pl.suseu.bfactions.eventwaiter</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
