@@ -29,13 +29,13 @@ public class UserRepositoryManager implements Listener, Runnable {
         }
 
         for (User user : this.userRepository.getOnlineUsers()) {
-            if (!this.plugin.getServer().getOfflinePlayer(user.getUuid()).isOnline()) {
+            if (this.plugin.getServer().getPlayer(user.getUuid()) == null) {
                 this.userRepository.removeOnlineUser(user);
             }
         }
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onJoin(PlayerJoinEvent event) {
         this.plugin.getServer().getScheduler().runTaskAsynchronously(this.plugin, () -> {
             User user = this.userRepository.getUser(event.getPlayer().getUniqueId());
@@ -43,12 +43,12 @@ public class UserRepositoryManager implements Listener, Runnable {
         });
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onQuit(PlayerQuitEvent event) {
         this.quit(event.getPlayer());
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.LOWEST)
     public void onKick(PlayerKickEvent event) {
         this.quit(event.getPlayer());
     }

@@ -33,7 +33,7 @@ public class UserRepository {
             return user;
         }
 
-        user = new User(uuid);
+        user = new User(uuid, null);
         addUser(user, true);
         return user;
     }
