@@ -226,7 +226,7 @@ public class BCommandMap {
 
         new BCommandBuilder("map")
                 .setPermission("bfactions.command.map")
-                .setDescription("todo")
+                .setDescription("Opens a map which shows nearby guilds")
 //                .setAsync(true)
                 .setExecutor(this.mapCommandExecutor)
                 .build(this.commands);
