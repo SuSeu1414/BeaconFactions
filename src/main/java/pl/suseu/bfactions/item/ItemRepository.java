@@ -1,5 +1,6 @@
 package pl.suseu.bfactions.item;
 
+import com.google.common.collect.ImmutableSet;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -11,6 +12,7 @@ import pl.suseu.bfactions.util.ItemUtil;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ItemRepository {
@@ -116,5 +118,9 @@ public class ItemRepository {
         }
 
         return true;
+    }
+
+    public Set<String> getKeys() {
+        return ImmutableSet.copyOf(items.keySet());
     }
 }
