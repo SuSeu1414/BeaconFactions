@@ -20,16 +20,18 @@ public class FactionMapService {
 
     private final BFactions plugin;
     private final ImageMapRenderer imageMapRenderer;
-    private final ItemStack mapItem;
+    private ItemStack mapItem;
 
     public FactionMapService(BFactions plugin) {
         this.plugin = plugin;
         this.imageMapRenderer = new ImageMapRenderer(plugin);
-        this.mapItem = this.createMapItem();
+        this.recalculateMapItem();
     }
 
-    private ItemStack createMapItem() {
-        ItemStack itemStack = new ItemStack(Material.FILLED_MAP);
+    public void recalculateMapItem() {
+        ItemStack itemStack = this.plugin.getItemRepository().getItem("map", false);
+        itemStack.setType(Material.FILLED_MAP);
+        itemStack.setAmount(1);
         MapMeta mapMeta = ((MapMeta) itemStack.getItemMeta());
         MapView mapView = Bukkit.getMap(0);
         if (mapView == null) {
@@ -58,7 +60,7 @@ public class FactionMapService {
 
         itemStack.setItemMeta(mapMeta);
 
-        return itemStack;
+        this.mapItem = itemStack;
     }
 
     public boolean isFactionMap(ItemStack itemStack) {
