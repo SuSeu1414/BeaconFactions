@@ -28,6 +28,7 @@ public class User {
 
     private boolean defaultItems;
     private boolean potatoMode = false;
+    private boolean outline = false;
 
     private boolean mapNeedsRedraw;
     private Image mapImage;
@@ -165,6 +166,14 @@ public class User {
 
     public void setRecalculatingMap(boolean recalculatingMap) {
         this.recalculatingMap = recalculatingMap;
+    }
+
+    public boolean isOutline() {
+        return outline;
+    }
+
+    public void setOutline(boolean outline) {
+        this.outline = outline;
     }
 
     @Override

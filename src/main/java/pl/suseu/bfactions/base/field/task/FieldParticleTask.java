@@ -41,7 +41,7 @@ public class FieldParticleTask implements Runnable {
             boolean potato = user.usesPotatoMode();
             Field field = closest.getGuild().getField();
 
-            if (field.getGuild().isOutline()) {
+            if (user.isOutline()) {
                 this.plugin.getServer().getScheduler().runTask(this.plugin, () -> {
                     for (Location particle : field.getOutline()) {
                         player.spawnParticle(Particle.REDSTONE, particle, 1, new Particle.DustOptions(Color.BLACK, 1));
