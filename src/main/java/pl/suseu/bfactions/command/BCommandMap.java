@@ -34,6 +34,7 @@ public class BCommandMap {
     private final SetMotdCommandExecutor setMotdCommandExecutor;
     private final PotatoCommandExecutor potatoCommandExecutor;
     private final MapCommandExecutor mapCommandExecutor;
+    private final AcceptCommandExecutor acceptCommandExecutor;
 
     public BCommandMap(BFactions plugin) {
         this.plugin = plugin;
@@ -58,6 +59,7 @@ public class BCommandMap {
         this.setMotdCommandExecutor = new SetMotdCommandExecutor(this.plugin);
         this.potatoCommandExecutor = new PotatoCommandExecutor(this.plugin);
         this.mapCommandExecutor = new MapCommandExecutor(this.plugin);
+        this.acceptCommandExecutor = new AcceptCommandExecutor(this.plugin);
     }
 
     public void addCommand(BCommand command) {
@@ -219,7 +221,7 @@ public class BCommandMap {
                 .setPermission("bfactions.command.potato")
                 .setDescription("Decreases the amount of particles being displayed")
                 .setAsync(true)
-                .setExecutor(potatoCommandExecutor)
+                .setExecutor(this.potatoCommandExecutor)
                 .build(this.commands);
 
         new BCommandBuilder("map")
@@ -227,6 +229,13 @@ public class BCommandMap {
                 .setDescription("todo")
 //                .setAsync(true)
                 .setExecutor(this.mapCommandExecutor)
+                .build(this.commands);
+
+        new BCommandBuilder("accept")
+                .setPermission("bfactions.command.accept")
+                .setDescription("Accept a guild invitation")
+                .setAsync(true)
+                .setExecutor(this.acceptCommandExecutor)
                 .build(this.commands);
     }
 
