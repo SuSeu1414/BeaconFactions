@@ -304,3 +304,8 @@ messages:
     chat:
       content:
         - "&l&9[&bBFactions&9] &o&fYour guild is under attack! You cannot add fuel for another %seconds% seconds"
+  accepted-invite:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fYou are now a member of &6&l%guild%"

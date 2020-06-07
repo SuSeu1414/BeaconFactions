@@ -5,10 +5,20 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.util.Vector;
+import pl.rynbou.langapi3.LangAPI;
+import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.field.FieldState;
+import pl.suseu.bfactions.base.guild.Guild;
+import pl.suseu.bfactions.base.region.Region;
 import pl.suseu.bfactions.base.region.event.PlayerRegionChangeEvent;
 
 public class PlayerRegionChangeListener implements Listener {
+
+    private final LangAPI lang;
+
+    public PlayerRegionChangeListener(BFactions plugin) {
+        this.lang = plugin.getLang();
+    }
 
     @EventHandler
     public void onPlayerRegionChange(PlayerRegionChangeEvent event) {
@@ -16,28 +26,31 @@ public class PlayerRegionChangeListener implements Listener {
         if (event.getRegion() == null) {
             return;
         }
-        if (event.getRegion().getGuild().getInvitedMembers().contains(event.getUser())) {
-            event.getRegion().getGuild().addMember(event.getUser());
-            event.getRegion().getGuild().removeInvitedMember(event.getUser());
+        Region region = event.getRegion();
+        Guild guild = region.getGuild();
+        if (guild.getInvitedMembers().contains(event.getUser())) {
+            guild.addMember(event.getUser());
+            guild.removeInvitedMember(event.getUser());
 //          guildRepository.addModifiedGuild(event.getRegion().getGuild());
+            lang.sendMessage("accepted-invite", player, "%guild%", guild.getName());
             return;
         }
         if (player.isOp() || player.hasPermission("bfactions.bypass-entry")) {
             return;
         }
-        if (event.getRegion().getGuild().getField().getState() != FieldState.ENABLED) {
+        if (guild.getField().getState() != FieldState.ENABLED) {
             return;
         }
 
-        if (event.getRegion().getGuild().isMember(event.getUser())) {
+        if (guild.isMember(event.getUser())) {
             return;
         }
 
         event.setCancelled(true);
-        Location from = event.getRegion().getCenter().clone();
+        Location from = region.getCenter().clone();
         Location to = event.getFrom();
         if (from.getBlockY() <= to.getBlockY()) {
-            from.add(0, event.getRegion().getSize(), 0);
+            from.add(0, region.getSize(), 0);
         }
 //        from.setY(to.getY());
         Vector vector = from.toVector().subtract(to.toVector()).multiply(-1).normalize();

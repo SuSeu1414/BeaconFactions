@@ -150,7 +150,7 @@ public class BFactions extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BeaconClickListener(this), this);
         getServer().getPluginManager().registerEvents(new InventoryClickListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerRegionTeleportListener(this), this);
-        getServer().getPluginManager().registerEvents(new PlayerRegionChangeListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerRegionChangeListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerMoveListener(this), this);
         getServer().getPluginManager().registerEvents(new EntityExplodeListener(this), this);
         getServer().getPluginManager().registerEvents(new EntityRegionChangeListener(this), this);
