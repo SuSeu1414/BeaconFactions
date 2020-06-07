@@ -309,3 +309,8 @@ messages:
     chat:
       content:
         - "&l&9[&bBFactions&9] &o&fYou are now a member of &6&l%guild%"
+  no-pending-invitations:
+    chat-enabled: true
+    chat:
+      content:
+        - "&l&9[&bBFactions&9] &o&fYou do not have any pending invitations"
