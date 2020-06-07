@@ -42,11 +42,9 @@ public class FieldParticleTask implements Runnable {
             Field field = closest.getGuild().getField();
 
             if (user.isOutline()) {
-                this.plugin.getServer().getScheduler().runTask(this.plugin, () -> {
-                    for (Location particle : field.getOutline()) {
-                        player.spawnParticle(Particle.REDSTONE, particle, 1, new Particle.DustOptions(Color.BLACK, 1));
-                    }
-                });
+                for (Location particle : field.getOutline()) {
+                    player.spawnParticle(Particle.REDSTONE, particle, 1, new Particle.DustOptions(Color.BLACK, 1));
+                }
             }
 
             Particle.DustOptions borderOptions;
@@ -62,31 +60,25 @@ public class FieldParticleTask implements Runnable {
 
             if (field.getGuild().getRegion().getTier().getRegionType() == RegionType.DOME) {
                 Set<Location> dome = field.domeInRange(location, potato);
-                this.plugin.getServer().getScheduler().runTask(this.plugin, () -> {
-                    for (Location particle : dome) {
-                        player.spawnParticle(Particle.REDSTONE, particle, 1, domeOptions);
-                    }
-                });
+                for (Location particle : dome) {
+                    player.spawnParticle(Particle.REDSTONE, particle, 1, domeOptions);
+                }
 
                 if (closest.isInside(location)) {
                     continue;
                 }
 
                 Set<Location> border = field.borderInRange(location, potato);
-                this.plugin.getServer().getScheduler().runTask(this.plugin, () -> {
-                    for (Location particle : border) {
-                        player.spawnParticle(Particle.REDSTONE, particle, 1, borderOptions);
-                    }
-                });
+                for (Location particle : border) {
+                    player.spawnParticle(Particle.REDSTONE, particle, 1, borderOptions);
+                }
             }
 
             if (field.getGuild().getRegion().getTier().getRegionType() == RegionType.ROLLER) {
                 Set<Location> border = field.borderInRange(location, potato);
-                this.plugin.getServer().getScheduler().runTask(this.plugin, () -> {
-                    for (Location particle : border) {
-                        player.spawnParticle(Particle.REDSTONE, particle, 1, borderOptions);
-                    }
-                });
+                for (Location particle : border) {
+                    player.spawnParticle(Particle.REDSTONE, particle, 1, borderOptions);
+                }
             }
         }
     }
