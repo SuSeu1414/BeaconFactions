@@ -3,8 +3,6 @@ package pl.suseu.bfactions.command.cmds;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventPriority;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
 import pl.rynbou.langapi3.LangAPI;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.guild.Guild;
@@ -16,6 +14,7 @@ import pl.suseu.bfactions.command.BCommandExecutor;
 import pl.suseu.eventwaiter.EventWaiter;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SetMotdCommandExecutor implements BCommandExecutor {
 
@@ -50,32 +49,24 @@ public class SetMotdCommandExecutor implements BCommandExecutor {
             return;
         }
 
-        if (args.size() != 1) {
+        if (args.size() < 1) {
             command.sendUsage(sender, label);
             return;
         }
 
-        String arg = args.get(0);
-        if (!arg.equalsIgnoreCase("entry")
-                && !arg.equalsIgnoreCase("exit")) {
+        String type = args.get(0);
+        if (!type.equalsIgnoreCase("entry")
+                && !type.equalsIgnoreCase("exit")) {
             command.sendUsage(sender, label);
             return;
         }
 
-        this.lang.sendMessage("guild-motd-change", player);
-        eventWaiter.waitForEvent(AsyncPlayerChatEvent.class,
-                EventPriority.NORMAL,
-                event -> event.getPlayer().equals(player),
-                event -> {
-                    if (arg.equalsIgnoreCase("entry")) {
-                        guild.setEntryMOTD(ChatColor.translateAlternateColorCodes('&', event.getMessage()));
-                    } else if (arg.equalsIgnoreCase("exit")) {
-                        guild.setExitMOTD(ChatColor.translateAlternateColorCodes('&', event.getMessage()));
-                    }
-                    this.lang.sendMessage("guild-motd-set", player);
-                    event.setCancelled(true);
-                }, 30 * 20, () -> {
-                    this.lang.sendMessage("guild-motd-timeout", player);
-                });
+        String motd = args.stream().skip(1).collect(Collectors.joining(" "));
+        if (type.equalsIgnoreCase("entry")) {
+            guild.setEntryMOTD(ChatColor.translateAlternateColorCodes('&', motd));
+        } else if (type.equalsIgnoreCase("exit")) {
+            guild.setExitMOTD(ChatColor.translateAlternateColorCodes('&', motd));
+        }
+        this.lang.sendMessage("guild-motd-set", player);
     }
 }

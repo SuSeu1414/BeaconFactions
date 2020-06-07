@@ -210,7 +210,7 @@ public class BCommandMap {
         new BCommandBuilder("setmotd")
                 .setPermission("bfactions.command.setmotd")
                 .setDescription("Set the MOTD in your guild")
-                .setUsage("setmotd entry/exit")
+                .setUsage("setmotd entry/exit <motd>")
                 .setNeedsArguments(true)
                 .setExecutor(this.setMotdCommandExecutor)
                 .build(this.commands);
