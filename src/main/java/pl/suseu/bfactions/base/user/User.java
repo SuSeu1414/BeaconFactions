@@ -18,6 +18,7 @@ public class User {
     private final BFactions plugin = ((BFactions) Bukkit.getPluginManager().getPlugin(BFactions.PLUGIN_NAME));
 
     private final UUID uuid;
+    private String name;
     private final Set<Guild> guilds = ConcurrentHashMap.newKeySet();
 
     private Region currentRegion;
@@ -33,8 +34,9 @@ public class User {
     private int lastDrawnMap;
     private boolean recalculatingMap;
 
-    public User(UUID uuid) {
+    public User(UUID uuid, String name) {
         this.uuid = uuid;
+        this.name = name;
     }
 
     public UUID getUuid() {
@@ -55,12 +57,21 @@ public class User {
     }
 
     public String getName() {
-        OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
-        String name = player.getName();
-        if (name == null) {
-            return "null";
+        if (this.name == null || this.name.isEmpty()) {
+            OfflinePlayer player = Bukkit.getOfflinePlayer(uuid);
+            String name = player.getName();
+            if (name == null) {
+                return "null";
+            }
+            return name;
         }
-        return name;
+
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+        this.plugin.getUserRepository().addModifiedUser(this);
     }
 
     public Set<Guild> getGuilds() {

@@ -1,5 +1,8 @@
 package pl.suseu.bfactions;
 
+import co.aikar.taskchain.BukkitTaskChainFactory;
+import co.aikar.taskchain.TaskChain;
+import co.aikar.taskchain.TaskChainFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.milkbowl.vault.economy.Economy;
@@ -51,6 +54,7 @@ public class BFactions extends JavaPlugin {
 
     public static final String PLUGIN_NAME = "BeaconFactions";
     private final Gson gson = new GsonBuilder().create();
+    private TaskChainFactory taskChainFactory;
     private Economy economy = null;
     private Settings settings;
     private Database database;
@@ -90,6 +94,8 @@ public class BFactions extends JavaPlugin {
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
+
+        this.taskChainFactory = BukkitTaskChainFactory.create(this);
 
         this.database = new Database(this);
         if (!this.database.initDatabase()) {
@@ -277,5 +283,13 @@ public class BFactions extends JavaPlugin {
 
     public FactionMapService getFactionMapService() {
         return factionMapService;
+    }
+
+    public <T> TaskChain<T> newTaskChain() {
+        return this.taskChainFactory.newChain();
+    }
+
+    public <T> TaskChain<T> newSharedTaskChain(String name) {
+        return this.taskChainFactory.newSharedChain(name);
     }
 }

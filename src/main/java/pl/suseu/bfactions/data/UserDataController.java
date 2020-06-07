@@ -82,9 +82,10 @@ public class UserDataController {
     private boolean saveUser(User user) {
         //noinspection SqlResolve
         String sql = "insert into `" + database.getUsersTableName() + "` "
-                + "(`uuid`, `potato`) "
-                + "values (?, ?)"
+                + "(`uuid`, `name`, `potato`) "
+                + "values (?, ?, ?)"
                 + "on duplicate key update "
+                + "`name` = ?,"
                 + "`potato` = ?";
 
         try (Connection connection = this.database.getDataSource().getConnection();
@@ -92,8 +93,10 @@ public class UserDataController {
 
             int i = 0;
             statement.setObject(++i, user.getUuid().toString());
+            statement.setObject(++i, user.getName());
             statement.setObject(++i, user.usesPotatoMode());
 
+            statement.setObject(++i, user.getName());
             statement.setObject(++i, user.usesPotatoMode());
 
             statement.executeUpdate();
@@ -108,6 +111,7 @@ public class UserDataController {
 
     private boolean loadUser(ResultSet result) throws SQLException {
         String uuidString = result.getString("uuid");
+        String name = result.getString("name");
         if (uuidString == null) {
             return false;
         }
@@ -115,7 +119,7 @@ public class UserDataController {
         boolean potato = result.getBoolean("potato");
 
         UUID uuid = UUID.fromString(uuidString);
-        User user = new User(uuid);
+        User user = new User(uuid, name);
         user.setPotatoMode(potato);
 
         this.plugin.getUserRepository().addUser(user, false);
@@ -128,6 +132,7 @@ public class UserDataController {
         sb.append("create table if not exists ");
         sb.append("`").append(database.getUsersTableName()).append("`");
         sb.append("(`uuid` varchar(36) not null,");
+        sb.append("`name` varchar(16),");
         sb.append("`potato` boolean,");
         sb.append("primary key (`uuid`));");
 
