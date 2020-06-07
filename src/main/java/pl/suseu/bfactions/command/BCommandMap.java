@@ -35,6 +35,7 @@ public class BCommandMap {
     private final PotatoCommandExecutor potatoCommandExecutor;
     private final MapCommandExecutor mapCommandExecutor;
     private final AcceptCommandExecutor acceptCommandExecutor;
+    private final OutlineCommandExecutor outlineCommandExecutor;
 
     public BCommandMap(BFactions plugin) {
         this.plugin = plugin;
@@ -60,6 +61,7 @@ public class BCommandMap {
         this.potatoCommandExecutor = new PotatoCommandExecutor(this.plugin);
         this.mapCommandExecutor = new MapCommandExecutor(this.plugin);
         this.acceptCommandExecutor = new AcceptCommandExecutor(this.plugin);
+        this.outlineCommandExecutor = new OutlineCommandExecutor(this.plugin);
     }
 
     public void addCommand(BCommand command) {
@@ -236,6 +238,13 @@ public class BCommandMap {
                 .setDescription("Accept a guild invitation")
                 .setAsync(true)
                 .setExecutor(this.acceptCommandExecutor)
+                .build(this.commands);
+
+        new BCommandBuilder("outline")
+                .setPermission("bfactions.command.outline")
+                .setDescription("Enables an outline showing you exactly where guild protection ends")
+//                .setAsync(true)
+                .setExecutor(this.outlineCommandExecutor)
                 .build(this.commands);
     }
 

@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import pl.rynbou.langapi3.LangAPI;
 import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.base.guild.Guild;
 import pl.suseu.bfactions.base.tier.Tier;
@@ -29,12 +30,14 @@ public class MainGuiFactory {
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;
     private final Settings settings;
+    private final LangAPI lang;
 
     public MainGuiFactory(BFactions plugin) {
         this.plugin = plugin;
         this.itemRepository = this.plugin.getItemRepository();
         this.userRepository = this.plugin.getUserRepository();
         this.settings = this.plugin.getSettings();
+        this.lang = plugin.getLang();
     }
 
     public Inventory createGui(Player player, Guild guild) {
@@ -94,6 +97,7 @@ public class MainGuiFactory {
         ItemStack highlightProtectedBlocksItem = this.itemRepository.getItem("highlight-protected-blocks", user.isDefaultItems());
         ClickAction highlightProtectedBlocksAction = whoClicked -> {
             user.setOutline(!user.isOutline());
+            lang.sendMessage("outlines-visibility-toggle", player, "%status%", user.isOutline() ? "ON" : "OFF");
         };
         holder.set(24, highlightProtectedBlocksItem, highlightProtectedBlocksAction);
 
