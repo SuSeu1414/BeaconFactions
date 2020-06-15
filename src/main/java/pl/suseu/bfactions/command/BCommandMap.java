@@ -4,7 +4,6 @@ import pl.suseu.bfactions.BFactions;
 import pl.suseu.bfactions.command.cmds.*;
 import pl.suseu.bfactions.command.cmds.admin.AManageCommandExecutor;
 import pl.suseu.bfactions.command.cmds.admin.AResetCommandExecutor;
-import pl.suseu.bfactions.util.StringArrayUtil;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -70,7 +69,7 @@ public class BCommandMap {
 
     public BCommand getCommand(String cmd) {
         for (BCommand command : this.commands) {
-            if (command.getName().equalsIgnoreCase(cmd) || StringArrayUtil.containsIgnoreCase(command.getAliases(), cmd)) {
+            if (command.getName().equalsIgnoreCase(cmd) || command.getAliases().stream().anyMatch(s -> s.equalsIgnoreCase(cmd))) {
                 return command;
             }
         }
