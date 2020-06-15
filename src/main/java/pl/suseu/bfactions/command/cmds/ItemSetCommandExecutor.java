@@ -33,8 +33,12 @@ public class ItemSetCommandExecutor implements BCommandExecutor {
 
         String itemId = args.get(0);
         this.itemRepository.addItem(itemId, player.getInventory().getItemInMainHand());
+        if (itemId.equals("map")) {
+            this.plugin.getFactionMapService().recalculateMapItem();
+        }
         this.itemRepository.save();
         sender.sendMessage("Item " + itemId + " set.");
+
         this.plugin.getSettings().recipeRepository.onItemChange(itemId);
     }
 }
