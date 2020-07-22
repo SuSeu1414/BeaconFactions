@@ -55,6 +55,9 @@ public class ListCommandExecutor implements BCommandExecutor {
         this.lang.sendMessage("list-command-header", sender,
                 "%requestedPage%", String.valueOf(requestedPage), "%maxPage%", String.valueOf(pagesCount));
         for (int i = linesPerPage * (requestedPage - 1); i < linesPerPage * requestedPage; i++) {
+            if (i < 0) {
+                i = 0;
+            }
             if (i >= guilds.size()) {
                 break;
             }

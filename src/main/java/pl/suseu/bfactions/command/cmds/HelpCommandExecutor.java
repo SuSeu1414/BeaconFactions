@@ -62,6 +62,9 @@ public class HelpCommandExecutor implements BCommandExecutor {
         this.lang.sendMessage("help-command-header", sender,
                 "%requestedPage%", String.valueOf(requestedPage), "%maxPage%", String.valueOf(pagesCount));
         for (int i = elementsPerPage * (requestedPage - 1); i < elementsPerPage * requestedPage; i++) {
+            if (i < 0) {
+                i = 0;
+            }
             if (i >= help.size()) {
                 break;
             }
